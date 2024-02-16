@@ -1,0 +1,265 @@
+
+PAF9272: Homework 3 
+Topics: Linear Correlation, Simple Regression, Hypothesis Testing
+Due date: 11:59PM Thursday, 11/9/2023 (email to frank.heiland@baruch.cuny.edu)
+Instructions: Submit your main file (the one with answers and graphs etc.) as PDF! Submit separate do and log files for each part! Provide answers in full sentences and include units/% when appropriate!  
+Part 1. (Penn World Table Data) In this problem you are working with macroeconomic data for a set of larger countries (population size > 1 million). 
+1. Read in the data set PWT_data.dta (in HW2 folder) and open a log (smcl) file.
+2. Use “describe” and the “Data Editor (Browse)” to familiarize yourself with the data structure and variables.
+3. What is the unit of observation in these data? The unit of observation in the data is country – years.
+
+
+4a. As in class, analyze the relationship between time and living standard in the US. Follow these steps:
+i)	Generate the scatterplot of living standard and year in the US. Also include the linear regression line (“best fit trendline”) in the plot. (Hint: use “twoway (scatter rgdp_pc year if countrycode=="USA") (lfit rgdp_pc year if countrycode=="USA")”). Include the plot in your answer.
+ 
+
+
+ii)	Carefully argue based on the scatterplot in i) whether or not the use of linear correlation analysis (which includes simple regression) is appropriate here. 
+Based on the approximate overall form of the relationship between time and living standard in the US it is appropriate to use the linear correlation analysis because of the approximately linear shape of the scatterplot. 
+
+iii)	Report the linear correlation coefficient (“r-hat”) of this relationship estimated using Stata (use command: pwcorr rgdp_pc year if countrycode=="USA", sig). 
+The linear correlation coefficient (r-hat) of this relationship estimated using Stata is 0.9915. 
+
+iv)	Conduct a hypothesis test of whether the true (linear) correlation (rxy) is equal to zero (H0) or different from zero (HA), i.e. whether or not the variables are (linearly) related. Start by stating in words the hypothesis structure of this test (H0: … vs. HA: …). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from iii). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+
+Step 1: Start by stating in words the hypothesis structure of this test (H0: … vs. HA: …). 
+H0: The true linear relationship between living standard and time (year) in the US is equal to 0.  
+HA:  The true linear relationship between living standard and time (year) in the US is not equal to 0. 
+
+Step 2: Obtain P-value
+P-value < 0.0001 (.01%) 
+
+ 
+		
+Step 3: Draw the conclusion.
+Since the p-value <0.0001 (.01%) < 0.05 (5% = ), we reject the claim, H0, ( null hypothesis)  that year (time) and living standard in the US are not correlated (not associated/not related) and the true linear correlation is equal to 0. We have strong evidence that supports the alternative hypothesis, HA, that there is a relationship or correlation between year (time) and living standard in the US and that the true linear correlation is not equal to 0.  
+
+
+v)	Estimate the (simple) regression equation model of how time (X) and living standard (Y) are related. (Hint: use “reg rgdp_pc year if countrycode==“USA”.)   
+ 
+vi)	State the Regression Equation (“fitted model”) that you estimated in v) and the value for R-squared. As always, when stating the equation use easy-to-understand Regrnames/abbreviations of the variables and NOT just “X” and “Y”! 
+Regression equation “fitted model”: 
+Y=ax+b
+
+Y = Living Standard
+X = Year
+Constant (Y-intercept) = -1367499
+Slope = 707.4913
+
+Living Standard (Y) = 707.4913 (Slope) * Year (X) - 1367499 (Constant)
+R-Squared = .9830 = 98.3%
+
+vii)	Provide interpretations of slope, constant term, and R-squared (“Coeff. of determination”).
+•	Slope = 707.4913 
+o	On average, living standard in the US is estimated to increase by $707.4913 for every 1-year increase in year (time). 
+•	Constant term = -1,367,499 
+o	Here, we predict that living standard is -$1,367,499 when the year is zero (X=YEAR=0). In this simple regression model, we receive a non-sensical intercept value (estimate). 
+•	R-Squared = 0.9830 = 98.3%
+o	Our regression explains 98.3% of the variation in living standard over time due to variation in the year (time) variable, while 1.7% remains unexplained. 
+		
+
+viii)	Conduct a hypothesis test of whether or not there is evidence that year (X) is truly related to living standard (Y). Start by stating in words the hypothesis structure of this test (in symbols it is: H0: bYear=0 vs. HA: bYear≠0). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from vi). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+
+Step 1: State the Ho and Ha Hypothesis Tests
+H0: bYear=0; The year does not predict/affect the living standard in the US. 
+HA: bYear≠0; The year does predict/affect the living standard in the US. 
+
+
+Step 2: Report the P-value
+P-value < 0.001 (.01%)
+
+Step 3: Conclusion
+Since our p-value = 0.001 (.01%) < 0.005 (5%=a), we can reject the null hypothesis, Ho, that an additional year does not predict or affect the living standard in the US. There is evidence that supports the alternative hypothesis, Ha, that an additional year does predict or affect living standard in the US. 
+
+ix)	Predict Living Standard in 2030.
+
+Living Standard (Y) = 707.4913 (Slope) * Year (X) - 1367499 (Constant)
+Living Standard (Y) = 67,708.30 = 707.4913 (2030) – 1,367,499
+
+display(707.4913*2030)
+1436207.3
+
+. display(1436207.3-1367499)
+68708.3
+
+The living standard in 2030 is $68,708.30. 
+
+
+4b. Using one other country of your choosing in the PWT data, analyze the relationship between time and living standard in that country. Follow these steps:
+i)	Generate the scatterplot of living standard and year. Also include the linear regression line (“best fit trendline”) in the plot. (Hint: use “twoway (scatter rgdp_pc year if countrycode=="…") (lfit rgdp_pc year if countrycode=="…")”). Include the plot in your answer.
+twoway (scatter rgdp_pc year if countrycode=="ITA") (lfit rgdp_pc year if countrycode=="ITA")
+
+
+ 
+ii)	Carefully argue based on the scatterplot in i) whether or not the use of linear correlation analysis (which includes simple regression) is appropriate here. 
+Based on the approximate overall form of the relationship between time and living standard in Italy it is appropriate to use the linear correlation analysis because of the approximately linear shape of the scatterplot.
+
+
+iii)	Report the linear correlation coefficient (“r-hat”) of this relationship estimated using Stata (use command: pwcorr rgdp_pc year if countrycode=="…", sig). 
+
+The linear correlation coefficient (r-hat) of this relationship estimated using Stata is 0.9899. 
+
+iv)	Conduct a hypothesis test of whether the true (linear) correlation (rxy) is equal to 0 (H0) or different from 0 (HA), i.e. whether or not the variables are (linearly) related.  Start by stating in words the hypothesis structure of this test (H0: … vs. HA: …). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from iii). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+
+Step 1: Start by stating in words the hypothesis structure of this test (H0: … vs. HA: …). 
+H0: The true linear relationship between living standard and year (time) in the Italy is equal to 0 in 2019.
+HA:  The true linear relationship between living standard and year (time) in the Italy is not equal to 0 in 2019.
+
+Step 2: 	p-value is less than .0001 (<.01%) 
+
+Step 3: Conclusion 
+ 
+
+		Step 3: 
+Since the p-value <0.0001 (.01%) < 0.05 (5%= ), we reject the claim, H0, that year (time) and living standard in Italy are unrelated and that the true linear correlation is equal to 0. The evidence supports the alternative hypothesis, HA, that there is a relationship between year (time) and living standard in Italy and that the true linear correlation is not equal to 0. 
+
+v)	Estimate the (simple) regression equation model of how time (X) and living standard (Y) are related. (Hint: use “reg rgdp_pc year if countrycode==“…”.)  
+
+ 
+vi)	State the Regression Equation (“fitted model”) that you estimated in v) and the value for R-squared. As always, when stating the equation use easy-to-understand names/abbreviations of the variables and NOT just “X” and “Y”! 
+
+Y=ax+b 
+
+Y = Living Standard
+X = Year
+Constant (Y-intercept) = -1176269
+Slope = 604.4323
+
+
+Regression equation “fitted model”: 
+Living Standard (Y) = 604.4323 * Year (X) - 1176269 (Constant)
+R-Squared = .9798 = 97.98%
+
+
+vii)	Provide interpretations of slope, constant term, and R-squared (“Coeff. of determination”).
+
+Slope = 604.4323
+a.	On average, living standard in Italy is estimated to increase by $604.4323 for every 1 year increase in year (time).
+Constant term = -1176269 
+b.	Here, we predict that living standard is -$1,176,269 when the year is zero (X=YEAR=0). In this simple regression model, we receive a non-sensical intercept value (estimate). 
+R-Squared = 0.9798 = 97.98%
+c.	Our regression explains 97.98% of the variation in living standard over time due to variation in the year (time) variable, while 2.02% remains unexplained. 
+
+
+
+viii)	Conduct a hypothesis test of whether or not there is evidence that year (X) and living standard (Y) are related. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: bYear=0 vs. HA: bYear≠0). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from vi). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+
+Step 1: 
+H0: bYear=0; The year does not predict/affect the living standard in Italy in 2019. 
+HA: bYear≠0; The year does predict/affect the living standard in Italy in 2019. 
+
+Step 2: report the P-value
+P-value < 0.001 (.01%)
+
+Step 3: Conclude the hypothesis test
+Since our p-value = 0.001 (.01%) < 0.05 (5% =a), we can reject the null hypothesis, Ho, that an additional year (time) does not predict or affect the living standard in Italy in 2019. There is evidence that supports an additional year (time) does predict or affects living standard in Italy for 2019. 
+
+
+
+Part 2. (2019 Eurobarometer) Continue with the country assigned under HW1. 
+1. Read in the data and open a log (smcl) file.
+2. Use “describe” and “sum” to familiarize yourself with the data structure and variables.
+3a. What is the average age (X-bar) and its Sampling or Standard Error (SEX-bar)?
+The average age (X-bar) is 58 years old and the Standard Error (SEx-bar) for average age is .4288913 years. 
+
+3b. Conduct a hypothesis test of whether the true average age in this population () is equal to 50 years or not. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: 0=50 yrs vs. HA: 0≠50 yrs). Find and report the p-value or an appropriate upper bound for it based on your Stata output for this t-test (“one sample means-comparison test”). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA? (Hint: steps and logic are identical to the test of whether or not average income in the US equals $37,000 done in class using ACS data.) 
+Step 1: State the null and alternative hypothesis
+H0: 0=50 yrs – The true average age in Netherlands’ population is equal to 50 years old. 
+HA: 0≠50 yrs – The true average age in Netherlands’ population is not equal to or is different from 50 years old. 
+Step 2: Find and obtain p-value
+	p-value is less than .0001 (<.01%) 
+There is a less than .01% chance of observing an average age of 0=50 (or more extreme) if the true average age is 50 years old. 
+Step 3: Conclusion
+	Since the p-value = 0.0001 (.01%) < 0.05 (5%) = “”, we reject the claim, H0, that the true average age (0=50 yrs) in Netherlands’ is equal to 50 years old. The evidence supports the alternative hypothesis, HA, that the true average age in Netherlands’ is not equal to or different from 50 years old. 
+
+
+3c. Conduct a hypothesis test of whether or not the true average age is the same for women and men in your country. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: Women=Men vs. HA: Women≠Men). The command for this two-sample means comparison t-test is: “ttest age, by(gender)” or “ttest age, by(female)”. Find and report the p-value or an appropriate upper bound for it based on your Stata output for this test. Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA? 
+Step 1: State the null and alternative hypothesis
+H0: Women=Men – The true average age is the same/equal between men and women in Netherlands in 2019. 
+HA: Women≠Men – The true average age is different between men and women in Netherlands in 2019. 
+Step 2: Find and obtain p-value
+	p-value = 0.0025 = 0.25%
+	There is a less than .25% chance of observing a difference of 2.60784 years in average age between men and women if the true difference in average age by sex was 0 years (if the H0 were true). 
+
+Step 3:  Conclusion
+Since the p-value is 0.0025 (.25%) that is much less than 0.05 (5% = “”), we can strongly reject the null hypothesis, H0, that average age between men and women are the same in Netherlands in 2019. We have strong evidence here to support the alternative hypothesis, HA, that average age differs by sex in Netherlands in 2019. 
+
+
+4. This part is related to HW#2 Part 2, Q4. 
+4a. (Identical to HW#2 Part 2, 4d). For males and females separately, report the estimated 95% CI of the proportion having difficulties paying their bills. Interpret the two CIs. Comment on whether or not the CIs overlap (if they do not overlap that presents strong evidence that men and women are statistically significantly different in terms of the likelihood of experiencing financial difficulties in your country).
+Males
+We are 95% confident that the true (unknown) proportion of males having difficulties paying their bills lies somewhere between 5.72% and 10.91%. 
+
+Females
+We are 95% confident that the true (unknown) proportion of females having difficulties paying their bills lies somewhere between 8.19% and 13.33%.
+
+The confidence intervals overlap indicating there is no statistically significant difference between males and females in terms of their likelihood of experiencing financial difficulties in Netherlands.
+
+4b. Conduct a hypothesis test of whether or not the true proportion having difficulties paying their bills is the same for women and men in your country. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: pWomen=pMen vs. HA: pWomen≠pMen). The Stata command for this two-sample means comparison t-test follows the same logic as in 3c above. Find and report the p-value or an appropriate upper bound for it based on your Stata output for this test. Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA? Comment on  
+
+Step 1: State null and alternative hypothesis
+H0: Women=Men – The true average difficulty paying their bills is the same/equal between men and women in Netherlands. 
+HA: Women≠Men – The true average difficulty paying their bills is different between men and women in Netherlands. 
+Step 2: Find and obtain p-value
+p-value = 0.167 = 16.7%
+
+Step 3:  Conclusion
+Since the p-value is 0.1672 (16.72%) that is much higher than 0.05 (5% = “”), we can strongly reject the null hypothesis, H0, that average difficulty paying their bills between men and women are the same. We have strong evidence here to support the alternative hypothesis, HA, that average difficulty paying their bills differs by sex in Netherlands.
+
+5. Analyze the relationship between having financial difficulties and “freq_internet_use” in your country. This latter categorical variable measures the frequency of a person’s internet use and is coded as follows: “0” – “Never/No access”; “1” – Less than 2-3 times a month“;  “2” – “2-3 times a month”; “3” – “About once a week”; “4” – “2-3 times a week”; and “5” – “Daily/almost daily”. Understanding these labels, use the command “tab freq_internet_use diffpaybills, col chi“ and answer the following: 
+5a. Report the marginal distribution of the frequency of internet use in %:
+The marginal distribution in the Netherlands for each of level of frequency of internet use is: 
+0 – Never/No Access – 1.15%
+1 – Less than 2-3 times a month – .67%
+2 – 2-3 times a month - .38%
+3 – About once a week - .48%
+4 – 2-3 times a week – 3.15%
+5- Daily/almost daily – 94.17%
+
+5b. Report the conditional distribution of the frequency of internet use among those with difficulties paying bills in %:
+The conditional distribution in the Netherlands of the frequency of internet use among those with difficulties paying bills is: 
+0 – Never/No Access – 3.03%
+1 – Less than 2-3 times a month – 1.01%
+2 – 2-3 times a month - 0%
+3 – About once a week – 4.04%
+4 – 2-3 times a week – 7.07%
+5- Daily/almost daily – 84.85%
+
+5c. Report the conditional distribution of the frequency of internet use among those without difficulties paying their bills in your country in %:
+
+The conditional distribution in the Netherlands of the frequency of internet use among those without difficulties paying bills is: 
+0 – Never/No Access – .95%
+1 – Less than 2-3 times a month – .63%
+2 – 2-3 times a month - .42%
+3 – About once a week – .11%
+4 – 2-3 times a week – 2.74%
+5 - Daily/almost daily – 97.15%
+
+5d. Hypothesize (H0) that having financial difficulties and internet use are completely unrelated in the population. What % values for the conditional distributions of internet use do you expect if this is true (include numbers)? 
+If the null hypothesis is true where we have those having financial difficulties and internet use are completely unrelated in the population, then the % values for the conditional distributions of internet use would be the same as the marginal distribution in the total column for each level of frequency of internet use for the following categories:
+
+0 – Never/No Access – 1.15%
+1 – Less than 2-3 times a month – .67%
+2 – 2-3 times a month - .38%
+3 – About once a week – .48%
+4 – 2-3 times a week – 3.15%
+5 - Daily/almost daily – 94.17%
+
+5e. With reference to the observed conditional distributions of internet use by financial difficulties in %, carefully discuss the evidence for or against the hypothesis in (d). (Support your analysis with #s). 
+Based on the conditional distributions of internet use by financial difficulties in %, I would argue against the hypothesis in (d) which indicates financial difficulties and internet use are completed unrelated in the population since the p-value for the chi-squared test is less than 0.001 (.01%). As this is the fact, it is safe to reject the null hypothesis, H0, and support the alternative hypothesis, HA, that financial difficulties and internet use are completely related. Within the cai-squared conditional distribution the proportion of those encountering financial difficulties increases as the frequency of internet use increases. For example, when a person uses the internet about once a week (Category 3) the proportion of Netherland’s sample population having difficulty paying bills is approximately 4.04%, while using the internet daily/almost daily (Category 5) there is a greater proportion of Netherland’s sample population encountering difficulties paying their bills which is approximately 84.85%. The conditional values for those not facing financial challenges for the same categories does differ as in a person who uses the internet once a week (Category 3) is .11% while someone using the internet daily/almost daily (Category 5) is 97.15%, so there is a true relationship between internet use by financial difficulties. 
+
+
+5f. Now, conduct the statistical significance test of whether or not internet use differs between those who do and those who do not have financial difficulties. Answer by following these steps: 
+(i)	State the appropriate hypothesis structure in words (H0: … vs. HA: …). (Note that 5d describes H0)
+(H0): There is no relationship between one’s financial difficulties and one’s frequency of internet use. 
+(HA): There is a relationship between ones financial difficulties and one’s frequency of internet use.
+
+(ii)	Report the p-value (or an appropriate upper bound) obtained from Stata.  
+p-value – 0.001 = .01% 
+
+(iii)	Using a conventional statistical Significance Level (“”) of 5% (=.05), explain what conclusions you can draw about H0 and HA.  
+ Step 3:  Since the p-value is 0.001 (.01%) that is much lower than 0.05 (5% = “”), we can strongly reject the null hypothesis, H0,  that whether or not internet use does not differ between those who do and those who do not face financial difficulties. We have strong evidence here to support the alternative hypothesis, HA, that whether or not internet use does differ between those who do and those who do not face financial difficulties. 
+
+
+
+
