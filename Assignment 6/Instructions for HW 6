@@ -1,0 +1,37 @@
+Assignment 6
+Due date: 12/15, 11:59PM. As usual, email a write-up, log and do file.
+Data: Use the cps_2011to2016.dta and Excel State Medicaid Eligibility Policy files from the Homework 6 folder. 
+Overview: This assignment asks you to repeat the D-D analysis of the impact of Medicaid Expansion on having health insurance from class 14. The outcome variable is whether or not the person has health insurance (“insured” based on “gen insured=(verify==0 | verify==2)”). 
+1. Setting up the analysis. Using very similar steps as in class (use the do file from Class 14 which already does all of this), do the following: 
+a. Import the policy data set into Stata. Create an appropriate dummy “expand” or “expand_state” that is 1 for states that were at zero eligibility before 2014 and 138% or higher in 2014 and after; 0 for states that were at 0 eligibility throughout the period; and “missing” for all other states. As in class, sort the data by state and year before saving as “policy.dta”.
+b. Open the Stata data file “cps_2011to2016.dta”. Note that the year variable in this file has already been adjusted to match the policy file and only years ‘11-16 are kept. Merge the policy data onto the CPS data. The D-D will compare how outcomes changed before vs. after the ACA Medicaid eligibility expansions, in expansion vs. nonexpansion states.
+c. Select the analysis sample to focus on the low-income population aged 26 to 64. Specifically, keep only individuals aged 26-64 with income less than 150% of the federal poverty line. Comment briefly on why it makes sense to focus on this age group and low income individuals.
+d. Create the following variables: whether or not the person has (verified) health insurance (“insured” variable created in the do file from Class 14 based on “gen insured=(verify==0 | verify==2)”), dummies for female (based on “sex”) and  white (based on “race” and category “white alone”); a variable for age squared (based on “age”). Save the data. 
+2. Simple D-D analysis using state-year averaged data.
+a. Describe health insurance status nationally for this low-income 26 to 64 year old population over this period. Does this age-group appear to have gained coverage over this period? (hint: tabulate year insured; use a chi-square test and interpret the results.) Then, analyze statistically whether these gains differed between expansion and non-expansion states. Save the data before continuing: “cps_with_policy.dta, replace”.
+b. As in class, “collapse” the data to averages by state and year using the command “collapse” and using the “asecwt” variable as analytic sample weight applied during aggregation. 
+c. Fill in two 2 x 2 tables of estimated means (“Method 1”) as shown below for the outcome (“insured”). Calculate the D-D estimate by hand and interpret it.								
+State Group	Period	Difference
+	Before	After	After – Before
+
+Expansion States	.6408 (64.08)	.8134 (81.34%)	81.34-64.08=17.26%
+
+Non-expansion States	.5861 (58.61%)	.6994 (69.94%)	69.94-58.61=11.33%
+
+Difference 
+Expansion –
+Non-expansion	64.08-58.61=5.47%	81.34-69.94=11.40%	D-D Estimate: 5.93%
+
+
+
+d. As in class, run the aggregate regression using the state-year-averaged data corresponding to this table (“Method 2” using aggregated data). Comment on the evidence for a causal impact of Medicaid expansion on having health insurance.
+
+3. D-D estimates from Method 2 using individual data.
+Clear the data and read in the cps_with_policy.dta data set saved earlier (part 2b).
+a. Use the individual-level data (i.e., not collapsed) to estimate the same type of D-D regression you ran in part 2. 
+First, use no additional covariates in the models. 
+In this regression and all regressions below, use the sampling weights in the regression (“[aw=asecwt]”) and use the most conservative Sampling Errors (SEs) by clustering at the state-level (option “cluster(statefip)”). 
+Report the estimated D-D effect and its SE. Interpret the result in terms of both statistical and practical significance of the impact of the policy! 
+b. Consider the estimated D-D effect in 3a the baseline result. Analyze how sensitive (or how robust) this estimate by analyzing and commenting on whether the estimated D-D effect are statistically different from part 3a when you include controls for female, age, and white in the model.
+c. Include the appropriate interaction term in the model from 3b to test whether or not the DD effect differs between women and men. Comment on your findings.
+d. Include the appropriate interaction term in the model from 3b to test whether or not the DD effect differs between whites and non-whites. Comment on your findings.
