@@ -1,0 +1,190 @@
+PAF9272: Homework 2 
+Topics: Sampling Distribution, Sampling or Standard Error (SE), Confidence Intervals
+Due date: 11:59PM Tuesday, 10/17/2023 (email to frank.heiland@baruch.cuny.edu)
+Instructions: Submit your main file (the one with answers and graphs etc.) as PDF! Submit separate do and log files for each part! Provide answers in full sentences and include units/% when appropriate!  
+Part 1. (Penn World Table Data) In this problem you are working with macroeconomic data for a set of larger countries (population size > 1 million). 
+1. Read in the data set PWT_HW1.dta and open a log (smcl) file.
+2. Use “describe” and the “Data Editor (Browse)” to familiarize yourself with the data structure and variables.
+3. What is the unit of observation in these data? What is the sample size for the data pertaining to the country “USA”? Pick another country of your choosing and report its sample size.
+The unit of observation in the dataset is country’s years. The sample size for the data pertaining to the country “USA” is 70 observations. 
+The other country I selected is Aruba and the total number of observations is 20 observations. 
+
+tab countrycode if countrycode == "USA"
+ 
+
+tab countrycode if countrycode == "ABW"
+ 
+
+
+4. The variable “rgdp_pc” is Real Gross Domestic Product Per Capita, which is a common measure of (average) living standard in a country. To facilitate comparability across countries the units of living standard are US dollars for all countries, so a value of 40,000 in a country in 2019 represents a living standard of US$ 40,000. 
+4a. Generate a scatterplot of living standard (Y=rgdp_pc) over time (X=year) in the US using “twoway (scatter rgdp_pc year if countrycode=="USA")”. Include the plot in your answer. Based on the plot, answer the following:
+i)	What is the (approximate) overall form of this relationship (e.g., linear, non-linear, clustered, no relationship/white noise)? 
+The approximate overall form of the relationship is linear.
+
+twoway (scatter rgdp_pc year if countrycode=="USA")
+ 
+
+
+ii)	If you identified an approximately linear or non-linear overall form, comment on what the direction of this relationship is (e.g., positive, negative)? (Otherwise state that “A direction cannot be determined since the form is neither linear nor non-linear”.)
+
+The linear scatterplot has a positive direction in its relationship between living standard and year. 
+
+iii)	If you identified an approximate overall form (either linear, non-linear or clustered) then comment on the overall strength of the relationship, i.e. how closely the scattered data points follow the overall form that you identified (this can range from “strength is very high” to “strength is very weak”). (If you were not able to identify an approximate overall form then state that “The strength of the relationship cannot be determined here since there is no relationship apparent”.)
+The overall strength of the relationship in the approximately linear scatterplot has a strength which is very strong based on a correlation coefficient of 0.9915.
+
+iv)	Report the relationship’s correlation coefficient, r, using the pwcorr command. Carefully interpret what the sign of your r and its value relative to 0 mean (one sentence for each)!
+
+o	The correlation coefficient, r, using the pwcorr command between the variables rgdp_pc and year is 0.9915.
+o	The relationship’s correlation coefficient, sign of r is positive, which suggests the relationship between the real gross domestic product per capita and year is positive. 
+o	The magnitude value of the correlation coefficient, r, relative to 0 between the relationship of real gross domestic product per capita and year is 0.9915, which indicates there is a high magnitude of strength in the relationship of both variables. 
+pwcorr rgdp_pc year if countrycode=="USA"
+
+		
+ 
+
+		
+
+v)	Argue based on the overall form you identified in i) whether or not the use of r is appropriate (Hint: use of r is only appropriate if the overall form is approximately linear).
+Based on the approximately linear overall form of the correlation, it is appropriate to use the correlation coefficient. 
+
+4b. Using all countries, generate a scatterplot of human capital (X=hc) – a measure of how skilled the workforce is in a country – and living standard (Y=rgdp_pc) in 2019 using “twoway (scatter rgdp_pc hc if year==2019)”. Include the plot in your answer. Based on the plot, answer the following:
+i)	What is the (approximate) overall form of this relationship (e.g., linear, non-linear, clustered, no relationship/white noise)? 
+The approximate overall form of the relationship between human capital and living standard is a non-linear and curved scatterplot. 
+
+twoway (scatter rgdp_pc hc if year==2019)
+
+ 
+
+
+ii)	If you identified an approximately linear or non-linear overall form, comment on what the direction of this relationship is (e.g., positive, negative)? (Otherwise state that “A direction cannot be determined since the form is neither linear nor non-linear”.)
+The direction of the relationship between human capital and living standard is positive, slowly increasing at an increasing rate. 
+
+iii)	If you identified an approximate overall form (either linear, non-linear or clustered) then comment on the overall strength of the relationship, i.e. how closely the scattered data points follow the overall form that you identified (this can range from “strength is very high” to “strength is very weak”). (If you were not able to identify an approximate overall form then state that “The strength of the relationship cannot be determined here since there is no relationship apparent”.)
+The overall strength of the relationship in the non-linear chart is the strength is moderately strong because the scatterplots follow along the curved shape. 
+
+iv)	Report the relationship’s correlation coefficient, r, using the pwcorr command. Carefully interpret what the sign of your r and its value relative to 0 mean (one sentence for each)!
+pwcorr rgdp_pc hc if year==2019	
+
+ 
+a.	The relationship’s correlation coefficient, sign of r is positive, which suggests the relationship between human capital and living standard is positive.
+b.	The magnitude value of the correlation coefficient, r, relative to 0 between the relationship of human capital and living standard is 0.6930, which indicates there is a moderately strong magnitude in the strength of the relationship of both variables. 
+
+v)	Argue based on the overall form you identified in i) whether or not the use of r is appropriate (Hint: use of r is only appropriate if the overall form is approximately linear).
+The use of the correlation coefficient, r, is not appropriate for understanding the strength and direction of the relationship between human capital and living standard because of the overall non-linear form of the scatterplot. Therefore, the correlation coefficient is not helpful in this scenario. 
+
+
+
+4c. Using all countries, generate a scatterplot of the size of the export economy in a country (X=csh_x) and its living standard (Y=rgdp_pc) in 2019 using “twoway (scatter rgdp_pc csh_x if year==2019)”. Include the plot in your answer. Based on the plot, answer the following:
+i)	What is the (approximate) overall form of this relationship (e.g., linear, non-linear, clustered, no relationship/white noise)? 
+The approximate overall form of this relationship is clustered. 
+
+twoway (scatter rgdp_pc csh_x if year==2019)
+ 
+
+ii)	If you identified an approximately linear or non-linear overall form, comment on what the direction of this relationship is (e.g., positive, negative)? (Otherwise state that “A direction cannot be determined since the form is neither linear nor non-linear”.)
+A direction cannot be determined since the form is neither linear nor non-linear.
+
+iii)	If you identified an approximate overall form (either linear, non-linear or clustered) then comment on the overall strength of the relationship, i.e. how closely the scattered data points follow the overall form that you identified (this can range from “strength is very high” to “strength is very weak”). (If you were not able to identify an approximate overall form then state that “The strength of the relationship cannot be determined here since there is no relationship apparent”.)
+
+The overall strength of the relationship in the clustered chart is moderately strong,
+
+iv)	Report the relationship’s correlation coefficient, r, using the pwcorr command. Carefully interpret what the sign of your r and its value relative to 0 mean (one sentence for each)!
+
+pwcorr rgdp_pc csh_x if year==2019
+
+ 
+
+a.	The relationship’s correlation coefficient, sign of r is positive, which suggests the relationship between export economy in a country and living standard is positive.
+b.	The magnitude value of the correlation coefficient, r, relative to 0 between the relationship of human capital and living standard is 0.6220, which indicates there is a moderately strong magnitude in the strength of the relationship of both variables. 
+
+v)	Argue based on the overall form you identified in i) whether or not the use of r is appropriate (Hint: use of r is only appropriate if the overall form is approximately linear).
+
+The use of the correlation coefficient, r, is not appropriate for understanding the strength and direction of the relationship between export economy in a country and living standard because of the overall clustered form of the scatterplot. As the correlation coefficient is only useful for appropriately linear and non-linear correlation relationships between two quantitative variables, therefore, the correlation coefficient is not helpful in this scenario. 
+
+
+
+4d. Using all countries, generate a scatterplot the economic share of the government in a country (X=csh_g) and its living standard (Y=rgdp_pc) in 2019 using “twoway (scatter rgdp_pc csh_g if year==2019)”. Include the plot in your answer. Based on the plot, answer the following:
+i)	What is the (approximate) overall form of this relationship (e.g., linear, non-linear, clustered, no relationship/white noise)? 
+
+The approximate overall form of this relationship is that there is no relationship/white noise. 
+twoway (scatter rgdp_pc csh_g if year==2019)
+ 
+
+ii)	If you identified an approximately linear or non-linear overall form, comment on what the direction of this relationship is (e.g., positive, negative)? (Otherwise state that “A direction cannot be determined since the form is neither linear nor non-linear”.)
+A direction cannot be determined since the form is neither linear nor non-linear.
+iii)	If you identified an approximate overall form (either linear, non-linear or clustered) then comment on the overall strength of the relationship, i.e. how closely the scattered data points follow the overall form that you identified (this can range from “strength is very high” to “strength is very weak”). (If you were not able to identify an approximate overall form then state that “The strength of the relationship cannot be determined here since there is no relationship apparent”.)
+The strength of the relationship cannot be determined here since there is no relationship apparent.
+
+iv)	Report the relationship’s correlation coefficient, r, using the pwcorr command. Carefully interpret what the sign of your r and its value relative to 0 mean (one sentence for each)!	
+pwcorr rgdp_pc csh_g if year==2019
+ 
+a.	The relationship’s correlation coefficient, sign of r is negative, which suggests there is a negative relationship between the quantitative variables of economic share of the government in a country and living standard.
+b.	The magnitude value of the correlation coefficient, r, relative to 0 between the economic share of the government in a country and living standard is -0.0110, which indicates there is a poor to no relationship in the magnitude of the strength of both variables in their clustered form. Therefore, the dots in the scatterplot do not have any form at all indicating no relationship.
+
+v)	Argue based on the overall form you identified in i) whether or not the use of r is appropriate (Hint: use of r is only appropriate if the overall form is approximately linear).
+
+The use of the correlation coefficient, r, is not appropriate for understanding the strength and direction of the relationship between economic share of the government in a country and living standard because of the overall no-relationship and white noise identified in the chart. Since we cannot identify a linear or a non-linear relationship in this correlation coefficient between two quantitative variables, therefore, the correlation coefficient is not helpful in this scenario. 
+
+
+Part 2. (2019 Eurobarometer) Continue with the country assigned under HW1. 
+1. Read in the data and open a log (smcl) file.
+2. Use “describe” and “sum” to familiarize yourself with the data structure and variables.
+3a. What is the average age (X-bar) and its Sampling or Standard Error (SEX-bar)? Provide two distinct interpretations of what this SE means.
+The average age (X-bar) is 49.9 years old. The sampling error for average age in Italy is .55904 
+years. 
+Interpretation 1: On average, in a simple random survey of this size (n=986) and this population, the estimated or observed average age (x-bar) will differ from the true (unknown) average age (mu) in Italy by .56 years.  
+
+Interpretation 2: On average, in repeated simple random surveys of this size (n=986), results for the average age (x-bar) will differ from each other by .559 years.
+
+ 
+
+ 
+
+3b. What is the proportion that took steps to reduce their CO2 emissions (p-hat) and its Sampling or Standard Error (SEp-hat)? Provide two distinct interpretations of what this SE means.
+The proportion that took steps to reduce their CO2 emissions (p-hat) is 642 (65.11%) individuals in the sample population. The standard error (SEp-hat) is 1.517875%. 
+ 
+
+display(sqrt(.6511*(1-.6511)) /sqrt(986))= .01517875
+Interpretation 1: In a simple random sample of this size (n=986) and this population, on average, the observed sample proportion of those who took steps in the past 2 years to reduce air emissions will differ from the true proportion of those who took steps in the past 2 years to reduce air emissions by 1.517875%. 
+Interpretation 2: Estimates of average of those who took steps in the past 2 years to reduce air emissions from repeated simple random surveys of this size (n=986) will differ from each other by 1.517875%.
+3c. For males and females separately (Hint: you can use “… if female==…” to look at subsamples by sex), estimate the proportion having difficulties paying their bills in the year prior to the survey. Report the corresponding (two) SEs that measure their statistical imprecision. Does the degree of imprecision differ by sex? If the number do differ explain carefully why they differ the way they do (Hint: remember the two key determinants of SE are how large and how heterogeneous the population is).     
+The standard error for women having difficulty paying their bills in the year prior to the survey is 1.55% while the standard error for men having difficulty paying their bills in the year prior to the survey is 1.56% 
+The degree of imprecision does not differ by sex as great as we would think. The degree of precision differing between both sexes is .00006994%. Both standard errors do not differ because the sample size is not drastically different than one another, in other words the sample size for genders of male and females are almost the same. The sample heterogeneity or diversity in the dataset is not as diverse as we would think because of the similar population of Italian citizens.
+
+3d. Consider the SE of average age that you estimated in 3a. How large would the sample need to be (at least) to estimate average age in the population with half the imprecision (half the SE!) found in the current survey?  
+If we were to decrease the imprecision of the standard error to half the SE in answer 3a, we would need to increase the sample size of the dataset. In this case, half of the standard error of .5590396% would be .2795188%. The size of the sample would need to be increased from 986 individuals to 3944 individuals. 
+
+ 
+
+3e. Consider the p-hat and SEp-hat estimated in 3b (plus the fact that the Eurobarometer surveys can be considered Simple Random Samples). Describe the (approx.) sampling distribution of p-hat! (Remember to comment on all three properties of the sampling distribution: its the overall shape, its center and the dispersion of that distribution!)
+
+Dispersion – The dispersion of the Sampling Distribution of statistics from simple random surveys (of same size, 986, from same population) measured by the standard deviation is known as the sampling error or standard error SE which is .4768592. The SE(p-hat) is 0.015.
+Shape – The distribution of statistics from simple random surveys of same size n=986 from same population (has approximately) a “Normal Distribution Shape” (symmetric) around the p-hat which is 0.015. 
+Mean – The distribution of statistics from simple random surveys (of same size, n=986) from same population) is always centered around true (unknown) parameter value is .65.  
+
+ 
+
+
+ 
+
+
+4a. Report the estimated lower and upper bound of the 95% Confidence Interval for the true (unknown) average age in your country’s population (). Interpret this Confidence Interval. 
+We are 95% confident that the true (unknown) average age in Italy’s population lies somewhere between 48.80458 years old and 50.99866 years old. There is a 5% chance that the true average age is outside this range (2.5% chance of being < 48.80458 years old and 2.5% chance of being greater than 50.99866 years old). 
+
+4b. Report the estimated lower and upper bound of the 99% Confidence Interval for (overall) average age. Interpret this Confidence Interval. How and why is this CI different from the one estimate in 4a?
+We are 99% confident that the true (unknown) average age in Italy’s population lies somewhere between 48.45884 years old and 51.3444 years old. When we increase our level of confidence, we are increasing our level of precision in finding the true (unknown) mean because we increase the range of accuracy or our confidence in finding the accurate overall (average) age in the normal distribution. By increasing the range of numbers, our confidence in finding the overall (average) age included in the normal distribution, we are more confident to be likely in reporting the true (unknown) mean. 
+
+4c. Report the estimated lower and upper bound (in %) of the 90% Confidence Interval for the true (unknown) proportion (p) in your country that took steps to reduce their CO2 emissions. Interpret this Confidence Interval. 
+We are 90% confident that the true (unknown) proportion of Italy that took steps to reduce their CO2 emissions lies somewhere between 99.53446% and 100%. 
+
+4d. For males and females separately, report the estimated 95% CI of the proportion having difficulties paying their bills. Interpret the two CIs. Comment on whether the CIs overlap (if they do not overlap that presents strong evidence that men and women are statistically significantly different in terms of the likelihood of experiencing financial difficulties in your country).
+
+Females
+We are 95% confident that the true (unknown) proportion of males having difficulties paying their bills lies somewhere between 56.3% and 65.1%. 
+
+Males
+We are 95% confident that the true (unknown) proportion of females having difficulties paying their bills lies somewhere between 55.2 % and 64.1%.
+
+Both confidence intervals overlap which represents that there is no evidence that we can conclude yet for men or women showing statistically significant differences in terms of their likelihood of experiencing financial difficulties in Italy. 
+
+
