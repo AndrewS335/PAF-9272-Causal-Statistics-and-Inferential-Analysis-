@@ -1,0 +1,258 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/andrew/Desktop/PAF 9272/HW 2/HW2_part2_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}15 Oct 2023, 16:31:27
+{txt}
+{com}. use /Users/andrew/Downloads/Italy.dta
+{txt}
+{com}. 
+. *Command for Question 2
+. describe
+
+{txt}Contains data from {res}/Users/andrew/Downloads/Italy.dta
+{txt} Observations:{res}           986                  
+{txt}    Variables:{res}            10                  18 May 2020 16:34
+{txt}{hline}
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+{hline}
+{p 0 48}{res}{bind:country        }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:COUNTRY  }{bind:  }{res}{res}COUNTRY/SAMPLE ID (SERIES STANDARD){p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:D11      }{bind:  }{res}{res}AGE EXACT{p_end}
+{p 0 48}{bind:life_satisfac~n}{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:D70      }{bind:  }{res}{res}LEVEL OF SATISFACTION WITH LIFE{p_end}
+{p 0 48}{bind:gender         }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:D10      }{bind:  }{res}{res}GENDER OF PERSON (1-MAN, 2-WOMAN){p_end}
+{p 0 48}{bind:female         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}1 IF PERSON IS A WOMEN; 0 IF PERSON IS A MAN{p_end}
+{p 0 48}{bind:social_class   }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}SELF-REPORTED SOCIAL CLASS{p_end}
+{p 0 48}{bind:diffpaybills   }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}1 IF PERSON HAD DIFFICULTIES PAYING BILLS IN PAST YEAR; 0 OTHERWISE{p_end}
+{p 0 48}{bind:reducedCO2     }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}1 IF PERSON TOOK STEPS IN PAST 2 YEARS TO REDUCE AIR EMISSIONS; 0 OTHERWISE{p_end}
+{p 0 48}{bind:interest_in_p~s}{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}LEVEL OF INTEREST IN POLITICS{p_end}
+{p 0 48}{bind:freq_internet~e}{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}FREQUENCY OF INTERNET USE{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. sum
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}country {c |}{res}        986           5           0          5          5
+{txt}{space 9}age {c |}{res}        986    49.90162    17.55414         15         94
+{txt}life_satis~n {c |}{res}        986    2.286004    .6873379          1          4
+{txt}{space 6}gender {c |}{res}        986    1.509128    .5001704          1          2
+{txt}{space 6}female {c |}{res}        986    .5091278    .5001704          0          1
+{txt}{hline 13}{c +}{hline 57}
+social_class {c |}{res}        975    2.678974    .8134641          1          5
+{txt}diffpaybills {c |}{res}        986    .6024341    .4896432          0          1
+{txt}{space 2}reducedCO2 {c |}{res}        986    .6511156    .4768592          0          1
+{txt}interest_i~s {c |}{res}        986    1.583164     .965223          0          3
+{txt}freq_inter~e {c |}{res}        986    3.923935    1.912103          0          5
+{txt}
+{com}. 
+. *Command for Question 3a - mean age 
+. mean age 
+{res}
+{txt}{col 1}Mean estimation{col 44}{lalign 13:Number of obs}{col 57} = {res}{ralign 3:986}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 14}{hline 12}
+{col 14}{c |}       Mean{col 26}   Std. err.{col 38}     [95% con{col 51}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 14}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2} 49.90162{col 26}{space 2} .5590376{col 37}{space 5} 48.80458{col 51}{space 3} 50.99866
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 14}{hline 12}
+
+{com}. 
+. *Command for Question 3a - sum age to find the standard deviation 
+. sum age
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 9}age {c |}{res}        986    49.90162    17.55414         15         94
+{txt}
+{com}. 
+. *Command for Question 3a - standard deviation 
+. display(17.55414 /sqrt(986))
+{res}.5590377
+{txt}
+{com}. 
+. *Command for Question 3b - find the proportion that took steps to reduce their CO2 emissions (p-hat)
+. tab reducedCO2
+
+{txt}1 IF PERSON {c |}
+ TOOK STEPS {c |}
+  IN PAST 2 {c |}
+   YEARS TO {c |}
+ REDUCE AIR {c |}
+ EMISSIONS; {c |}
+0 OTHERWISE {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        344       34.89       34.89
+{txt}          1 {c |}{res}        642       65.11      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        986      100.00
+{txt}
+{com}. 
+. *Command for Question 3b - find the standard error (SE p-hat)
+. display(sqrt(.6511*(1-.6511)) /sqrt(986))
+{res}.01517875
+{txt}
+{com}. 
+. *Command for Question 3c - proportion of women having difficulty paying their bills
+. tab gender
+
+  {txt}GENDER OF {c |}
+     PERSON {c |}
+    (1-MAN, {c |}
+   2-WOMAN) {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Man {c |}{res}        484       49.09       49.09
+{txt}      Woman {c |}{res}        502       50.91      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        986      100.00
+{txt}
+{com}. tab diffpaybills if gender == 2
+
+{txt}1 IF PERSON {c |}
+        HAD {c |}
+DIFFICULTIE {c |}
+   S PAYING {c |}
+   BILLS IN {c |}
+ PAST YEAR; {c |}
+0 OTHERWISE {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        197       39.24       39.24
+{txt}          1 {c |}{res}        305       60.76      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        502      100.00
+{txt}
+{com}. 
+. *Command for Question 3c - standard error of women having difficulty paying their bills
+. display(sqrt(.6076*(1-.6076)) /sqrt(502))
+{res}.02179323
+{txt}
+{com}. 
+. *Command for Question 3c - proportion of men having difficulty paying their bills
+. tab diffpaybills if gender == 1
+
+{txt}1 IF PERSON {c |}
+        HAD {c |}
+DIFFICULTIE {c |}
+   S PAYING {c |}
+   BILLS IN {c |}
+ PAST YEAR; {c |}
+0 OTHERWISE {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        195       40.29       40.29
+{txt}          1 {c |}{res}        289       59.71      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        484      100.00
+{txt}
+{com}. display(sqrt(.5971*(1-.5971)) /sqrt(484))
+{res}.02229459
+{txt}
+{com}. 
+. *Command for Question 3d - find the sample size to reduce SE of average age by half
+. 
+. *First step is to find half of the standard error
+. display(.5590396/2)
+{res}.2795198
+{txt}
+{com}. 
+. *Second step is to square the numerator of the sample mean formula
+. display(17.55414)^2
+{res}308.14783
+{txt}
+{com}. 
+. *Third step is to square the standard error
+. display(.2795198)^2
+{res}.07813132
+{txt}
+{com}. 
+. *Fourth step is to divide the squared numerator by the squared standard error
+. display(308.14783/.07813076)
+{res}3944.0014
+{txt}
+{com}. 
+. *Fifth step is to double check the work by plugging all values in to see if we receive the correct half standard error
+. display(17.55414/sqrt(3944.0014))
+{res}.2795188
+{txt}
+{com}. 
+. *Command for Question 3e - properties of sampling distribution of p-hat
+. sum reducedCO2
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 2}reducedCO2 {c |}{res}        986    .6511156    .4768592          0          1
+{txt}
+{com}. histogram reducedCO2, discrete frequency
+{txt}(start={res}0{txt}, width={res}1{txt})
+{res}{txt}
+{com}. 
+. *Command for Question 4a - confidence interval 
+. ci means age
+
+{txt}    Variable {c |}        Obs        Mean    Std. err.       [95% conf. interval]
+{hline 13}{c +}{hline 63}
+         age {c |}{col 16}{res}       986{col 29} 49.90162{col 41} .5590376{col 57} 48.80458{col 69} 50.99866{txt}
+
+{com}. 
+. *Command for Question 4b - confidence interval
+. ci means age, level(99)
+
+{txt}    Variable {c |}        Obs        Mean    Std. err.       [99% conf. interval]
+{hline 13}{c +}{hline 63}
+         age {c |}{col 16}{res}       986{col 29} 49.90162{col 41} .5590376{col 57} 48.45884{col 69}  51.3444{txt}
+
+{com}. 
+. *Command for Question 4c - confidence interval for steps to reduceCO2 emissions 
+. gen reducedemissions = (reducedCO2 == 1)
+{txt}
+{com}. tab reducedemissions
+
+{txt}reducedemis {c |}
+      sions {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        344       34.89       34.89
+{txt}          1 {c |}{res}        642       65.11      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        986      100.00
+{txt}
+{com}. ci prop reducedemissions if reducedCO2 == 1, level (90)
+
+{txt}{col 58}   Binomial exact   
+    Variable {c |}        Obs  Proportion    Std. err.       [90% conf. interval]
+{hline 13}{c +}{hline 63}
+reducedemi~s {c |}{col 16}{res}       642{col 29}        1{col 41}        0{col 57} .9953446{col 69}        1{txt}*
+
+(*) one-sided, 95% confidence interval
+
+{com}. 
+. *Command for Question 4d - gender having difficulties paying bills
+. ci proportions diffpaybills if gender == 1 & diffpaybills == 1, exact level(95)
+
+{txt}{col 58}   Binomial exact   
+    Variable {c |}        Obs  Proportion    Std. err.       [95% conf. interval]
+{hline 13}{c +}{hline 63}
+diffpaybills {c |}{col 16}{res}       289{col 29}        1{col 41}        0{col 57} .9873168{col 69}        1{txt}*
+
+(*) one-sided, 97.5% confidence interval
+
+{com}. ci proportions diffpaybills if gender == 2 & diffpaybills == 1, exact level(95)
+
+{txt}{col 58}   Binomial exact   
+    Variable {c |}        Obs  Proportion    Std. err.       [95% conf. interval]
+{hline 13}{c +}{hline 63}
+diffpaybills {c |}{col 16}{res}       305{col 29}        1{col 41}        0{col 57} .9879782{col 69}        1{txt}*
+
+(*) one-sided, 97.5% confidence interval
+
+{com}. 
+{txt}end of do-file
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/andrew/Desktop/PAF 9272/HW 2/HW2_part2_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}15 Oct 2023, 16:31:51
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
