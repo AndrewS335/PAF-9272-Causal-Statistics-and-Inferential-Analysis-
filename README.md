@@ -116,7 +116,8 @@ Launching a career or transitioning into a new one is a journey—and the Marxe 
 SCHEDULE (subject to revisions)
 The Baruch Academic Calendar is available at: https://www.baruch.cuny.edu/registrar/registration/academic-calendar.html
  
-Class 	Date	Topics	Readings/Assignments/In-class Practise 
+|Class | Date| 	Topics|	Readings/Assignments/In-class Practise |
+|------|-----|--------|----------------------------------------|
 1	8/28	Introductions
 Course Overview
 Stata (installation & introduction)
