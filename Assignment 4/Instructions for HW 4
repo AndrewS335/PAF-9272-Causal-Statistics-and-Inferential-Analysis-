@@ -1,0 +1,42 @@
+PAF9272
+Fall 2023, Prof. Heiland
+Assignment 4. Oregon Health Insurance Experiment (OHIE) data.
+Due: 11:59PM, Wednesday November 22. Email 3 files (see below) to: frank.heiland@baruch.cuny.edu
+
+I. Background. Please read section 1.2 in Mastering Metrics, review the lecture notes, and visit the NBER web page on the Oregon HIE for background on the experiment and the type of research you are partly replicating here! You are working with original OR HIE data. I created an extract combining variables from the baseline survey (when the random assignment took place) and the 12-month follow-up survey by mail (“12m survey” or “12m”). The dta is called “survey12m_X1.dta” (will be used in class as well) and includes the following:
+A. Three variables from the baseline survey: 
+1. “treatment”. This variable = 1 if randomly selected for the treatment group (i.e. person was drawn in lottery to apply to get free high-quality health insurance through enrollment in Oregon Medicaid program), 0 if control group (i.e. person did not win the lottery held at baseline = not selected for treatment = not invited to enroll in OR Medicaid); this is the key variable for impact assessment!
+2. “household_id”. Household identifier (some households have multiple people who are in the study!)
+3. “numhh_list”. Number of persons signed up per household – the investigators note that this variable should be controlled for in analyses of treatment effects (here, you’ll only use it if you do the Extra credit part).  
+(I also included the personal identifier – a unique individual ID that is used to link records across data sets in the study. This variable appears on every file.)
+B. About 35 variables from the 12-month follow-up survey (variable names include: “12m”).
+These variables cover characteristics related to person’s demographics (gender, race, year of birth), their health and healthcare, their financial situation, and their health-insurance situation.  I have not renamed them, so you can (and should) look up their definitions in the codebook for the 12-month follow-up survey (posted on blackboard in the folder “Documentation for OR HIE data”). The only variables not defined in the 12-month survey codebook are the three from the baseline survey listed above!
+II. Directions:  Please hand in three files for this assignment
+1. A Stata do file that includes all the Stata commands for all the calculations/analyses for this assignment. Please try not to include extraneous analyses.  It is fine for you to do exploratory analyses, but I don’t need to see them. I should be able to run your do file with the data extract I created and produce all your results! 
+2. A log or “smcl” file that your do file creates that shows the results and the execution of the do file. 
+3. A Word or PDF of the write-up of your assignment and key elements of the Stata output! When appropriate, you can cut-and-paste output from the smcl file into your word file for your write up. Please use your name in your file names. For example, “Jane” would send ….JaneHW4.do., JaneHW4log.smcl, and  JaneHW4.doc.
+
+III. Directions for Analysis (please read carefully in its entirety before you begin)
+A. Open the 12m survey extract data file. Examine the data carefully and include key Stata output in your word file to answer the following Qs:
+i. How many people in counts and % were originally assigned to the treatment vs. the control group?
+ii. How many people overall and within each of the two key groups of the experiment (treatment vs. control) were sent the 12-month follow-up survey?
+iii. What was the response rate to the 12m follow-up survey, both overall and within each treatment/control group?  Do the response rates differ statistically between treatment and control group (to answer this conduct the appropriate hypothesis test)? 
+B. Estimation of the Treatment Effect and Replication of A&P, Table 1.6
+i. Does self-reported health status in the 12m survey differ between the treatment and control group? Perform the appropriate cross-tabulation and chi-square test. (Hint: use “health_gen_12m”) (For now, ignore sampling weights and the fact that some households include multiple respondents.)
+ii. Generate a dummy variable for being in good, very good, or excellent health at the time of the follow-up survey (name it “good_health_12m” or something similar): i.e., a dummy variable for reported health that is NOT fair or poor! Warning: watch out for how Stata treats missing data when you use “generate” and make sure “good health” has missing values correctly coded as “.” (i.e., NOT accidentally coded as a 1 or a 0)! (Hint: consider using “replace good_health = . if...") 
+iii. Does the proportion in self-reported good health differ between the treatment and control group? By how much? Is this difference statistically significant (report the p-value or an appropriate upper bound)? Is it practically meaningful? Do you come reasonably close to replicating the first row of Table 1.6?  
+For Extra Credit. You can get closer to their result by regressing good health (dependent variable) on treatment (independent variable) and household type dummies (controls), using the 12m survey weight as an analytical weight (“[aw=weight_12m]”), and using standard errors adjusted for “clustering” within households (“cluster(household_id)” option in regress command). The command is “reg good_health treatment i.numhh_list  [aw=weight_12m], cluster(household_id)”. Report the estimated treatment effect and its sampling error (SE). Comment on how this estimate (and its SE) compares to Table 1.6!
+iv. Regress your “good health” dummy variable (dependent variable) on treatment (independent variable). Report the estimated regression equation. 
+v. Interpret the slope and the constant term. (Hint: since the dependent variable is a dummy variable, the estimated slope coefficient of the treatment variable MULTIPLIED BY 100 represents how much the probability of being in good health is different in the treatment group compared to the control group, on average. For example, if you were to find an estimated slope equal to 0.02, this number would mean that the probability of being in good health is 2 percentage points higher in the treatment group than in the control group! To correctly interpret the constant term apply a similar logic of converting “a” to percent.) Are they statistically significantly different from 0 (report the p-values or appropriate upper bounds and draw the correct conclusions)? 
+vi. Report the value of R-squared and interpret it. 
+vii. What is the predicted proportion in good health among those treated (this is just a simple prediction using your estimated regression equation above)? 
+viii. Why is it appropriate to use causal language in the interpretation of the estimated slope in parts iv/v above? 
+ix. Assuming the relationship is causal, draw a very simple logic model graphing the causal relationship between “Having/not having Health Insurance” and “Being/not being in Good Health”. 
+  
+C. Check for “Covariate Balance” (include key Stata test output in each case!) 
+To check whether treatment status is randomly assigned, carefully test whether variables that cannot plausibly respond to the treatment differ between the treatment and control group. Specifically:
+i. Use an appropriate Hypothesis Test to investigate whether gender is balanced between treatment and control groups. 
+ii. Use an appropriate Hypothesis Test to investigate whether birth year (which proxies for their age) is balanced between treatment and control groups. 
+iii. Use appropriate Hypothesis Tests to investigate whether race/ethnicity is balanced between treatment and control groups. (Hint: conduct four separate tests, one each for race/ethnicity being Hispanic, Black, Asian, and white.)  
+iv. Notice that the variables you analyzed in part C just above were collected in the 12-month follow-up survey. Why might there be covariate imbalance at 12 months even if, at baseline (e.g., slide 13 in week 10 lecture notes), random assignment worked perfectly and even if sampling for the 12m survey was random within the treatment and control groups?  (All treatment group subjects and a random subsample of control group subjects present participating at baseline were targeted for the 12-month survey.) 
+ 
