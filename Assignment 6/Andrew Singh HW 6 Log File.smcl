@@ -1,0 +1,708 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/andrew/Desktop/PAF 9272/HW 6.2/Andrew Singh HW 6 Log File.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}15 Dec 2023, 15:56:46
+{txt}
+{com}. 
+. /* the next line tells Stata to wait for keystroke confirmation after each screen of output generated*/ 
+. set more 0
+{txt}
+{com}. 
+. /*"expand" dummy indicates expansion state. */
+. 
+. /*importing state-year Medicaid eligibility cut-off data from Excel; statefip is the 
+> Federal Information Processing Standard numeric state id (used to identify each state)*/ 
+. import excel using "/Users/andrew/Desktop/PAF 9272/HW 6.2/StateAdultElig(1) (3).xlsx", firstrow
+{res}{text}(8 vars, 51 obs)
+
+{com}. rename B cut11
+{res}{txt}
+{com}. rename C cut12
+{res}{txt}
+{com}. rename D cut13
+{res}{txt}
+{com}. rename E cut14
+{res}{txt}
+{com}. rename F cut15
+{res}{txt}
+{com}. rename G cut16
+{res}{txt}
+{com}. rename Location statename
+{res}{txt}
+{com}. 
+. /*create medicaid expand dummy:1=clean expandment group of states that expanded eligibilty 
+> from 0 before Jan14 to 138 FPL or higher as of Jan14, 0=clean control group with
+> 0=Medicaid elig in all years, set to missing for all other states: .= all other states.
+> Future analyses can incorporate partially expanding states or states that   
+> expanded after jan14 */
+. 
+. gen expand=1 if cut11==0 & cut12==0 & cut13==0 & cut14>=138 & cut15>=138 & cut16>=138
+{txt}(34 missing values generated)
+
+{com}. replace expand=0 if cut11==0 & cut12==0 & cut13==0 & cut14==0 & cut15==0 & cut16==0
+{txt}(19 real changes made)
+
+{com}. 
+. /*we need to RESHAPE the eligibility data to be able to merge it with cps_2011to2016 which is in "long" 
+> (stacked) format: cross-section data for several years of individual records, each of which 
+> has a statefip id capturing in which state the person resides*/
+. 
+. reshape long cut, i(statefip) j(year)
+{txt}(j = 11 12 13 14 15 16)
+
+Data{col 36}Wide{col 43}->{col 48}Long
+{hline 77}
+Number of observations     {res}          51   {txt}->   {res}306         
+{txt}Number of variables        {res}           9   {txt}->   {res}5           
+{txt}j variable (6 values)                     ->   {res}year
+{txt}xij variables:
+                  {res}cut11 cut12 ... cut16   {txt}->   {res}cut
+{txt}{hline 77}
+
+{com}. keep statefip year cut expand
+{txt}
+{com}. 
+. *How many states are "expansion states"? How many are non-expansion states?   
+. tab expand, m
+
+     {txt}expand {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        114       37.25       37.25
+{txt}          1 {c |}{res}        102       33.33       70.59
+{txt}          . {c |}{res}         90       29.41      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        306      100.00
+{txt}
+{com}. sort statefip year
+{txt}
+{com}. 
+. *The next line saves the reshaped policy data as a stata dta file called "policyvar" (in the same directory) 
+. save "/Users/andrew/Desktop/PAF 9272/HW 6.2/policyvar", replace
+{txt}{p 0 4 2}
+file {bf}
+/Users/andrew/Desktop/PAF 9272/HW 6.2/policyvar.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. *The next line clears the current data from memory so that a new data set can be opened (the log file keeps running until "log close") 
+. clear
+{txt}
+{com}. 
+. *Let's take a look at the individual-level CPS data (individuals with no children in the household);
+. *these data are publicuse and were extracted from https://cps.ipums.org/cps/index.shtml;
+. *the key benefits of Current Population Survey data are: public use, large n, nationally representative, 
+. *state person resides is identified, has outcome measures we can use.    
+. use "/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_2011to2016 (2) - Andrew.dta"
+{txt}
+{com}. describe
+
+{txt}Contains data from {res}/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_2011to2016 (2) - Andrew.dta
+{txt} Observations:{res}     1,174,013                  
+{txt}    Variables:{res}            28                  8 May 2023 08:51
+{txt}{hline}
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+{hline}
+{p 0 48}{res}{bind:year           }{txt}{bind: int     }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Survey year{p_end}
+{p 0 48}{bind:serial         }{txt}{bind: long    }{bind:{txt}%12.0g    }{space 1}{bind:         }{bind:  }{res}{res}Household serial number{p_end}
+{p 0 48}{bind:month          }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{txt}month_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Month{p_end}
+{p 0 48}{bind:cpsid          }{txt}{bind: double  }{bind:{txt}%14.0f    }{space 1}{bind:         }{bind:  }{res}{res}CPSID, household record{p_end}
+{p 0 48}{bind:asecflag       }{txt}{bind: byte    }{bind:{txt}%11.0g    }{space 1}{txt}asecflag_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Flag for ASEC{p_end}
+{p 0 48}{bind:hflag          }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{txt}hflag_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Flag for the 3/8 file 2014{p_end}
+{p 0 48}{bind:asecwth        }{txt}{bind: double  }{bind:{txt}%10.4f    }{space 1}{bind:         }{bind:  }{res}{res}Annual Social and Economic Supplement Household weight{p_end}
+{p 0 48}{bind:statefip       }{txt}{bind: byte    }{bind:{txt}%57.0g    }{space 1}{txt}statefip_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}State (FIPS code){p_end}
+{p 0 48}{bind:nmothers       }{txt}{bind: byte    }{bind:{txt}%16.0g    }{space 1}{txt}nmothers_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Number of mothers in household{p_end}
+{p 0 48}{bind:nfathers       }{txt}{bind: byte    }{bind:{txt}%16.0g    }{space 1}{txt}nfathers_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Number of fathers in household{p_end}
+{p 0 48}{bind:pernum         }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Person number in sample unit{p_end}
+{p 0 48}{bind:cpsidp         }{txt}{bind: double  }{bind:{txt}%14.0f    }{space 1}{bind:         }{bind:  }{res}{res}CPSID, person record{p_end}
+{p 0 48}{bind:asecwt         }{txt}{bind: double  }{bind:{txt}%10.4f    }{space 1}{bind:         }{bind:  }{res}{res}Annual Social and Economic Supplement Weight{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%19.0g    }{space 1}{bind:age_lbl  }{bind:  }{res}{res}Age{p_end}
+{p 0 48}{bind:sex            }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:sex_lbl  }{bind:  }{res}{res}Sex{p_end}
+{p 0 48}{bind:race           }{txt}{bind: int     }{bind:{txt}%53.0g    }{space 1}{bind:race_lbl }{bind:  }{res}{res}Race{p_end}
+{p 0 48}{bind:marst          }{txt}{bind: byte    }{bind:{txt}%23.0g    }{space 1}{txt}marst_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Marital status{p_end}
+{p 0 48}{bind:offtotval      }{txt}{bind: double  }{bind:{txt}%10.0f    }{space 1}{bind:         }{bind:  }{res}{res}Total Family Income for Replicating Official Poverty Rates{p_end}
+{p 0 48}{bind:cutoff         }{txt}{bind: long    }{bind:{txt}%12.0g    }{space 1}{bind:         }{bind:  }{res}{res}Cutoff for original poverty status, in dollars{p_end}
+{p 0 48}{bind:health         }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{txt}health_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Health status{p_end}
+{p 0 48}{bind:himcaidly      }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{txt}himcaidly_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Covered by Medicaid last year{p_end}
+{p 0 48}{bind:himcarely      }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{txt}himcarely_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Covered by Medicare last year{p_end}
+{p 0 48}{bind:hichamp        }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{txt}hichamp_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Covered by military health insurance last year{p_end}
+{p 0 48}{bind:covergh        }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{txt}covergh_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Covered by group health insurance, last year{p_end}
+{p 0 48}{bind:coverpi        }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{txt}coverpi_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Covered by private health insurance, last year{p_end}
+{p 0 48}{bind:verify         }{txt}{bind: byte    }{bind:{txt}%13.0g    }{space 1}{txt}verify_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Verification: Did individual actually have health insurance{p_end}
+{p 0 48}{bind:hiunpers       }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}HIU number of persons{p_end}
+{p 0 48}{bind:hiuid          }{txt}{bind: double  }{bind:{txt}%8.0f     }{space 1}{bind:         }{bind:  }{res}{res}HIU identification{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. sum
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 8}year {c |}{res}  1,174,013    13.44489    1.699288         11         16
+{txt}{space 6}serial {c |}{res}  1,174,013    49780.99    28150.77          1      99461
+{txt}{space 7}month {c |}{res}  1,174,013           3           0          3          3
+{txt}{space 7}cpsid {c |}{res}  1,174,013    1.30e+13    9.63e+12          0   2.02e+13
+{txt}{space 4}asecflag {c |}{res}  1,174,013           1           0          1          1
+{txt}{hline 13}{c +}{hline 57}
+{space 7}hflag {c |}{res}    199,556    .3013741     .458856          0          1
+{txt}{space 5}asecwth {c |}{res}  1,174,013    1837.928    1505.893      52.51   28654.31
+{txt}{space 4}statefip {c |}{res}  1,174,013     27.6106    16.17365          1         56
+{txt}{space 4}nmothers {c |}{res}  1,174,013    .7342346    .5724927          0          5
+{txt}{space 4}nfathers {c |}{res}  1,174,013    .5887584    .5360837          0          5
+{txt}{hline 13}{c +}{hline 57}
+{space 6}pernum {c |}{res}  1,174,013    2.270252    1.394326          1         16
+{txt}{space 6}cpsidp {c |}{res}  1,174,013    1.30e+13    9.63e+12          0   2.02e+13
+{txt}{space 6}asecwt {c |}{res}  1,174,013     1875.78    1556.374      50.17   44423.83
+{txt}{space 9}age {c |}{res}  1,174,013    35.90741    22.46738          0         85
+{txt}{space 9}sex {c |}{res}  1,174,013    1.514627    .4997862          1          2
+{txt}{hline 13}{c +}{hline 57}
+{space 8}race {c |}{res}  1,174,013    167.9573    170.6912        100        830
+{txt}{space 7}marst {c |}{res}  1,174,013    3.754377    2.331991          1          6
+{txt}{space 3}offtotval {c |}{res}  1,174,013     84313.8    100796.7     -19998    2742997
+{txt}{space 6}cutoff {c |}{res}  1,174,013     20944.8    7264.818      10788      53413
+{txt}{space 6}health {c |}{res}  1,174,013    2.141986    1.065393          1          5
+{txt}{hline 13}{c +}{hline 57}
+{space 3}himcaidly {c |}{res}  1,174,013    1.191858    .3937623          1          2
+{txt}{space 3}himcarely {c |}{res}  1,174,013    .9073886    .5953106          0          2
+{txt}{space 5}hichamp {c |}{res}  1,174,013    1.046823      .21126          1          2
+{txt}{space 5}covergh {c |}{res}  1,174,013    1.547378    .4977505          1          2
+{txt}{space 5}coverpi {c |}{res}  1,174,013    1.658747    .4741305          1          2
+{txt}{hline 13}{c +}{hline 57}
+{space 6}verify {c |}{res}  1,174,013    .1316689    .3473777          0          2
+{txt}{space 4}hiunpers {c |}{res}  1,174,013    2.757696    1.572907          1         15
+{txt}{space 7}hiuid {c |}{res}  1,174,013     4978101     2815077        101    9946102
+{txt}
+{com}. 
+. 
+. /*cps_2011to2016 is already restricted to the six years from 2011 to 2016; 
+> For HW6 we want to restrict the sample further to only adult individuals who are too young to quality 
+> for health insurance through Medicare (eligibility at 65) but old enough so that they would no longer qualify 
+> under their parents (coverage under parental insurance usually ends at age 26)
+> */
+. drop if age > 64 | age <26
+{txt}(582,133 observations deleted)
+
+{com}. 
+. *In addition, in the above age group, for HW6 we want to keep only those with sufficiently low income (family income < 150% of FPL)
+. keep if offtotval<1.5*cutoff
+{txt}(476,661 observations deleted)
+
+{com}. 
+. /*here we are MERGEing the cps calendar to years of policy data available*/
+. sort statefip year
+{txt}
+{com}. merge m:m statefip year using "/Users/andrew/Desktop/PAF 9272/HW 6.2/policyvar.dta"
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}         115,219{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab _merge
+
+   {txt}Matching result from {c |}
+                  merge {c |}      Freq.     Percent        Cum.
+{hline 24}{c +}{hline 35}
+            Matched (3) {c |}{res}    115,219      100.00      100.00
+{txt}{hline 24}{c +}{hline 35}
+                  Total {c |}{res}    115,219      100.00
+{txt}
+{com}. drop _merge
+{txt}
+{com}. 
+. *generate additional variables that we need for the before after analyses: "after" and "expand_after" interacted variable  
+. gen after=(year>13) if ~missing(year)
+{txt}
+{com}. gen expand_after=expand*after
+{txt}(27,492 missing values generated)
+
+{com}. 
+. 
+. *Outcome Variable(s);
+. /*generating "insured" dummy (has health insurance). We checked https://cps.ipums.org/cps-action/variables/VERIFY#codes_section
+> that verify == 1 (NIU) means they answered one insurance type coverage affirmatively*/
+. 
+. gen insured=(verify==0 | verify==2)
+{txt}
+{com}. 
+. *This saves the individual-level data with the policy variables and the outcome variable(s) 
+. save "/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_with_policy", replace
+{txt}{p 0 4 2}
+file {bf}
+/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_with_policy.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. * a. Describe health insurance status nationally for this low-income 26 to 64 year old population over this period. Does this age-group appear to have gained coverage over this period? (hint: tabulate year insured; use a chi-square test and interpret the results.) Then, analyze statistically whether these gains differed between expansion and non-expansion states. Save the data before continuing: "cps_with_policy.dta, replace".
+. tab year insured, col chi
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+    Survey {c |}        insured
+      year {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+        11 {c |}{res}     8,245     12,186 {txt}{c |}{res}    20,431 
+           {txt}{c |}{res}     22.38      15.55 {txt}{c |}{res}     17.73 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+        12 {c |}{res}     8,286     12,296 {txt}{c |}{res}    20,582 
+           {txt}{c |}{res}     22.49      15.69 {txt}{c |}{res}     17.86 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+        13 {c |}{res}     6,943     13,208 {txt}{c |}{res}    20,151 
+           {txt}{c |}{res}     18.84      16.85 {txt}{c |}{res}     17.49 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+        14 {c |}{res}     5,328     14,651 {txt}{c |}{res}    19,979 
+           {txt}{c |}{res}     14.46      18.69 {txt}{c |}{res}     17.34 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+        15 {c |}{res}     4,191     13,265 {txt}{c |}{res}    17,456 
+           {txt}{c |}{res}     11.37      16.93 {txt}{c |}{res}     15.15 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+        16 {c |}{res}     3,853     12,767 {txt}{c |}{res}    16,620 
+           {txt}{c |}{res}     10.46      16.29 {txt}{c |}{res}     14.42 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}    36,846     78,373 {txt}{c |}{res}   115,219 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+{txt}          Pearson chi2({res}5{txt}) = {res} 2.7e+03  {txt} Pr = {res}0.000
+{txt}
+{com}. tab expand insured, col chi
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}        insured
+    expand {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}    17,170     26,692 {txt}{c |}{res}    43,862 
+           {txt}{c |}{res}     57.09      46.30 {txt}{c |}{res}     50.00 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}    12,905     30,960 {txt}{c |}{res}    43,865 
+           {txt}{c |}{res}     42.91      53.70 {txt}{c |}{res}     50.00 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}    30,075     57,652 {txt}{c |}{res}    87,727 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+{txt}          Pearson chi2({res}1{txt}) = {res}920.7904  {txt} Pr = {res}0.000
+{txt}
+{com}. 
+. 
+. /*To apply Method 1, we are now creating a data set of state-year AVERAGES (means):
+> collapse creates one record for each value in the "by"
+> part of the command...in this case, 1 record for each state-year
+> represented in the larger data set. The big data set goes away
+> by default, collapse will calculate means of the variables following
+> the word collapse...but you can ask it to calculate other
+> stats such as max, min, median, std etc. and retain them on the record
+> read help collapse for more info...a truly great command!*/
+. 
+. /* notice the use of survey weights when collapsing to state averages!*/
+. collapse insured expand after expand_after [aw=asecwt], by(statefip year)
+{res}{txt}
+{com}. su
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 8}year {c |}{res}        306        13.5    1.710623         11         16
+{txt}{space 4}statefip {c |}{res}        306    28.96078    15.70251          1         56
+{txt}{space 5}insured {c |}{res}        306    .7039534    .1123105    .401765   .9428307
+{txt}{space 6}expand {c |}{res}        216    .4722222    .5003874          0          1
+{txt}{space 7}after {c |}{res}        306          .5     .500819          0          1
+{txt}{hline 13}{c +}{hline 57}
+expand_after {c |}{res}        216    .2361111    .4256778          0          1
+{txt}
+{com}. bys year: su insured
+
+{txt}{hline}
+-> year = 11
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .6244309     .098734   .4164563   .8784068
+
+{txt}{hline}
+-> year = 12
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .6186253    .1039105    .401765   .9218053
+
+{txt}{hline}
+-> year = 13
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .6700747    .0909266   .4924954   .9428307
+
+{txt}{hline}
+-> year = 14
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .7481221    .0728185   .5571526   .9029304
+
+{txt}{hline}
+-> year = 15
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .7771208     .084214   .5369083   .9102428
+
+{txt}{hline}
+-> year = 16
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .7853468    .0804978   .5692787   .8941393
+
+{txt}
+{com}. bys year: su insured if expand~=.
+
+{txt}{hline}
+-> year = 11
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         36    .5993984    .0943304   .4164563   .8784068
+
+{txt}{hline}
+-> year = 12
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         36    .5885752    .0934531    .401765   .9218053
+
+{txt}{hline}
+-> year = 13
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         36     .647736    .0862131   .4924954   .9428307
+
+{txt}{hline}
+-> year = 14
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         36    .7372141    .0762184   .5571526   .9029304
+
+{txt}{hline}
+-> year = 15
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         36    .7585239    .0882745   .5369083   .9102428
+
+{txt}{hline}
+-> year = 16
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         36    .7640349    .0818552   .5692787   .8831332
+
+{txt}
+{com}. bys year: su insured if expand==1
+
+{txt}{hline}
+-> year = 11
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         17    .6308219    .0985616    .477144   .8784068
+
+{txt}{hline}
+-> year = 12
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         17    .6144089    .1002778   .4854904   .9218053
+
+{txt}{hline}
+-> year = 13
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         17    .6771144    .0901877   .5362904   .9428307
+
+{txt}{hline}
+-> year = 14
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         17    .7827691     .071167   .6152888   .9029304
+
+{txt}{hline}
+-> year = 15
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         17    .8264879    .0517488    .733328   .9102428
+
+{txt}{hline}
+-> year = 16
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         17    .8310647    .0358634   .7630733   .8831332
+
+{txt}
+{com}. *gen after=(year>13) if ~missing(year)
+. *gen expand_after=expand*after
+. 
+. /*Remember that "expand" is our treatment status variable. Our first way to estimate the 
+> D-D causal estimate is using Method 1:   
+> 2x2 Means Table*/
+. sum insured if expand==1 & after==1
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .8134406    .0580738   .6152888   .9102428
+{txt}
+{com}. sum insured if expand==0 & after==1
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         57    .6994098     .060708   .5369083   .8716844
+{txt}
+{com}. sum insured if expand==0 & after==0
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         57    .5860645    .0829907    .401765   .7653196
+{txt}
+{com}. sum insured if expand==1 & after==0
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}insured {c |}{res}         51    .6407817    .0982255    .477144   .9428307
+{txt}
+{com}. 
+. *calculate the DD estimate by hand...
+. 
+. 
+. 
+. /*Method 2 with aggregate data: run the regression and interpret the coefficients; 
+> remember that the coefficient on the interaction term is the D-D causal impact estimate! */
+. reg insured expand after expand_after
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       216
+{txt}{hline 13}{c +}{hline 34}   F(3, 212)       = {res}    85.81
+{txt}       Model {c |} {res} 1.50956377         3  .503187923   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1.24312478       212  .005863796   {txt}R-squared       ={res}    0.5484
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5420
+{txt}       Total {c |} {res} 2.75268855       215  .012803203   {txt}Root MSE        =   {res} .07658
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     insured{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}expand {c |}{col 14}{res}{space 2} .0547172{col 26}{space 2} .0147597{col 37}{space 1}    3.71{col 46}{space 3}0.000{col 54}{space 4} .0256225{col 67}{space 3} .0838118
+{txt}{space 7}after {c |}{col 14}{res}{space 2} .1133452{col 26}{space 2} .0143439{col 37}{space 1}    7.90{col 46}{space 3}0.000{col 54}{space 4} .0850703{col 67}{space 3} .1416201
+{txt}expand_after {c |}{col 14}{res}{space 2} .0593136{col 26}{space 2} .0208734{col 37}{space 1}    2.84{col 46}{space 3}0.005{col 54}{space 4} .0181676{col 67}{space 3} .1004597
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .5860645{col 26}{space 2} .0101427{col 37}{space 1}   57.78{col 46}{space 3}0.000{col 54}{space 4} .5660712{col 67}{space 3} .6060579
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. /*To apply Method 2 with individual-level data we first need to open the file "cps_week14.dta"! 
+> Next: run the regression and interpret the coefficients; 
+> remember that the coefficient on the interaction term is the D-D causal impact estimate! */
+. use "/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_with_policy.dta"
+{txt}
+{com}. 
+. reg insured expand after expand_after
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}    87,727
+{txt}{hline 13}{c +}{hline 34}   F(3, 87723)     = {res}  1167.15
+{txt}       Model {c |} {res} 758.618609         3   252.87287   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19005.9225    87,723  .216658374   {txt}R-squared       ={res}    0.0384
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0383
+{txt}       Total {c |} {res} 19764.5411    87,726  .225298556   {txt}Root MSE        =   {res} .46547
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     insured{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}expand {c |}{col 14}{res}{space 2} .0716277{col 26}{space 2} .0043665{col 37}{space 1}   16.40{col 46}{space 3}0.000{col 54}{space 4} .0630694{col 67}{space 3}  .080186
+{txt}{space 7}after {c |}{col 14}{res}{space 2} .1236499{col 26}{space 2} .0044451{col 37}{space 1}   27.82{col 46}{space 3}0.000{col 54}{space 4} .1149376{col 67}{space 3} .1323622
+{txt}expand_after {c |}{col 14}{res}{space 2} .0638194{col 26}{space 2} .0062939{col 37}{space 1}   10.14{col 46}{space 3}0.000{col 54}{space 4} .0514835{col 67}{space 3} .0761554
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  .547002{col 26}{space 2}  .003136{col 37}{space 1}  174.43{col 46}{space 3}0.000{col 54}{space 4} .5408555{col 67}{space 3} .5531484
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *we should use the survey weights 
+. reg insured expand after expand_after [aw=asecwt]
+{txt}(sum of wgt is 172,963,535.67)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}    87,727
+{txt}{hline 13}{c +}{hline 34}   F(3, 87723)     = {res}  1136.44
+{txt}       Model {c |} {res} 752.061473         3  250.687158   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19350.8026    87,723   .22058984   {txt}R-squared       ={res}    0.0374
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0374
+{txt}       Total {c |} {res}  20102.864    87,726  .229155143   {txt}Root MSE        =   {res} .46967
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     insured{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}expand {c |}{col 14}{res}{space 2} .0851052{col 26}{space 2} .0041423{col 37}{space 1}   20.55{col 46}{space 3}0.000{col 54}{space 4} .0769863{col 67}{space 3} .0932242
+{txt}{space 7}after {c |}{col 14}{res}{space 2} .1154938{col 26}{space 2} .0045195{col 37}{space 1}   25.55{col 46}{space 3}0.000{col 54}{space 4} .1066356{col 67}{space 3}  .124352
+{txt}expand_after {c |}{col 14}{res}{space 2} .0652566{col 26}{space 2} .0064406{col 37}{space 1}   10.13{col 46}{space 3}0.000{col 54}{space 4} .0526331{col 67}{space 3}   .07788
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .5413372{col 26}{space 2} .0029311{col 37}{space 1}  184.69{col 46}{space 3}0.000{col 54}{space 4} .5355923{col 67}{space 3} .5470821
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *also turn on most conservative SEs
+. reg insured expand after expand_after [aw=asecwt], cluster(statefip)
+{txt}(sum of wgt is 172,963,535.67)
+
+Linear regression                               Number of obs     = {res}    87,727
+                                                {txt}F(3, 35)          =  {res}   125.63
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0374
+                                                {txt}Root MSE          =    {res} .46967
+
+{txt}{ralign 78:(Std. err. adjusted for {res:36} clusters in {res:statefip})}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     insured{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}expand {c |}{col 14}{res}{space 2} .0851052{col 26}{space 2} .0313672{col 37}{space 1}    2.71{col 46}{space 3}0.010{col 54}{space 4} .0214264{col 67}{space 3} .1487841
+{txt}{space 7}after {c |}{col 14}{res}{space 2} .1154938{col 26}{space 2} .0096391{col 37}{space 1}   11.98{col 46}{space 3}0.000{col 54}{space 4} .0959254{col 67}{space 3} .1350622
+{txt}expand_after {c |}{col 14}{res}{space 2} .0652566{col 26}{space 2} .0179372{col 37}{space 1}    3.64{col 46}{space 3}0.001{col 54}{space 4} .0288421{col 67}{space 3}  .101671
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .5413372{col 26}{space 2}  .024044{col 37}{space 1}   22.51{col 46}{space 3}0.000{col 54}{space 4} .4925252{col 67}{space 3} .5901492
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *Interpretation? Is the DD effect statistically significant? 
+. 
+. *Is the DD estimate robust to controls?
+. gen female = (sex==2) if sex~=.
+{txt}
+{com}. gen white = (race==100) if race~=.
+{txt}
+{com}. 
+. reg insured expand after expand_after female white age [aw=asecwt], cluster(statefip)
+{txt}(sum of wgt is 172,963,535.67)
+
+Linear regression                               Number of obs     = {res}    87,727
+                                                {txt}F(6, 35)          =  {res}   143.79
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0567
+                                                {txt}Root MSE          =    {res} .46494
+
+{txt}{ralign 78:(Std. err. adjusted for {res:36} clusters in {res:statefip})}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     insured{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}expand {c |}{col 14}{res}{space 2} .0898724{col 26}{space 2} .0297863{col 37}{space 1}    3.02{col 46}{space 3}0.005{col 54}{space 4}  .029403{col 67}{space 3} .1503417
+{txt}{space 7}after {c |}{col 14}{res}{space 2}  .112596{col 26}{space 2} .0096539{col 37}{space 1}   11.66{col 46}{space 3}0.000{col 54}{space 4} .0929976{col 67}{space 3} .1321944
+{txt}expand_after {c |}{col 14}{res}{space 2}  .064645{col 26}{space 2} .0181218{col 37}{space 1}    3.57{col 46}{space 3}0.001{col 54}{space 4} .0278558{col 67}{space 3} .1014341
+{txt}{space 6}female {c |}{col 14}{res}{space 2} .0609887{col 26}{space 2} .0048835{col 37}{space 1}   12.49{col 46}{space 3}0.000{col 54}{space 4} .0510747{col 67}{space 3} .0709028
+{txt}{space 7}white {c |}{col 14}{res}{space 2}  -.05161{col 26}{space 2} .0141731{col 37}{space 1}   -3.64{col 46}{space 3}0.001{col 54}{space 4}-.0803829{col 67}{space 3} -.022837
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .0048255{col 26}{space 2} .0006472{col 37}{space 1}    7.46{col 46}{space 3}0.000{col 54}{space 4} .0035117{col 67}{space 3} .0061393
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .3323482{col 26}{space 2} .0395352{col 37}{space 1}    8.41{col 46}{space 3}0.000{col 54}{space 4} .2520874{col 67}{space 3} .4126089
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *Rest of analysis...
+. 
+. *Does the treatment effect (expansion) differ for women compared to men?  
+. 
+. gen expand_after_female = expand_after*female
+{txt}(27,492 missing values generated)
+
+{com}. 
+. reg insured expand after expand_after female expand_after_female white age [aw=asecwt], cluster(statefip)
+{txt}(sum of wgt is 172,963,535.67)
+
+Linear regression                               Number of obs     = {res}    87,727
+                                                {txt}F(7, 35)          =  {res}   132.69
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0567
+                                                {txt}Root MSE          =    {res} .46494
+
+{txt}{ralign 85:(Std. err. adjusted for {res:36} clusters in {res:statefip})}
+{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 21}{c |}{col 33}    Robust
+{col 1}            insured{col 21}{c |} Coefficient{col 33}  std. err.{col 45}      t{col 53}   P>|t|{col 61}     [95% con{col 74}f. interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}expand {c |}{col 21}{res}{space 2} .0899162{col 33}{space 2} .0297578{col 44}{space 1}    3.02{col 53}{space 3}0.005{col 61}{space 4} .0295046{col 74}{space 3} .1503277
+{txt}{space 14}after {c |}{col 21}{res}{space 2} .1125862{col 33}{space 2} .0096518{col 44}{space 1}   11.66{col 53}{space 3}0.000{col 61}{space 4}  .092992{col 74}{space 3} .1321804
+{txt}{space 7}expand_after {c |}{col 21}{res}{space 2} .0709109{col 33}{space 2}  .020077{col 44}{space 1}    3.53{col 53}{space 3}0.001{col 61}{space 4} .0301524{col 74}{space 3} .1116694
+{txt}{space 13}female {c |}{col 21}{res}{space 2} .0632356{col 33}{space 2} .0058173{col 44}{space 1}   10.87{col 53}{space 3}0.000{col 61}{space 4} .0514259{col 74}{space 3} .0750453
+{txt}expand_after_female {c |}{col 21}{res}{space 2}-.0111439{col 33}{space 2} .0096609{col 44}{space 1}   -1.15{col 53}{space 3}0.257{col 61}{space 4}-.0307566{col 74}{space 3} .0084688
+{txt}{space 14}white {c |}{col 21}{res}{space 2}-.0515968{col 33}{space 2} .0141832{col 44}{space 1}   -3.64{col 53}{space 3}0.001{col 61}{space 4}-.0803902{col 74}{space 3}-.0228034
+{txt}{space 16}age {c |}{col 21}{res}{space 2} .0048241{col 33}{space 2} .0006482{col 44}{space 1}    7.44{col 53}{space 3}0.000{col 61}{space 4} .0035083{col 74}{space 3} .0061399
+{txt}{space 14}_cons {c |}{col 21}{res}{space 2} .3311139{col 33}{space 2} .0388325{col 44}{space 1}    8.53{col 53}{space 3}0.000{col 61}{space 4} .2522798{col 74}{space 3} .4099481
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. gen expand_after_white = expand_after*white
+{txt}(27,492 missing values generated)
+
+{com}. 
+. reg insured expand after expand_after female expand_after_white white age [aw=asecwt], cluster(statefip)
+{txt}(sum of wgt is 172,963,535.67)
+
+Linear regression                               Number of obs     = {res}    87,727
+                                                {txt}F(7, 35)          =  {res}   141.68
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0568
+                                                {txt}Root MSE          =    {res} .46494
+
+{txt}{ralign 84:(Std. err. adjusted for {res:36} clusters in {res:statefip})}
+{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 20}{c |}{col 32}    Robust
+{col 1}           insured{col 20}{c |} Coefficient{col 32}  std. err.{col 44}      t{col 52}   P>|t|{col 60}     [95% con{col 73}f. interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}expand {c |}{col 20}{res}{space 2}  .090095{col 32}{space 2}  .029819{col 43}{space 1}    3.02{col 52}{space 3}0.005{col 60}{space 4} .0295592{col 73}{space 3} .1506309
+{txt}{space 13}after {c |}{col 20}{res}{space 2}  .112599{col 32}{space 2} .0096656{col 43}{space 1}   11.65{col 52}{space 3}0.000{col 60}{space 4} .0929769{col 73}{space 3} .1322212
+{txt}{space 6}expand_after {c |}{col 20}{res}{space 2} .0522337{col 32}{space 2}  .020499{col 43}{space 1}    2.55{col 52}{space 3}0.015{col 60}{space 4} .0106185{col 73}{space 3} .0938489
+{txt}{space 12}female {c |}{col 20}{res}{space 2} .0609768{col 32}{space 2} .0048835{col 43}{space 1}   12.49{col 52}{space 3}0.000{col 60}{space 4} .0510628{col 73}{space 3} .0708909
+{txt}expand_after_white {c |}{col 20}{res}{space 2} .0168576{col 32}{space 2} .0183915{col 43}{space 1}    0.92{col 52}{space 3}0.366{col 60}{space 4}-.0204791{col 73}{space 3} .0541943
+{txt}{space 13}white {c |}{col 20}{res}{space 2}-.0547994{col 32}{space 2} .0169943{col 43}{space 1}   -3.22{col 52}{space 3}0.003{col 60}{space 4}-.0892997{col 73}{space 3}-.0202991
+{txt}{space 15}age {c |}{col 20}{res}{space 2} .0048224{col 32}{space 2} .0006449{col 43}{space 1}    7.48{col 52}{space 3}0.000{col 60}{space 4} .0035133{col 73}{space 3} .0061315
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .3346271{col 32}{space 2} .0388459{col 43}{space 1}    8.61{col 52}{space 3}0.000{col 60}{space 4} .2557657{col 73}{space 3} .4134884
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}.  
+. 
+. 
+. 
+. stop
+{err}command {bf}stop{sf} is unrecognized
+{txt}{search r(199), local:r(199);}
+
+end of do-file
+
+{search r(199), local:r(199);}
+
+{com}. 
