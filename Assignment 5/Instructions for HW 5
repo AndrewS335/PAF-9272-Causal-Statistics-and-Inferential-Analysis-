@@ -1,0 +1,56 @@
+Assignment 5: Treatment Regressions, Omitted Variable Bias, Fixed Effects Models
+Due Saturday 12/9 by e-mail at 11:59 p.m. Prepare the usual files (1 writeup + 2 do and 2 log files). 
+Part 1. Continue the analysis of the OR Health Insurance Experiment (OHIE) that you started in HW4. Same data!
+On HW4 you analyzed the impact of being assigned to the treatment group (invited to enroll in OR Medicaid) rather than the control group (not invited to enroll in OR Medicaid) on health status. Now, do the same type of treatment impact analysis using other interesting outcomes available at 12m follow-up. Specifically, use the following variables as outcomes (in two cases you need to create a dummy (1/0) variable from an existing more complex categorical variable).
+1. Has health insurance (ins_any) 
+2. Has a usual place of care (use usual_care to create this dummy variable first) 
+3. Out-of-pocket medical expenditures (cost_tot_oop)
+4. Smokes daily (use smk_curr to create this dummy first)
+5. Household income as a percent of the poverty line (hhinc_pctfpl)
+6. Had all medical needs met (or had no needs) in past 6 months (needmet_med_cor)
+7. Got all needed prescriptions (or had no needs) in past 6 months (needmet_rx_cor)
+8. Got all needed dental care (or had no needs) in past 6 months (needmet_dent_cor)
+Follow these steps:
+a. Briefly describe the distribution (mean, SD, min and max value) of each of the 8 outcomes asked about above. For each outcome variable state whether the type is continuous (quantitative) or dummy (1/0)!
+b. Analyze the 8 outcomes to get ready to answer the questions in “c” below. Specifically, estimate the “intent to treat” (ITT) effect of the OR HIE at 12 months. The ITT estimate is the treatment effect we’ve been talking and estimating in class and on HW4—the impact of being assigned to the treatment group (invited to enroll in OR Medicaid) rather than the control group (not invited to enroll in OR Medicaid)—and answer the questions below. 
+While we could run t-tests to conduct this type of impact analysis, following the investigators’ recommendation discussed in class we really want to use multiple regression here which allows us to control for differences in the number of individuals signed-up in the household (“i.numhh_list”) as well as easily incorporate survey design information. Specifically, for all outcomes, estimate treatment regressions of the following form that include dummies for household type (created on the fly with the “i.name_of_cat_var” syntax), use the correct sample weights provided in the 12 months survey (variable “weight_12m”) and calculate the most conservative sampling errors/p-values (by clustering the SEs by household ID): “reg … i.numhh_list [aw=weight_12m], cluster(household_id)”. 
+c. Organize the write-up of your analysis around the following questions about the ITT effect. In each case, answer the question and report the estimated size of the treatment effect and whether or not it is statistically significant! 
+i. Does treatment increase health insurance coverage?
+ii. Does it increase the chance that the person has a “usual” place of care?
+iii. Does it decrease the chance of having unmet medical, dental, or prescription drug needs?
+iv. Does it reduce out-of-pocket medical expenditures? 
+v. Does it reduce poverty (i.e., the chance that family income falls below 100% of the federal poverty level)? (Hint: start by generating a dummy for being poor using “hhinc_pctfpl” from above.) 
+vi. Does it reduce smoking?
+
+Part 2. Here, you’ll (mainly) analyze the “effect” of a person’s education on their wages (using a sample of twins!)
+Read in the file called “twins_data_2023.dta.” As the name suggests, these are data on adult twins interviewed in approximately 1992. There are 13 variables. Some have slightly unexpected values because some respondents were interviewed more than once and their responses were averaged across interviews. So “married” might be 0.5 if the respondent was married at the time of one interview and single at another. 
+a. Here is the “Codebook”:
+ln_rwage = the natural logarithm of the hourly wage in 2023 dollars 
+nwage_1992 = the (nominal) hourly wage as reported in the survey in 1992. (I created ln_rwage as follows: gen ln_rwage = ln(nwage_1992*2.1668055), where 2.1668055 is the CPI-U inflation adjustment btw. March 1992 & 2023) 
+
+Use “ln_rwage” as the dependent variable in all regressions! With the natural log of the real wage in 2023 as the dependent variable, regression coefficients multiplied by 100 are interpreted as the (approximate) percentage change (increase/decrease depending on the sign) in the hourly wage per 1-unit increase in the independent variable. For example, in the simple regression of ln_rwage on educ in part c below, Stata reports the coefficient (slope) of education as .1024716, which means, on average, one additional year of schooling increases a person’s hourly wage by 10.25%.   
+
+educ = years of education completed
+female = 1 if female, 0 if male (with a few in-between)
+ped = parents’ educational attainment, the average of mother’s and father’s educational attainment if available
+age 
+age_sq = age squared
+married = 1 if married, 0 if not (with a few in-between)
+white = 1 if white racial identification, 0 otherwise
+uncov = covered by a union collective bargaining agreement (dummy variable)
+tenure = years on the current job (missing for a few cases)
+hhid = “household” (twin-pair) identifier. They were in the same households as children, but probably not as adults.
+myed_bysib = the sibling’s report of the respondent’s education level (for possible use in a later assignment)
+
+b. summarize (describe) the data. What is the unit of observation? What are the mean, SD, min and max values of the variables above? (Answer in one or two full sentences describing each variable!)
+c. Estimate Model 1 by regressing ln_rwage on education and age. Interpret the results (one sentence for each slope coefficient; see comment above for an example of how to interpret the slope of education here). Be careful to use appropriate language (this is observational not experimental data)! Is the relationship between education and wage in the direction that you would expect theoretically (explain briefly)? State the value of R2 and interpret what it means. 
+d. Estimate Model 2 by adding age_sq to the set of independent variables in Model 1. Is the estimated coefficient on the quadratic age term statistically significantly different from 0? Explain what the empirical form of the relationship between log wages and age is. Does Model 2 fit the data better than Model 1? Explain. 
+e. Estimate the same specification as in Model 2 but telling Stata to cluster the Sampling Errors (SEs) by hhid using the “cluster(hhid)” option in the regression command. Call this Model 3! Does the SE clustering make any difference to the coefficients? What about the Sampling Errors (SEs)? Explain why they changed (one or two sentences). Use the cluster (hhid) option for the remainder of the assignment!
+f. Model 4: Add to the regression from part “e” control variables for female, racial identification, marital status, and union status. Is the coefficient (slope) of education visually different from Model 3? Is it statistically significantly different from Model 3? 
+g. A researcher argues that Model 4 is still misspecified because he thinks that the “effect” of education on wages should differ between men and women. Run one more regression, Model 5, to test this hypothesis, using the appropriate interaction term. Is there evidence that the “effect” of education is different between men and women? Explain.   
+h. Another researcher argues that all the estimates of the “effect” of education on wages in the models above are likely biased due to omitted variables! Specifically, she notes that these models fail to control for family background / socioeconomic status. Explain what she means in words and with reference to an appropriate path diagram (“logic model”) illustrating a plausible alternative theory (involving family background as on omitted variable) challenging the main theory that the relationship between education and wage observed in “f” (Model 4) is entirely causal. (Hint: remember that to challenge a causal explanation with an omitted variable alternative theory, you have to plausibly argue how exactly the omitted factor Z influences Y as well as X!)      
+Model 6: Investigate this further by running a “long regression” (Model 6) that adds the parental education control (as a proxy for family background / SES) to Model 4.  Comment on how the coefficient on education changed and whether that direction is consistent with the researcher’s theory in “h” (and your path diagram)! Is this change in the coefficient statistically significant? (Hint: As a rule of thumb, the coefficients differ statistically from each other if one coefficient is outside the 95% CI of the other. If it falls inside the CI then they are not statically significantly different at conventional significance levels!)  
+i. A more sophisticated strategy to reduce (potential) bias from omitted family background/SES characteristics (given appropriate data) is to perform what is called “fixed effects” (FE) regressions (aka “within” models; as discussed in chapter 2 of A&P). In twin data the common (fixed) grouping element is the household/family of origin that the twins share. FE regression uses only the variation (differences) in the data that exists within groups, i.e. in twin data, it identifies “effects” (model coefficients) by only comparing the characteristics of twins to each other (the “between” variation – across individuals from different families of origin – is ignored). By comparing twins to each other only, the FE regression eliminates any Omitted Variable Bias (OVB) due to unobserved variables at the family-of-origin level!
+The Stata command to estimate this type of regression model is:  areg ln_rwage educ married, absorb(hhid). (You can include other controls but since they don’t vary much across siblings if at all, their contribution is not identified well. Try it for yourself and see!)
+Perform this family (household) FE regression and refer to it as Model 7. Is the coefficient on education in Model 7 visibly and statistically different from Model 4 (part “f”)? Is how the coefficient changed consistent with the researcher’s theory (and your path diagram) discussed in “h”? What do you conclude about potential omitted variable bias (OVB) affecting the estimated effects of education on wages in Models 1 through 4 (comment on if there is evidence of OVB and if so how much and in what direction!)? 
+
