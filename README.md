@@ -116,9 +116,14 @@ Launching a career or transitioning into a new one is a journey—and the Marxe 
 SCHEDULE (subject to revisions)
 The Baruch Academic Calendar is available at: https://www.baruch.cuny.edu/registrar/registration/academic-calendar.html
  
-|Class | Date| 	Topics|	Readings/Assignments/In-class Practise |
-|------|-----|--------|----------------------------------------|
-|1|	8/28|	Introductions Course Overview Stata (installation & introduction) Review of Analyzing Distributions using Numbers & Graphs (familiar from 9270 but using Stata) -Min, Max, Mean, Median and Standard Deviation	|RVR Chapters 1 & 8Univariate descriptive analysis in Stata|
+|Class | Date| 	                  Topics                                         | Readings/Assignments/In-class Practise |
+|------|-----|-------------------------------------------------------------------|----------------------------------------|
+|  1   | 8/28| Introductions Course Overview Stata (installation & introduction) 
+	       Review of Analyzing Distributions using Numbers & Graphs (familiar from 9270 but using Stata) 
+	       -Min, Max, Mean, Median and Standard Deviation	|RVR Chapters 1 & 8Univariate descriptive analysis in Stata|
+
+
+
 2	9/11	Continuation of Analyzing Distributions using Numbers & Graphs using Stata
 -correlation analysis (scatterplot & r)
 -cross-tabs (marginal & conditional distributions) 	RVR Chapter 8
