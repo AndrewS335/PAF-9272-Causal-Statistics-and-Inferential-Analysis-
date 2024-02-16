@@ -1,0 +1,167 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/andrew/Desktop/PAF 9272/HW 3/HW 3 Part 1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 8 Nov 2023, 20:47:32
+{txt}
+{com}. use "/Users/andrew/Downloads/PWT_data(1) (2).dta"
+{txt}
+{com}. 
+. * Command for Question 2 
+. describe
+
+{txt}Contains data from {res}/Users/andrew/Downloads/PWT_data(1) (2).dta
+{txt} Observations:{res}        10,624                  
+{txt}    Variables:{res}            53                  18 Sep 2023 17:45
+{txt}{hline}
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+{hline}
+{p 0 48}{res}{bind:countrycode    }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}3-letter ISO country code{p_end}
+{p 0 48}{bind:country        }{txt}{bind: str34   }{bind:{txt}%34s      }{space 1}{bind:         }{bind:  }{res}{res}Country name{p_end}
+{p 0 48}{bind:currency_unit  }{txt}{bind: str29   }{bind:{txt}%29s      }{space 1}{bind:         }{bind:  }{res}{res}Currency unit{p_end}
+{p 0 48}{bind:year           }{txt}{bind: int     }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}Year{p_end}
+{p 0 48}{bind:rgdpe          }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Expenditure-side real GDP at chained PPPs (in mil. 2017US$){p_end}
+{p 0 48}{bind:rgdpo          }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Output-side real GDP at chained PPPs (in mil. 2017US$){p_end}
+{p 0 48}{bind:pop            }{txt}{bind: double  }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}Population (in millions){p_end}
+{p 0 48}{bind:emp            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Number of persons engaged (in millions){p_end}
+{p 0 48}{bind:avh            }{txt}{bind: double  }{bind:{txt}%10.0gc   }{space 1}{bind:         }{bind:  }{res}{res}Average annual hours worked by persons engaged (source: The Conference Board){p_end}
+{p 0 48}{bind:hc             }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{stata "notes list hc":*} {res}Human capital index, see note hc{p_end}
+{p 0 48}{bind:ccon           }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Real consumption of households and government, at current PPPs (in mil. 2017US$){p_end}
+{p 0 48}{bind:cda            }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{stata "notes list cda":*} {res}Real domestic absorption, see note cda{p_end}
+{p 0 48}{bind:cgdpe          }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Expenditure-side real GDP at current PPPs (in mil. 2017US$){p_end}
+{p 0 48}{bind:cgdpo          }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Output-side real GDP at current PPPs (in mil. 2017US$){p_end}
+{p 0 48}{bind:cn             }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Capital stock at current PPPs (in mil. 2017US$){p_end}
+{p 0 48}{bind:ck             }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Capital services levels at current PPPs (USA=1){p_end}
+{p 0 48}{bind:ctfp           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}TFP level at current PPPs (USA=1){p_end}
+{p 0 48}{bind:cwtfp          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Welfare-relevant TFP levels at current PPPs (USA=1){p_end}
+{p 0 48}{bind:rgdpna         }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Real GDP at constant 2017 national prices (in mil. 2017US$){p_end}
+{p 0 48}{bind:rconna         }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Real consumption at constant 2017 national prices (in mil. 2017US$){p_end}
+{p 0 48}{bind:rdana          }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Real domestic absorption at constant 2017 national prices (in mil. 2017US$){p_end}
+{p 0 48}{bind:rnna           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Capital stock at constant 2017 national prices (in mil. 2017US$){p_end}
+{p 0 48}{bind:rkna           }{txt}{bind: float   }{bind:{txt}%14.3g    }{space 1}{bind:         }{bind:  }{res}{res}Capital services at constant 2017 national prices (2017=1){p_end}
+{p 0 48}{bind:rtfpna         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}TFP at constant national prices (2017=1){p_end}
+{p 0 48}{bind:rwtfpna        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Welfare-relevant TFP at constant national prices (2017=1){p_end}
+{p 0 48}{bind:labsh          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Share of labour compensation in GDP at current national prices{p_end}
+{p 0 48}{bind:irr            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Real internal rate of return{p_end}
+{p 0 48}{bind:delta          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Average depreciation rate of the capital stock{p_end}
+{p 0 48}{bind:xr             }{txt}{bind: double  }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}Exchange rate, national currency/USD (market+estimated){p_end}
+{p 0 48}{bind:pl_con         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of CCON (PPP/XR), price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:pl_da          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of CDA (PPP/XR), price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:pl_gdpo        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of CGDPo (PPP/XR),  price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:i_cig          }{txt}{bind: byte    }{bind:{txt}%45.0g    }{space 1}{txt}i_cig_label{p_end}
+{p 0 48}{space 44}{stata "notes list i_cig":*} {res}0/1/2/3/4, see note i_cig{p_end}
+{p 0 48}{bind:i_xm           }{txt}{bind: byte    }{bind:{txt}%12.0g    }{space 1}{txt}i_xm_label{p_end}
+{p 0 48}{space 44}{stata "notes list i_xm":*} {res}0/1/2, see note i_xm{p_end}
+{p 0 48}{bind:i_xr           }{txt}{bind: byte    }{bind:{txt}%12.0g    }{space 1}{txt}i_xr_label{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}0/1: the exchange rate is market-based (0) or estimated (1){p_end}
+{p 0 48}{bind:i_outlier      }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{txt}i_outlier_label{p_end}
+{p 0 48}{space 44}{stata "notes list i_outlier":*} {res}0/1, see note i_outlier{p_end}
+{p 0 48}{bind:i_irr          }{txt}{bind: byte    }{bind:{txt}%17.0g    }{space 1}{txt}i_irr_label{p_end}
+{p 0 48}{space 44}{stata "notes list i_irr":*} {res}0/1/2/3, see note i_irr{p_end}
+{p 0 48}{bind:cor_exp        }{txt}{bind: double  }{bind:{txt}%10.0g    }{space 1}{bind:         }{stata "notes list cor_exp":*} {res}Correlation between expenditure shares, see note cor_exp{p_end}
+{p 0 48}{bind:statcap        }{txt}{bind: double  }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}Statistical capacity indicator (source: World Bank, developing countries only){p_end}
+{p 0 48}{bind:csh_c          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Share of household consumption at current PPPs{p_end}
+{p 0 48}{bind:csh_i          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Share of gross capital formation at current PPPs{p_end}
+{p 0 48}{bind:csh_g          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Share of government consumption at current PPPs{p_end}
+{p 0 48}{bind:csh_x          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Share of merchandise exports at current PPPs{p_end}
+{p 0 48}{bind:csh_m          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Share of merchandise imports at current PPPs{p_end}
+{p 0 48}{bind:csh_r          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Share of residual trade and GDP statistical discrepancy at current PPPs{p_end}
+{p 0 48}{bind:pl_c           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of household consumption,  price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:pl_i           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of capital formation, price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:pl_g           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of government consumption, price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:pl_x           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of exports, price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:pl_m           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of imports, price level of USA GDPo in 2017=1{p_end}
+{p 0 48}{bind:pl_n           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of the capital stock, price level of USA 2017=1{p_end}
+{p 0 48}{bind:pl_k           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Price level of the capital services, price level of USA=1{p_end}
+{p 0 48}{bind:rgdp_pc        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+                                            {txt}* indicated variables have notes
+{hline}
+Sorted by: {res}countrycode  year
+{txt}
+{com}. 
+. * Command for 4A - i
+. twoway (scatter rgdp_pc year if countrycode=="USA") (lfit rgdp_pc year if countrycode=="USA") 
+{res}{txt}
+{com}. 
+. *Comamnd for 4A - iii
+. pwcorr rgdp_pc year if countrycode=="USA", sig
+
+             {txt}{c |}  rgdp_pc     year
+{hline 13}{c +}{hline 18}
+     rgdp_pc {c |} {res}  1.0000 
+             {txt}{c |}
+             {c |}
+        year {c |} {res}  0.9915   1.0000 
+             {txt}{c |}{res}   0.0000
+             {txt}{c |}
+
+{com}. 
+. * Command for 4A - v
+. reg rgdp_pc year if countrycode=="USA" 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        70
+{txt}{hline 13}{c +}{hline 34}   F(1, 68)        = {res}  3934.42
+{txt}       Model {c |} {res} 1.4304e+10         1  1.4304e+10   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  247226341        68  3635681.49   {txt}R-squared       ={res}    0.9830
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9828
+{txt}       Total {c |} {res} 1.4552e+10        69   210891586   {txt}Root MSE        =   {res} 1906.7
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     rgdp_pc{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}year {c |}{col 14}{res}{space 2} 707.4913{col 26}{space 2} 11.27926{col 37}{space 1}   62.72{col 46}{space 3}0.000{col 54}{space 4} 684.9838{col 67}{space 3} 729.9987
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} -1367499{col 26}{space 2} 22384.86{col 37}{space 1}  -61.09{col 46}{space 3}0.000{col 54}{space 4} -1412167{col 67}{space 3} -1322831
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * Command for 4A - ix 
+.  display(707.4913*2030)
+{res}1436207.3
+{txt}
+{com}. 
+. * Command for 4A - ix
+.  display(1436207.3-1367499)
+{res}68708.3
+{txt}
+{com}. 
+. 
+. * Command for 4B - i
+. twoway (scatter rgdp_pc year if countrycode=="ITA") (lfit rgdp_pc year if countrycode=="ITA")
+{res}{txt}
+{com}. 
+. * Command for 4B - iii
+. pwcorr rgdp_pc year if countrycode=="ITA", sig
+
+             {txt}{c |}  rgdp_pc     year
+{hline 13}{c +}{hline 18}
+     rgdp_pc {c |} {res}  1.0000 
+             {txt}{c |}
+             {c |}
+        year {c |} {res}  0.9899   1.0000 
+             {txt}{c |}{res}   0.0000
+             {txt}{c |}
+
+{com}. 
+. * Command for 4B - v
+. reg rgdp_pc year if countrycode=="ITA" 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        70
+{txt}{hline 13}{c +}{hline 34}   F(1, 68)        = {res}  3305.71
+{txt}       Model {c |} {res} 1.0440e+10         1  1.0440e+10   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  214765350        68  3158313.97   {txt}R-squared       ={res}    0.9798
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9795
+{txt}       Total {c |} {res} 1.0655e+10        69   154423506   {txt}Root MSE        =   {res} 1777.2
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     rgdp_pc{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}year {c |}{col 14}{res}{space 2} 604.4323{col 26}{space 2} 10.51273{col 37}{space 1}   57.50{col 46}{space 3}0.000{col 54}{space 4} 583.4544{col 67}{space 3} 625.4101
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} -1176269{col 26}{space 2}  20863.6{col 37}{space 1}  -56.38{col 46}{space 3}0.000{col 54}{space 4} -1217902{col 67}{space 3} -1134637
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. 
