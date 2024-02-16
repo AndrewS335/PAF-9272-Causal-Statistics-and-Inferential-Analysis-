@@ -1,0 +1,106 @@
+Andrew Singh
+Assignment 6
+Due date: 12/15, 11:59PM. As usual, email a write-up, log and do file.
+Data: Use the cps_2011to2016.dta and Excel State Medicaid Eligibility Policy files from the Homework 6 folder. 
+Overview: This assignment asks you to repeat the D-D analysis of the impact of Medicaid Expansion on having health insurance from class 14. The outcome variable is whether or not the person has health insurance (“insured” based on “gen insured=(verify==0 | verify==2)”). 
+1. Setting up the analysis. Using very similar steps as in class (use the do file from Class 14 which already does all of this), do the following: 
+a. Import the policy data set into Stata. Create an appropriate dummy “expand” or “expand_state” that is 1 for states that were at zero eligibility before 2014 and 138% or higher in 2014 and after; 0 for states that were at 0 eligibility throughout the period; and “missing” for all other states. As in class, sort the data by state and year before saving as “policy.dta”.
+b. Open the Stata data file “cps_2011to2016.dta”. Note that the year variable in this file has already been adjusted to match the policy file and only years ‘11-16 are kept. Merge the policy data onto the CPS data. The D-D will compare how outcomes changed before vs. after the ACA Medicaid eligibility expansions, in expansion vs. nonexpansion states.
+c. Select the analysis sample to focus on the low-income population aged 26 to 64. Specifically, keep only individuals aged 26-64 with income less than 150% of the federal poverty line. Comment briefly on why it makes sense to focus on this age group and low income individuals.
+In the dataset, those who are ages 26-64 years old are eligible for the expansion of health insurance. Individuals who are less than the age of 26 years old are eligible to be kept on their parent’s insurance plan still, if they are unemployed they can apply for Medicaid. While those who are greater than 64 years old and are retired qualify for applying for Medicare and cannot apply for Medicaid. Individuals not considering ‘low-income’ will not qualify for Medicaid and are not representative in this survey sample. 
+
+d. Create the following variables: whether or not the person has (verified) health insurance (“insured” variable created in the do file from Class 14 based on “gen insured=(verify==0 | verify==2)”), dummies for female (based on “sex”) and  white (based on “race” and category “white alone”); a variable for age squared (based on “age”). Save the data. 
+
+2. Simple D-D analysis using state-year averaged data.
+a. Describe health insurance status nationally for this low-income 26- to 64-year-old population over this period. Does this age-group appear to have gained coverage over this period? (hint: tabulate year insured; use a chi-square test and interpret the results.) Then, analyze statistically whether these gains differed between expansion and non-expansion states. Save the data before continuing: “cps_with_policy.dta, replace”.
+Describe health insurance status nationally for this low-income 26- to 64-year-old population over this period.
+ 
+In the cai-squared test, we want to look at the conditional distribution of individuals who are 26-64 years old who are eligible for the expansion and their health insurance status. Within the survey years, the total number of insured individuals that are categorized as “1” in the conditional distribution have increased, while those who are not insured are categorized as “0” in the conditional distribution have decreased, between the years of 2011 through 2016. 
+
+
+
+
+
+
+
+
+
+
+
+Then, analyze statistically whether these gains differed between expansion and non-expansion states. Save the data before continuing: “cps_with_policy.dta, replace”.
+ 
+
+Conclusion: Since our p-value is less than 0.001 (0.01%) which is less than our (5%=a), we reject the null hypothesis, Ho, that there is no relationship or difference in the insurance gains between expansion and non-expansion states. There is evidence to support the alternative hypothesis, Ha, there is a relationship or difference in the insurance gains between expansion and non-expansion states. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Does this age-group appear to have gained coverage over this period? (hint: tabulate year insured; use a chi-square test and interpret the results.)
+
+ 
+Conclusion: Since our p-value is less than 0.001 (0.01%) which is less than our (5%=a), we reject the null hypothesis, Ho, that there is no relationship or difference between the proportion of age insured between expansion vs. non-expansion states. There is evidence to support the alternative hypothesis, Ha, there is a difference in the number of age insured between expansion vs. non-expansion states.
+
+b. As in class, “collapse” the data to averages by state and year using the command “collapse” and using the “asecwt” variable as analytic sample weight applied during aggregation. 
+c. Fill in two 2 x 2 tables of estimated means (“Method 1”) as shown below for the outcome (“insured”). Calculate the D-D estimate by hand and interpret it.								
+State Group	Period	Difference
+	Before	After	After – Before
+
+Expansion States	.6408 (64.08)	.8134 (81.34%)	81.34-64.08=17.26%
+
+Non-expansion States	.5861 (58.61%)	.6994 (69.94%)	69.94-58.61=11.33%
+
+Difference 
+Expansion –
+Non-expansion	64.08-58.61=5.47%	81.34-69.94=11.40%	D-D Estimate: 5.93%
+
+
+
+d. As in class, run the aggregate regression using the state-year-averaged data corresponding to this table (“Method 2” using aggregated data). Comment on the evidence for a causal impact of Medicaid expansion on having health insurance.
+
+Baseline Model
+
+ 
+After completing the difference in difference estimates, we can conclude the evidence for causal impact the proportion insured increased by approximately 5.93% under Obama’s Medicaid Expansion policy. 
+
+3. D-D estimates from Method 2 using individual data.
+Clear the data and read in the cps_with_policy.dta data set saved earlier (part 2b).
+a. Use the individual-level data (i.e., not collapsed) to estimate the same type of D-D regression you ran in part 2. 
+First, use no additional covariates in the models. 
+ 
+In this regression and all regressions below, use the sampling weights in the regression (“[aw=asecwt]”) and use the most conservative Sampling Errors (SEs) by clustering at the state-level (option “cluster(statefip)”). 
+
+Model A – with weights and clustering 
+ 
+Report the estimated D-D effect and its SE. Interpret the result in terms of both statistical and practical significance of the impact of the policy! 
+The difference in difference effect of individual level data is estimated to be .064 (6.4%), which suggests that the Obamacare Medicaid expansion policy increases proportion insured by 6.4%. It is statistically significant different from 0 because the p-value is less than 0.001 (0.1%). The standard error for expand_after in this model is 0.0179372. 
+The practical significance of this policy is marginally making a difference in the number of individuals insured after the passing of the ObamaCare Medicaid expansion. 
+
+b. Consider the estimated D-D effect in 3a the baseline result. Analyze how sensitive (or how robust) this estimate by analyzing and commenting on whether the estimated D-D effect is statistically different from part 3a when you include controls for female, age, and white in the model.
+Model B – Controls for female, age, and white in the model
+ 
+The robustness of this model with the additional variables female, white, and age – is significant given the r-squared coefficient of this new model increased to 0.0567 from the previous model’s r-squared coefficient of 0.0374. The confidence intervals for expand_after seen in this model controlling for female, age, and white is between .0278558 and .1014341. The confidence intervals for expand_after in the prior model in the baseline result is between .0514835 and 0.0761554. Since both confidence intervals overlap, there is no statistical difference in the estimated D-D effect between both models, when you include controls for female, age, and white in the new model. Controlling for all the variables in the model did not have no significant impact on the policy outcomes. 
+c. Include the appropriate interaction term in the model from 3b to test whether or not the DD effect differs between women and men. Comment on your findings. 
+
+Model C – Effects on women and men
+ 
+It is not statistically different from 0 when you look at the expand_after_female term which has a p-value of 0.257 (25.7%). Since the coefficient on the interaction term expand_after_female is not statistically significant of with a p-value of 0.257 (25.7%) which is greater than (5%=a), we fail to reject the null hypothesis that the D-D effect does not differ between men and women in terms of proportion insured under the Obama Medicaid expansion. We do not have strong evidence to support the alternative hypothesis, Ha, that the D-D effect differs between men and women in terms of proportion insured under the Obama Medicaid expansion.
+
+d. Include the appropriate interaction term in the model from 3b to test whether or not the DD effect differs between whites and non-whites. Comment on your findings.
+
+Model D – Effects on Whites and Non-Whites
+ 
+It is not statistically different from 0 when you look at the expand_after_white term which has a p-value of 0.366 (36.6%). Since the coefficient on the interaction term expand_after_white is not statistically significant with a p-value of 0.366 (36.6%) which is greater than (5% = a), we fail to reject the null hypothesis that the D-D effect does not differ between whites and non-whites in terms of proportion insured under the Obama Medicaid expansion. We do not have strong evidence to support the alternative hypothesis, Ha, that there is a D-D effect differs between whites and non-whites in terms of proportion insured under the Obama Medicaid expansion.
+
+
+
