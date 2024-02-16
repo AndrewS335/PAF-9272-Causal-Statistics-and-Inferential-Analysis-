@@ -1,0 +1,247 @@
+PAF9272
+Fall 2023, Prof. Heiland
+Assignment 4. Oregon Health Insurance Experiment (OHIE) data.
+Due: 11:59PM, Wednesday November 22. Email 3 files (see below) to: frank.heiland@baruch.cuny.edu
+
+I. Background. Please read section 1.2 in Mastering Metrics, review the lecture notes, and visit the NBER web page on the Oregon HIE for background on the experiment and the type of research you are partly replicating here! You are working with original OR HIE data. I created an extract combining variables from the baseline survey (when the random assignment took place) and the 12-month follow-up survey by mail (“12m survey” or “12m”). The dta is called “survey12m_X1.dta” (will be used in class as well) and includes the following:
+A. Three variables from the baseline survey: 
+1. “treatment”. This variable = 1 if randomly selected for the treatment group (i.e. person was drawn in lottery to apply to get free high-quality health insurance through enrollment in Oregon Medicaid program), 0 if control group (i.e. person did not win the lottery held at baseline = not selected for treatment = not invited to enroll in OR Medicaid); this is the key variable for impact assessment!
+2. “household_id”. Household identifier (some households have multiple people who are in the study!)
+3. “numhh_list”. Number of persons signed up per household – the investigators note that this variable should be controlled for in analyses of treatment effects (here, you’ll only use it if you do the Extra credit part).  
+(I also included the personal identifier – a unique individual ID that is used to link records across data sets in the study. This variable appears on every file.)
+B. About 35 variables from the 12-month follow-up survey (variable names include: “12m”).
+These variables cover characteristics related to person’s demographics (gender, race, year of birth), their health and healthcare, their financial situation, and their health-insurance situation.  I have not renamed them, so you can (and should) look up their definitions in the codebook for the 12-month follow-up survey (posted on blackboard in the folder “Documentation for OR HIE data”). The only variables not defined in the 12-month survey codebook are the three from the baseline survey listed above!
+II. Directions:  Please hand in three files for this assignment
+1. A Stata do file that includes all the Stata commands for all the calculations/analyses for this assignment. Please try not to include extraneous analyses.  It is fine for you to do exploratory analyses, but I don’t need to see them. I should be able to run your do file with the data extract I created and produce all your results! 
+2. A log or “smcl” file that your do file creates that shows the results and the execution of the do file. 
+3. A Word or PDF of the write-up of your assignment and key elements of the Stata output! When appropriate, you can cut-and-paste output from the smcl file into your word file for your write up. Please use your name in your file names. For example, “Jane” would send ….JaneHW4.do., JaneHW4log.smcl, and  JaneHW4.doc.
+
+III. Directions for Analysis (please read carefully in its entirety before you begin)
+A. Open the 12m survey extract data file. Examine the data carefully and include key Stata output in your word file to answer the following Qs:
+i. How many people in counts and % were originally assigned to the treatment vs. the control group?
+The total amount of people assigned to the treatment group was 29, 834 (39.82%) while the total count of people assigned/selected to the control group is 45, 088 (60.18%). 
+ 
+
+ii. How many people overall and within each of the two key groups of the experiment (treatment vs. control) were sent the 12-month follow-up survey?
+The overall number of people that were sent the 12-month follow-up survey were 58,405 people. 
+Of the 58,405 people sent the 12-month follow-up survey, a total of 28,816 people were sent the survey in the control group. 
+Of the 58,405 people sent the 12-month follow-up survey, a total of 29,589 people were sent the survey in the treatment group. 
+
+ 
+ 
+
+iii. What was the response rate to the 12m follow-up survey, both overall and within each treatment/control group?  Do the response rates differ statistically between treatment and control group (to answer this conduct the appropriate hypothesis test)? 
+The response rate to the survey overall is 23,777 people responding. 
+Of the 29,589 people in the treatment group to receive the 12 month follow-up survey, only 11,811 people responded. 
+Of the 28,816 people in the control group to receive the 12 month follow-up survey, only 11,966 people responded. 
+
+Step 1: State Ho and Ha Hypothesis Tests
+Ho: The response rates do not differ between the treatment and control group. 
+Ha: The response rates does differs between the treatment and control group. 
+
+Step 2: P-Value
+P-Value = 0.001 (0.1%) 
+
+Step 3: Conclusion
+Since the p-value is <0.001 (0.1%) < 0.05 (5%=), we reject the claim, Ho – null hypothesis, that response rates of the 12 month follow-up do not differ between the treatment and control group. We have strong evidence that supports, Ha - alternative hypothesis, that there is a difference in the response rates of the 12 month follow-up survey does differ between the treatment and control group.
+
+ 
+
+B. Replication of A&P, Table 1.6
+i. Does self-reported health status in the 12m survey differ between the treatment and control group? Perform the appropriate cross-tabulation and chi-square test. (Hint: use “health_gen_12m”) (For now, ignore sampling weights and the fact that some households include multiple respondents.)
+Step 1: State Ho and Ha statements
+Ho: There is no difference in self-reported health status in the 12m survey between the treatment and control group.
+Ha: There is a difference in self-reported health status in the 12m survey between the treatment and control group. 
+
+Step 2: State P-Value
+P= 0.001 (.1%)
+
+Step 3: Conclude
+Since the p-value is 0.001 (0.1%) that is much smaller than 0.05 (5%=), we reject the claim, Ho – null hypothesis, that there is no difference in self-reported health status in the 12m survey between the treatment and control group. We have strong evidence that supports, Ha – alternative hypothesis, that there is a difference in self-reported health status in the 12m survey between the treatment and control group.
+ 
+
+ii. Generate a dummy variable for being in good, very good, or excellent health at the time of the follow-up survey (name it “good_health_12m” or something similar): i.e., a dummy variable for reported health that is NOT fair or poor! Warning: watch out for how Stata treats missing data when you use “generate” and make sure “good health” has missing values correctly coded as “.” (i.e., NOT accidentally coded as a 1 or a 0)! (Hint: consider using “replace good_health = . if...") 
+
+ 
+
+
+ 
+
+iii. Does the proportion in self-reported good health differ between the treatment and control group? By how much? Is this difference statistically significant (report the p-value or an appropriate upper bound)? Is it practically meaningful? Do you come reasonably close to replicating the first row of Table 1.6?  
+
+Step 1: State Ho and Ha hypothesis tests
+Ho: The proportion in self-reported good health is the same/equal between the treatment and control group. 
+Ha: The proportion in self-reported good health is different/non-equal between the treatment and control group. 
+
+Step 2: P-Value
+P-Value = 0.0001 (0.01%)
+
+Step 3: Conclude 
+Since the p-value is 0.0001 (0.01%) that is much less than 0.05 (5%= “”), we can strongly reject the null hypothesis, Ho, that the proportion in self-reported good health is the same/equal between the treatment and control group. We have strong evidence here to support the alternative hypothesis, Ha, that the proportion in self-reported good health is different/non-equal between the treatment and control group. 
+
+ 
+
+
+For Extra Credit. You can get closer to their result by regressing good health (dependent variable) on treatment (independent variable) and household type dummies (controls), using the 12m survey weight as an analytical weight (“[aw=weight_12m]”), and using standard errors adjusted for “clustering” within households (“cluster(household_id)” option in regress command). The command is “reg good_health treatment i.numhh_list  [aw=weight_12m], cluster(household_id)”. Report the estimated treatment effect and its sampling error (SE). Comment on how this estimate (and its SE) compares to Table 1.6!
+
+iv. Regress your “good health” dummy variable (dependent variable) on treatment (independent variable). Report the estimated regression equation. 
+Y=ax+b
+Y = Good health 
+X = treatment 
+Constant (Y-intercept) = .5427187 
+Slope = .0539806
+
+Regression equation: Good Health (Y) = .0539806 * Treatment (X) + .5427187 (Constant)
+
+v. Interpret the slope and the constant term. (Hint: since the dependent variable is a dummy variable, the estimated slope coefficient of the treatment variable MULTIPLIED BY 100 represents how much the probability of being in good health is different in the treatment group compared to the control group, on average. For example, if you were to find an estimated slope equal to 0.02, this number would mean that the probability of being in good health is 2 percentage points higher in the treatment group than in the control group! To correctly interpret the constant term apply a similar logic of converting “a” to percent.) Are they statistically significantly different from 0 (report the p-values or appropriate upper bounds and draw the correct conclusions)? 
+Slope = .0539806 
+On average, the probability of being in good health is 5.39 percentage points higher in the treatment group than in the control group.
+
+Constant = .5427187 = 54.27187%
+Here, we predict that is being in good health is 54% when the treatment group is 1 (X=treatment=1). In this simple regression model, we receive a non-sensical intercept value (estimate). 
+
+ 
+
+Step 1: State the Ho and Ha Hypothesis Tests
+Ho: There is no impact on treatment on health. 
+Ha: There is an impact on treatment on health. 
+
+Step 2: P-value
+P-Value = 0.001 (0.01%)
+
+Step 3: 
+Since the p-value <0.001 (0.01%) < 0.05 (5%=), we can strongly reject the claim, Ho – null hypothesis, there is no impact treatment on health. The evidence supports the alternative hypothesis, Ha, there is an impact on treatment on health. 
+
+vi. Report the value of R-squared and interpret it. 
+R-Squared: 0.0030 = .3%
+Our regression explains .3% of the variation in good health due to variation in the treatment variable, while 99.7% remains unexplained. 
+
+vii. What is the predicted proportion in good health among those treated (this is just a simple prediction using your estimated regression equation above)? 
+Regression equation: Good Health (Y) = .0539806 * Treatment (X) + .5427187 (Constant)
+Good Health (Y) = .0539806 * 1 + .5427187
+= .5966993
+
+The predicted proportion in good health among those treated is 59.66%. 
+
+viii. Why is it appropriate to use causal language in the interpretation of the estimated slope in parts iv/v above? 
+It is appropriate to use causal language in the interpretation of the estimated slope because we know that the underlying data used in the Oregon health insurance experiment was experimental data, which allows us to solely focus on the treatment effect due to the covariate balance among the other variables in the model. If we were to use observational data in the interpretation of the estimated slope, we could not solely focus on the treatment effect as the treatment groups would differ vastly in their characteristics, resulting in an unfair comparison. This is attributed to a lack of covariate balance among the variables in the model.
+
+ix. Assuming the relationship is causal, draw a very simple logic model graphing the causal relationship between “Having/not having Health Insurance” and “Being/not being in Good Health”. 
+
+
+
+
+  
+B. Check for “Covariate Balance” (include key Stata test output in each case!) 
+To check whether treatment status is randomly assigned, carefully test whether variables that cannot plausibly respond to the treatment differ between the treatment and control group. Specifically:
+
+i. Use an appropriate Hypothesis Test to investigate whether gender is balanced between treatment and control groups. 
+
+Step 1: Ho and Ha Hypothesis Tests
+Ho: The covariate ‘gender’ is balanced between the treatment and control group. 
+Ha: The covariate ‘gender’ is not balanced between the treatment and control group. 
+
+ 
+
+Step 2: P-Value 
+P-Value = 0.021 (2.1%)
+
+Step 3: Conclusion
+Since our p-value is 0.021 (2.1%) which is less than 0.05 (5%=a), we can reject the null hypothesis - Ho, that gender is balanced between the treatment and control group. We have evidence to accept the, alternative hypothesis – Ha, that gender is not balanced between the treatment and control group. 
+
+
+ii. Use an appropriate Hypothesis Test to investigate whether birth year (which proxies for their age) is balanced between treatment and control groups. 
+
+Step 1: Ho and Ha Hypothesis Tests
+Ho: The covariate ‘birth year’ is balanced between the treatment and control group. 
+Ha: The covariate ‘birth year’ is not balanced between the treatment and control group. 
+ 
+
+Step 2: P-Value 
+P-Value = 0.8419 (84.19%) 
+
+Step 3: Since our p-value is 0.8419 (84.19%) < 0.05 (5%=a), then we cannot reject the null hypothesis - Ho, that birth year is balanced between the treatment and control group. We reject the alternative hypothesis – Ha, there is no evidence in support that birth year is not balanced between the treatment and control group. 
+
+
+iii. Use appropriate Hypothesis Tests to investigate whether race/ethnicity is balanced between treatment and control groups. (Hint: conduct four separate tests, one each for race/ethnicity being Hispanic, Black, Asian, and white.)  
+
+Hispanic
+Step 1: Ho and Ha Hypothesis Tests
+Ho: The covariate ‘Hispanic’ is balanced between the treatment and control group.
+Ha: The covariate ‘Hispanic’ is not balanced between the treatment and control group.
+
+ 
+
+Step 2: P-Value
+P-Value = 0.1704 (17.04%)
+
+Step 3: Conclusion
+Since our p-value is 0.1704 (17.04%) < 0.05 (5%=a), then we cannot reject the null hypothesis - Ho, that the race/ethnicity ‘Hispanic’ is balanced between the treatment and control group. We reject the alternative hypothesis – Ha, there is no evidence in support that the race/ethnicity ‘Hispanic’ is not balanced between the treatment and control group. 
+
+
+
+
+
+
+
+
+
+
+Black:
+
+Step 1: Ho and Ha Hypothesis Tests
+Ho: The covariate ‘Black’ is balanced between the treatment and control group.
+Ha: The covariate ‘Black’ is not balanced between the treatment and control group.
+ 
+
+Step 2: P-Value
+P-Value: 0.0442 (4.42%)
+
+Step 3: Conclusion
+Since our p-value is 0.0442 (4.42%) < 0.05 (5%=a), then we can reject the null hypothesis - Ho, that the race/ethnicity ‘White’ is balanced between the treatment and control group. There is evidence in support of the alternative hypothesis – Ha, that the race/ethnicity ‘Black’ is not balanced between the treatment and control group. 
+
+
+
+
+
+Asian
+
+Step 1: Ho and Ha Hypothesis Tests
+Ho: The covariate ‘Asian’ is balanced between the treatment and control group.
+Ha: The covariate ‘Asian’ is not balanced between the treatment and control group.
+
+ 
+
+Step 2:P-Value
+P-Value = 0.2480 (24.80%)
+
+Step 3: Conclusion
+Since our p-value is 0.2480 (24.80%) < 0.05 (5%=a), then we cannot reject the null hypothesis - Ho, that the race/ethnicity ‘Asian’ is balanced between the treatment and control group. There is not enough evidence in support of the alternative hypothesis – Ha, race/ethnicity ‘Asian’ is not balanced between the treatment and control group. 
+
+
+
+
+
+
+White
+Step 1: Ho and Ha Hypothesis Tests
+Ho: The covariate ‘White’ is balanced between the treatment and control group.
+Ha: The covariate ‘White’ is not balanced between the treatment and control group.
+
+ 
+
+Step 2: P-Value
+P-Value: 0.1087 (10.87%)
+
+Step 3: Conclusion
+Because the p-value is greater than 0.1087 (10.87%) < 0.05 (5%=a), then we cannot reject the null hypothesis - Ho, that the race/ethnicity ‘White’ is balanced between the treatment and control group. We reject the alternative hypothesis – Ha, as there is not enough evidence that race/ethnicity ‘White’ is not balanced between the treatment and control group.
+
+
+
+
+
+
+iv. Notice that the variables you analyzed in part C just above were collected in the 12-month follow-up survey. Why might there be covariate imbalance at 12 months even if, at baseline (e.g., slide 13 in week 10 lecture notes), random assignment worked perfectly and even if sampling for the 12m survey was random within the treatment and control groups?  (All treatment group subjects and a random subsample of control group subjects present participating at baseline were targeted for the 12-month survey.) 
+
+There might be covariate imbalance at 12 months even if, at baseline, random assignment worked perfectly and even if sampling for the 12m survey was random within the treatment and control groups because there could always be a flaw in the research design in which some of the variables did not contain covariate balance or was overlooked by the researcher indicating a chance of human error. Another reason may be due to the increased/heightened likelihood that certain variables in the model could change within a 12-month period of the survey such as number of people in the household, employment status, sample size, or household income as part of the federal poverty limit. This may be due to various reasons which are more likely to change over time due to unforeseen circumstances such as having a new born added in the household (related to number of people in the household), someone losing their job between 2008 through 2009 (related to employment status), individuals who were in the experiment initially may have moved outside Oregon to a different state in which they do not qualify for the free insurance anymore (related to study sample size of the treatment and control group), or someone’s household income increases above the federal poverty limit (related to household income as part of the federal poverty limit). The variables that are theoretically not likely to change throughout the experiment would be the year in which someone was born, their race/ethnicity, and their gender, which are all determined at birth. 
+	
