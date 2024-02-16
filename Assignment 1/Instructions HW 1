@@ -1,0 +1,43 @@
+PAF9272, Fall 2023: Homework 1 
+Topic: Descriptive Statistic Analysis using Stata
+Due date: 11PM Tuesday, 9/26/2023 (email to frank.heiland@baruch.cuny.edu)
+Instructions: Submit three files (“write-up”, “do file” and “log file”). Provide answers in full sentences!  
+
+Your Name: 
+Your Country (see above; find your .dta file in the “2019 Eurobarometer Data” folder on Blackboard):
+1. Read in the data, etc. (no output or interpretation here).
+2. Use the “describe” and “sum” commands and paste the output here. How many variables are there?
+3a. What is the unit of observation in these data? What is the total sample size?
+3b. What is the average age in the sample? (remember to always include the relevant units of measurement)
+3c. What proportion of the sample is female?
+3d. What proportion of the sample reports having taken steps to reduce their CO2 output (Air Emissions) in the 2 years prior to the survey (2019)?
+3e. What proportion of the sample reports “having difficulties paying their bills in the past year”?
+3f. What proportion of the sample reports being “very satisfied” on the Life Satisfaction scale? 
+3g. What is the value for the minimum and the maximum value of the Life Satisfaction variable the way it is coded here? (To understand how the categories of this categorical variable are coded numerically in Stata compare what you get when asking Stata to tabulate the variable using two different ways: “tab life_satisfaction” vs. “tab life_satisfaction, nolabel”!).
+4. Describe in words (full sentences!) the key characteristics of the following distributions referencing appropriate graphs and numbers that you include:
+4a. Gender,
+4b. Life Satisfaction,
+4c. Age (overall), and
+4d. Age among women. (Hint: you need to condition your graph and descriptives appropriately, e.g., “sum … if female==1, detail”.)
+For a distribution of a quantitative variable remember to comment in detail on where the center is (mean & median), how dispersed the responses are (range & SD), the distribution’s overall shape, and where (potential) outliers/unusual observations are located!     
+
+5. Use the command “tab life_satisfaction gender, col“ 
+5a. Report the marginal distribution of life satisfaction in your country in %:
+5b. Report the conditional distribution of life satisfaction among women in your country in %:
+5c. Report the conditional distribution of life satisfaction among men in your country in %:
+5d. Hypothesize that gender and Life Satisfaction are completely unrelated. What % values for the conditional distributions of Life Satisfaction do you expect if this is true (include numbers)? 
+5e. With reference to the observed conditional distributions of Life Satisfaction for women and men in %, carefully discuss the evidence for or against the hypothesis in (d). (Support your analysis with specific #s). 
+5f. How does the fact that the information comes from a survey affect your ability to draw conclusions in (e)?
+
+6. Use life_satisfaction and the “gen” command (short for “generate”) and the “replace” command with “if” conditioning to create a new dummy variable that is equal to 1 for those who report being “Not very satisfied” or “Not at all satisfied,” 0 for those “Very satisfied” or “Fairly satisfied,” and “.” (meaning missing) for cases reporting “Don’t Know/Refuse” (if any). Name it something informative but not too long, a compromise could be “dissatisfied”. (To understand how the categories are coded look at both “tab life_satisfaction” and “tab life_satisfaction, nolabel”!). 
+Using the “dissatisfied” variable created answer the following:
+6a. Are those who had difficulties paying their bills in the past year more likely to report that they are dissatisfied with life compared to those who had no such financial difficulties? (Include your evidence.)  
+6b. Are those who report being dissatisfied with life older than those who are satisfied? (Include your evidence.)  
+7. As practiced in class prepare and submit one “.do” and one “log” file that includes everything you did in Stata above. 
+For Part 7, open a “.do” file within Stata (it opens a do file Editor window) and copy and paste all the (successfully) executed commands from above into this file - one command per line (!) and save it as yourcountryname_do.do in the same folder as the data file. As a first line of this .do file you should have a call to open the original data file (.dta), something akin to this: 
+use "C:\Users\fheiland\OneDrive - CUNY\Teaching\Methods\PAF9272\Week1\West_Germany.dta"
+As a second line, add a command to open a “log file” (.smcl file) in the same folder; in my case it looks like this (with … being the same path details as for the .do and .dta files):
+log using "C:\Users\fheiland\...\West_Germany_log.smcl", replace
+If you have all that then save your do file (same folder) and execute the commands “clear” and “log close” via the Stata command line window (which closes the data set and log file in use). Now, return to the do file editor and execute your do file (top right button). All commands in the do file will be executed in sequence (if they are correctly typed) and the log file will keep track of all the analysis output that you generated (notice that graphs will be created on the fly as usual but would have to be saved individually if you wanted to store them!). 
+Submit your do file and log file (in their original file format) alongside your write-up. Make sure your do file runs smoothly: errors in command syntax can happen easily; they appear in red and – if they happen in the do file – they stop the rest of the commands from being executed!
+
