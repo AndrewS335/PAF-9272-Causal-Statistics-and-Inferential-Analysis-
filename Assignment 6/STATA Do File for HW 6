@@ -1,0 +1,210 @@
+log using "/Users/andrew/Desktop/PAF 9272/HW 6.2/Andrew Singh HW 6 Log File.smcl", replace
+
+/* the next line tells Stata to wait for keystroke confirmation after each screen of output generated*/ 
+set more 0
+
+/*"expand" dummy indicates expansion state. */
+
+/*importing state-year Medicaid eligibility cut-off data from Excel; statefip is the 
+Federal Information Processing Standard numeric state id (used to identify each state)*/ 
+import excel using "/Users/andrew/Desktop/PAF 9272/HW 6.2/StateAdultElig(1) (3).xlsx", firstrow
+rename B cut11
+rename C cut12
+rename D cut13
+rename E cut14
+rename F cut15
+rename G cut16
+rename Location statename
+
+/*create medicaid expand dummy:1=clean expandment group of states that expanded eligibilty 
+from 0 before Jan14 to 138 FPL or higher as of Jan14, 0=clean control group with
+0=Medicaid elig in all years, set to missing for all other states: .= all other states.
+Future analyses can incorporate partially expanding states or states that   
+expanded after jan14 */
+
+gen expand=1 if cut11==0 & cut12==0 & cut13==0 & cut14>=138 & cut15>=138 & cut16>=138
+replace expand=0 if cut11==0 & cut12==0 & cut13==0 & cut14==0 & cut15==0 & cut16==0
+
+/*we need to RESHAPE the eligibility data to be able to merge it with cps_2011to2016 which is in "long" 
+(stacked) format: cross-section data for several years of individual records, each of which 
+has a statefip id capturing in which state the person resides*/
+
+reshape long cut, i(statefip) j(year)
+keep statefip year cut expand
+
+*How many states are "expansion states"? How many are non-expansion states?   
+tab expand, m
+sort statefip year
+
+*The next line saves the reshaped policy data as a stata dta file called "policyvar" (in the same directory) 
+save "/Users/andrew/Desktop/PAF 9272/HW 6.2/policyvar", replace
+
+*The next line clears the current data from memory so that a new data set can be opened (the log file keeps running until "log close") 
+clear
+
+*Let's take a look at the individual-level CPS data (individuals with no children in the household);
+*these data are publicuse and were extracted from https://cps.ipums.org/cps/index.shtml;
+*the key benefits of Current Population Survey data are: public use, large n, nationally representative, 
+*state person resides is identified, has outcome measures we can use.    
+use "/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_2011to2016 (2) - Andrew.dta"
+describe
+sum
+
+
+/*cps_2011to2016 is already restricted to the six years from 2011 to 2016; 
+For HW6 we want to restrict the sample further to only adult individuals who are too young to quality 
+for health insurance through Medicare (eligibility at 65) but old enough so that they would no longer qualify 
+under their parents (coverage under parental insurance usually ends at age 26)
+*/
+drop if age > 64 | age <26
+
+*In addition, in the above age group, for HW6 we want to keep only those with sufficiently low income (family income < 150% of FPL)
+keep if offtotval<1.5*cutoff
+
+/*here we are MERGEing the cps calendar to years of policy data available*/
+sort statefip year
+merge m:m statefip year using "/Users/andrew/Desktop/PAF 9272/HW 6.2/policyvar.dta"
+tab _merge
+drop _merge
+
+*generate additional variables that we need for the before after analyses: "after" and "expand_after" interacted variable  
+gen after=(year>13) if ~missing(year)
+gen expand_after=expand*after
+
+
+*Outcome Variable(s);
+/*generating "insured" dummy (has health insurance). We checked https://cps.ipums.org/cps-action/variables/VERIFY#codes_section
+that verify == 1 (NIU) means they answered one insurance type coverage affirmatively*/
+
+gen insured=(verify==0 | verify==2)
+
+*This saves the individual-level data with the policy variables and the outcome variable(s) 
+save "/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_with_policy", replace
+
+
+* a. Describe health insurance status nationally for this low-income 26 to 64 year old population over this period. Does this age-group appear to have gained coverage over this period? (hint: tabulate year insured; use a chi-square test and interpret the results.) Then, analyze statistically whether these gains differed between expansion and non-expansion states. Save the data before continuing: "cps_with_policy.dta, replace".
+tab year insured, col chi
+tab expand insured, col chi
+
+
+/*To apply Method 1, we are now creating a data set of state-year AVERAGES (means):
+collapse creates one record for each value in the "by"
+part of the command...in this case, 1 record for each state-year
+represented in the larger data set. The big data set goes away
+by default, collapse will calculate means of the variables following
+the word collapse...but you can ask it to calculate other
+stats such as max, min, median, std etc. and retain them on the record
+read help collapse for more info...a truly great command!*/
+
+/* notice the use of survey weights when collapsing to state averages!*/
+collapse insured expand after expand_after [aw=asecwt], by(statefip year)
+su
+bys year: su insured
+bys year: su insured if expand~=.
+bys year: su insured if expand==1
+*gen after=(year>13) if ~missing(year)
+*gen expand_after=expand*after
+
+/*Remember that "expand" is our treatment status variable. Our first way to estimate the 
+D-D causal estimate is using Method 1:   
+2x2 Means Table*/
+sum insured if expand==1 & after==1
+sum insured if expand==0 & after==1
+sum insured if expand==0 & after==0
+sum insured if expand==1 & after==0
+
+*calculate the DD estimate by hand...
+
+
+
+/*Method 2 with aggregate data: run the regression and interpret the coefficients; 
+remember that the coefficient on the interaction term is the D-D causal impact estimate! */
+reg insured expand after expand_after
+
+clear
+
+/*To apply Method 2 with individual-level data we first need to open the file "cps_week14.dta"! 
+Next: run the regression and interpret the coefficients; 
+remember that the coefficient on the interaction term is the D-D causal impact estimate! */
+use "/Users/andrew/Desktop/PAF 9272/HW 6.2/cps_with_policy.dta"
+
+reg insured expand after expand_after
+
+*we should use the survey weights 
+reg insured expand after expand_after [aw=asecwt]
+
+*also turn on most conservative SEs
+reg insured expand after expand_after [aw=asecwt], cluster(statefip)
+
+*Interpretation? Is the DD effect statistically significant? 
+
+*Is the DD estimate robust to controls?
+gen female = (sex==2) if sex~=.
+gen white = (race==100) if race~=.
+
+reg insured expand after expand_after female white age [aw=asecwt], cluster(statefip)
+
+*Rest of analysis...
+
+*Does the treatment effect (expansion) differ for women compared to men?  
+
+gen expand_after_female = expand_after*female
+
+reg insured expand after expand_after female expand_after_female white age [aw=asecwt], cluster(statefip)
+
+gen expand_after_white = expand_after*white
+
+reg insured expand after expand_after female expand_after_white white age [aw=asecwt], cluster(statefip)
+ 
+
+
+
+stop
+
+log close
+
+
+
+
+
+
+
+
+*Additional Analysis using plots (not used in class)
+
+/*based on the regression/fitted model we can plot some "trends" for expand/not expand 
+states from predicted values...but these are just intercept shifts and cannot pick up trends*/
+predict yhat
+twoway (connected yhat year if expand==0) (connected yhat year if expand==1)
+*graph save "Graph" "C:\Users\fheiland\OneDrive - CUNY\Teaching\Methods\PAF9272\Week14\plot_means_inc_any_dd1.gph", replace
+
+/* This compares to the scatterplot of the raw state-level data ...*/
+twoway (scatter insured year), by(expand)
+
+
+/*A different way to see trends...this allows different trends and intercepts
+for expand/nonexpand states, these force the trends to be the same before-after 
+expansion*/ 
+gen expand_year=expand*year
+reg insured expand year expand_year
+predict yhat2
+twoway (connected yhat2 year if expand==0) (connected yhat2 year if expand==1)
+*graph save "Graph" "C:\Users\fheiland\OneDrive - CUNY\Teaching\Methods\PAF9272\Week14\plot_means_inc_any_dd2.gph", replace
+
+
+/*finally, this estimates year effects (year dummies) separately for 
+expand/nonexpand states...looking for jumps in expand state relative to
+nonexpand states around date of expansion*/
+/*  i.x#i.z creates interactions of categorical variables x and z "on the fly"*/
+/*if you have a continuous variable you will need to use c. */
+
+reg insured i.expand#i.year
+
+predict yhat3
+twoway (connected yhat3 year if expand==0) (connected yhat3 year if expand==1)
+*graph save "Graph" "C:\Users\fheiland\OneDrive - CUNY\Teaching\Methods\PAF9272\Week14\plot_means_inc_any_dd3.gph", replace
+
+
+
+
+
