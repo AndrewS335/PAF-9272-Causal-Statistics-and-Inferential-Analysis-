@@ -1,0 +1,256 @@
+Assignment 5: Treatment Regressions, Omitted Variable Bias, Fixed Effects Models
+Due Saturday 12/9 by e-mail at 11:59 p.m. Prepare the usual files (1 writeup + 2 do and 2 log files). 
+Part 1. Continue the analysis of the OR Health Insurance Experiment (OHIE) that you started in HW4. Same data!
+On HW4 you analyzed the impact of being assigned to the treatment group (invited to enroll in OR Medicaid) rather than the control group (not invited to enroll in OR Medicaid) on health status. Now, do the same type of treatment impact analysis using other interesting outcomes available at 12m follow-up. Specifically, use the following variables as outcomes (in two cases you need to create a dummy (1/0) variable from an existing more complex categorical variable).
+1. Has health insurance (ins_any) 
+2. Has a usual place of care (use usual_care to create this dummy variable first) 
+3. Out-of-pocket medical expenditures (cost_tot_oop)
+4. Smokes daily (use smk_curr to create this dummy first)
+5. Household income as a percent of the poverty line (hhinc_pctfpl)
+6. Had all medical needs met (or had no needs) in past 6 months (needmet_med_cor)
+7. Got all needed prescriptions (or had no needs) in past 6 months (needmet_rx_cor)
+8. Got all needed dental care (or had no needs) in past 6 months (needmet_dent_cor)
+Follow these steps:
+a.	Briefly describe the distribution (mean, SD, min and max value) of each of the 8 outcomes asked about above. For each outcome variable state whether the type is continuous (quantitative) or dummy (1/0)!
+
+Has health insurance (ins_any) 
+
+ 
+
+Of those who responded to the survey, the average proportion of individuals who have any health insurance is approximately 41.3%. This is the approximately the center of the distribution, the standard deviation in terms of those who have health insurance is 49.2 percentage points away from the mean. The minimum value is 0 indicating respondents did not have health insurance and the maximum value is 1 indicating respondents had health insurance. This is a dummy variable. 
+
+Has a usual place of care
+
+ 
+Of those who responded to the survey, the average proportion of individuals who have a usual place of care is approximately 95.5%. This is the approximately the center of the distribution, the standard deviation in terms of those who have a usual place of care is 20.6 percentage points away from the mean. The minimum value is 0 indicating respondent’s had no “usual” place of care and the maximum value is 1 indicating respondent’s had a “usual” place of care. This is a dummy variable. 
+
+Out-of-pocket medical expenditures (cost_tot_oop)
+ 
+
+Of those who responded to the survey, the average amount of out of pocket medical expenditures is approximately $1,702.76. This is the approximately the center of the distribution, the standard deviation in terms of the amount of out-of-pocket medical expenditures is $155,876.70 away from the mean. The minimum value is $0 and the maximum value is $2.20e+07. This is a quantitative variable. 
+
+Smokes daily (use smk_curr)
+Of those who responded to the survey, the average proportion of individuals who smokes daily is approximately 41.3%. This is the approximately the center of the distribution, the standard deviation in terms of the amount of out of pocket medical expenditures is 49.2 percentage points away from the mean. The minimum value is 0 indicating respondents did not smoke daily and the maximum value is 1 indicating respondents did smoke daily. This is a dummy variable.
+
+	Household income as a percent of the poverty line (hhinc_pctfpl)
+	 
+Of those who responded to the survey, the average house income as a percent of the poverty line is approximately 76.93%. This is the approximately the center of the distribution, the standard deviation in terms of household income as a percent of the poverty line is 69.08 percentage points away from the mean. The minimum value is 0% of household income as a percent of the poverty line and the maximum value is 461.68% household income as a percent of the poverty line. This is a quantitative variable. 
+
+	Had all medical needs met (or had no needs) in past 6 months (needmet_med_cor)
+	 
+
+Of those who responded to the survey, the average proportion of individuals who had all medical needs met (or had no needs) in the past 6 months is 61.9%. This is the approximately the center of the distribution, the standard deviation in terms of individuals who had all medical needs met (or had no needs) in the past 6 months is 48.6 percentage points away from the mean. The minimum value is 0 indicating respondents did not have all their medical needs met or had no needs in the past 6 months and the maximum value is 1 indicating respondents did have all their medical needs met or had no needs in the past 6 months. This is a dummy variable. 
+
+
+Got all needed prescriptions (or had no needs) in past 6 months (needmet_rx_cor)
+ 
+Of those who responded to the survey, the average proportion of individuals got all needed prescriptions (or had no needs) in past 6 months is 71.9%, this is the approximately the center of the distribution. The standard deviation in terms of individuals got all needed prescriptions (or had no needs) in past 6 months is 44.9 percentage points away from the mean. The minimum value is 0 indicating respondents did not have all needed prescriptions (or had no needs) in past 6 months and the maximum value is 1 indicating respondents got all needed prescriptions (or had no needs) in past 6 months. This is a dummy variable. 
+
+
+	Got all needed dental care (or had no needs) in past 6 months (needmet_dent_cor)
+	 
+Of those who responded to the survey, the average proportion of individuals who got all needed dental care (or had not no needs) in past 6 months, were 41%, this is the approximately the center of the distribution. The  standard deviation in terms of individuals who got all needed dental care (or had no needs) in past 6 months varied away from the mean by 41%, The minimum value of 0 indicates respondents did not have all their needed dental care (or had needs) in past 6 months, while a maximum value of 1 indicates respondents did have all needed dental care (or had no needs) in past 6 months. This variable is a dummy. 
+
+
+
+b. Analyze the 8 outcomes to get ready to answer the questions in “c” below. Specifically, estimate the “intent to treat” (ITT) effect of the OR HIE at 12 months. The ITT estimate is the treatment effect we’ve been talking and estimating in class and on HW4—the impact of being assigned to the treatment group (invited to enroll in OR Medicaid) rather than the control group (not invited to enroll in OR Medicaid)—and answer the questions below. 
+While we could run t-tests to conduct this type of impact analysis, following the investigators’ recommendation discussed in class we really want to use multiple regression here which allows us to control for differences in the number of individuals signed-up in the household (“i.numhh_list”) as well as easily incorporate survey design information. Specifically, for all outcomes, estimate treatment regressions of the following form that include dummies for household type (created on the fly with the “i.name_of_cat_var” syntax), use the correct sample weights provided in the 12 months survey (variable “weight_12m”) and calculate the most conservative sampling errors/p-values (by clustering the SEs by household ID): “reg … i.numhh_list [aw=weight_12m], cluster(household_id)”. 
+ 
+
+
+c. Organize the write-up of your analysis around the following questions about the ITT effect. In each case, answer the question and report the estimated size of the treatment effect and whether or not it is statistically significant! 
+
+
+
+
+
+i. Does treatment increase health insurance coverage? 
+
+Step 3: Conclusion
+Since the p-value is 0.001 (0.01%) which is much less than 0.05 (5%=a), we can strongly reject the null hypothesis, Ho, the treatment effect does not differ between those that have health insurance coverage and those that do not have health insurance coverage. We have strong evidence to support the alternative hypothesis, Ha, the treatment effect does differ between those that have health insurance coverage and those that do not have health insurance coverage.
+
+Interpretation of health insurance coverage: On average, each additional individual in the survey is associated with an 16.7% increase of having health insurance coverage. 
+
+ii. Does it increase the chance that the person has a “usual” place of care?
+
+Step 3: Conclusion
+Since the p-value is 0.477 (47.7%) which is much higher than 0.05 (5%=a), then we cannot reject the null hypothesis, Ho, that the treatment effect does not increase the chance that the person has a “usual” place of care. We do not have strong evidence to support the alternative hypothesis, Ha, that treatment effect does increase the chance that the person has a “usual” place of care
+Interpretation of usual place of care: On average, each additional individual in the survey is associated with an 1.7% increase of having a “usual” place of care.  
+
+iii. Does it decrease the chance of having unmet medical, dental, or prescription drug needs? 
+Medical Needs:
+Since the p-value is 0.074 (7.4%) which is higher than 0.05 (5%=a), then we cannot reject the null hypothesis, Ho, that the treatment effect does not decrease the chance of having unmet medical needs. We do not have sufficient evidence to support the alternative hypothesis, Ha, treatment effect does decrease the chance of having unmet medical needs.
+Interpretation of medical unmet needs: On average, each additional individual in the survey is associated with an 2.1% reduction of having an unmet medical need.
+
+Dental Needs:
+Since the p-value is 0.383 (38.3%) which is higher than 0.05 (5%=a), then we cannot reject the null hypothesis, Ho, that the treatment effect does not decrease the chance of having unmet dental needs. We do not have sufficient evidence to support the alternative hypothesis, Ha, treatment effect does decrease the chance of having unmet dental needs.
+Interpretation of medical unmet needs: On average, each additional individual in the survey is associated with an 0.9% reduction of having an unmet medical need.
+
+
+
+Prescription Needs:
+Since the p-value is 0.015 (1.5%) which is lower than 0.05 (5%=a), then we have evidence to reject the null hypothesis, Ho, that the treatment effect does not decrease the chance of having unmet prescription needs. We have strong evidence to support the alternative hypothesis, Ha, treatment effect does decrease the chance of having unmet dental needs.
+Interpretation of medical unmet needs: On average, each additional individual in the survey is associated with an 0.3% reduction of having an unmet prescription need.
+
+iv. Does it reduce out-of-pocket medical expenditures?  -
+
+Step 3: Conclusion
+Since the p-value is 0.001 (0.01%) which is much less than 0.05 (5%=a), then we can reject the null hypothesis, Ho, that the treatment effect does not reduce out-of-pocket medical expenditures. We have strong evidence to support the alternative hypothesis, Ha, that treatment effect does reduce out-of-pocket medical expenditures.
+Interpretation of usual place of care: On average, each additional individual in the survey is associated with a reduction of 1.18% in their out-of-pocket medical expenditures. 
+
+v. Does it reduce poverty (i.e., the chance that family income falls below 100% of the federal poverty level)? (Hint: start by generating a dummy for being poor using “hhinc_pctfpl” from above.) 
+Did not attempt. 
+
+
+vi. Does it reduce smoking?
+Since the p-value is 0.354 (35.4%) which is much higher than 0.05 (5%=a), we cannot reject the null hypothesis, Ho, that the treatment effect does not reduce smoking. We do not have sufficient evidence to support the alternative hypothesis, Ha, that treatment effect does reduce smoking.
+Interpretation of usual place of care: On average, each additional individual in the survey is associated with a 0.9% in their reducing their smoking.
+
+Part 2. Here, you’ll (mainly) analyze the “effect” of a person’s education on their wages (using a sample of twins!)
+Read in the file called “twins_data_2023.dta.” As the name suggests, these are data on adult twins interviewed in approximately 1992. There are 13 variables. Some have slightly unexpected values because some respondents were interviewed more than once and their responses were averaged across interviews. So “married” might be 0.5 if the respondent was married at the time of one interview and single at another.  
+a. Here is the “Codebook”:
+ln_rwage = the natural logarithm of the hourly wage in 2023 dollars 
+nwage_1992 = the (nominal) hourly wage as reported in the survey in 1992. (I created ln_rwage as follows: gen ln_rwage = ln(nwage_1992*2.1668055), where 2.1668055 is the CPI-U inflation adjustment btw. March 1992 & 2023) 
+
+Use “ln_rwage” as the dependent variable in all regressions! With the natural log of the real wage in 2023 as the dependent variable, regression coefficients multiplied by 100 are interpreted as the (approximate) percentage change (increase/decrease depending on the sign) in the hourly wage per 1-unit increase in the independent variable. For example, in the simple regression of ln_rwage on educ in part c below, Stata reports the coefficient (slope) of education as .1024716, which means, on average, one additional year of schooling increases a person’s hourly wage by 10.25%.   
+
+educ = years of education completed
+female = 1 if female, 0 if male (with a few in-between)
+ped = parents’ educational attainment, the average of mother’s and father’s educational attainment if available
+age 
+age_sq = age squared
+married = 1 if married, 0 if not (with a few in-between)
+white = 1 if white racial identification, 0 otherwise 
+uncov = covered by a union collective bargaining agreement (dummy variable)
+tenure = years on the current job (missing for a few cases)
+hhid = “household” (twin-pair) identifier. They were in the same households as children, but probably not as adults.
+myed_bysib = the sibling’s report of the respondent’s education level (for possible use in a later assignment)
+
+b.	summarize (describe) the data. What is the unit of observation? What are the mean, SD, min and max values of the variables above? (Answer in one or two full sentences describing each variable!)
+The unit of observation are twins interviewed in 1992 and their associated characteristics. 
+ 
+
+ 	The variable ‘myed_bysib’ indicates that the average sibling’s report of respondent’s education level is approximately 14 years of education, within the dataset the standard deviation of the respondent’s education level differs from the mean by approximately 2 years of education, the minimum number of years of education reported in the dataset is 8 years of education, while there is a maximum of a respondent’s education level of 18 years of education. 
+	The variable ‘age’ indicates the mean age of respondent’s in the survey is approximately 38 years old, with a standard deviation or variation from the mean age by approximately 12 years, the youngest respondent in the dataset is  18 years old, while the oldest respondent in the dataset is 70 years old. 
+	The variable ‘white’ has a mean of .927 (92.7%) indicating majority of the dataset is of twin respondents who identify as white, the standard deviation or variation away from the mean in terms of those identifying as white by approximately .258 (25.8%). The variable “white” hasthe minimum value of 0 which indicates whether the respondent identifies as non-white or otherwise, with a maximum value of 1 indicating the respondent is in fact white. 
+	The variable ‘female’ has a mean of .595 (59.5%) indicating that most of the dataset are female respondents, with a standard deviation or variation away from the mean in terms of those identifying as female by approximately .49 (49%). In this case, as the variable “female” has the minimum value of 0 indicates the respondent is in fact a male respondent, while the maximum value is 1 indicating the respondent is in fact a female respondent. 
+	The variable ‘educ’ indicates that the average number of years of education completed for respondents is 14 years, with a standard deviation or variation away from the mean of approximately 2 years of education completed. In the dataset, the respondent with the lowest (minimum) completed 8 years of education, while the highest (maximum) years of education completed is 18 years. 
+	The variable ‘age_sq’ has a mean of 1575.677, a standard deviation of 958.1071, a minimum value of 324, while there is a maximum value of 5012.708. 
+	The variable ‘hhid’ states there is an average (mean) number of 340.1982 households in the survey, a standard deviation or variation away from the mean in the number of households by approximately 197 households, while there the lowest number of households in the survey indicates this is the first household, with a maximum number of 680 indicates the last household. 
+	The variable ‘ped’ states there is a mean of 12 years of average education between the mother and father, a standard deviation or variation away from the mean of 2.5 years of education between the mother and father, a minimum of 2.5 average years of education for the mother and father, while the maximum average number of years of education for the mother and father is 18 years. 
+	The variable ‘uncov’ states approximately .224 (22.4%) of the households in the survey are covered by a collective union bargaining agreement, with a standard deviation or variation away from the mean by approximately .412 (41.2%) in terms of being covered by collective union bargaining agreement. For the variable “uncov” it is coded with a value of 0 for the minimum indicating the household is not covered by a collective union bargaining agreement, while the value of 1 is the highest indicating the household is covered by a collective union bargaining agreement.
+	The variable ‘tenure’ states there is mean of approximately 8 years on the current job, and a standard deviation or variation away from the mean of approximately 8.7 years in their current job. In the dataset, the household with the least (minimum) tenure on the job has a value of.007 years, while the household with the highest (maximum) tenure has a value of 55 years on the job. 
+	The variable ‘married’ states an average of .64 (64%) households are married, with a standard deviation or variation away from the mean of approximately .48 (48%) being households that are married. The minimum value of 0 indicates not being married, and a maximum value of 1 indicates the household is married. 
+	The variable ‘nwage_1992’ has a mean wage of $14.31 per hour, a standard deviation wage of $12.83 per hour, a minimum wage of $2.05 per hour, and a maximum wage of $133.33 per hour. 
+
+c.	Estimate Model 1 by regressing ln_rwage on education and age. Interpret the results (one sentence for each slope coefficient; see comment above for an example of how to interpret the slope of education here). Be careful to use appropriate language (this is observational not experimental data)! Is the relationship between education and wage in the direction that you would expect theoretically (explain briefly)? State the value of R2 and interpret what it means. 
+ 
+•	The variable ‘educ’ has a slope of .1175681, which means, on average, one additional year of education increases an hourly wage among twins by 11.75%. 
+•	The variable ‘age’ has a slope of .0174643, which means, on average, one additional year of age increases an hourly wage among twins by 1.7%.
+
+•	Is the relationship between education and wage in the direction that you would expect theoretically (explain briefly)?
+o	Yes, the relationship between education and wage is in the direction we would expect theoretically because the p-value for both education and age is less than 0.001 (0.01%) < (5% = a), which allows us to reject the null hypothesis that there is no relationship between education and its influence on wage. In this case, we have evidence to support the alternative hypothesis that education and wage are related to each other, which allows us to see the relationship that more years of education increases the likelihood of earning a higher wage. 
+
+•	State the value of R2 and interpret what it means. 
+R-squared = 0.2185 = 21.85% 
+	Our regression explains 21.85% of the variation in the wage variable due to the variation in the age and education variables, while 78.15% remains unexplained. 
+
+d.	Estimate Model 2 by adding age_sq to the set of independent variables in Model 1. Is the estimated coefficient on the quadratic age term statistically significantly different from 0? Explain what the empirical form of the relationship between log wages and age is. Does Model 2 fit the data better than Model 1? Explain. 
+ 
+Is the estimated coefficient on the quadratic age term statistically significantly different from 0? Yes the estimated coefficient on the quadratic age term is statistically significantly different from 0 because of the p-value for the slope coefficient of age-squared is 0.001 (0.01%) which is less than (5%=a), we reject the, Ho - null hypothesis, there is a not a relationship between age-squared and wage. We have evidence to support the, Ha - alternative hypothesis that there is a relationship between age_sq and wage. 
+
+Step 1: Hypothesis Testing 
+Ho: Age_sq = 0 (Age-squared does not predict wage (controlling for education and age)
+Ha: Age_sq =! 0 (Age-squared does predict wage (controlling for education and age)
+
+Step 2: P-Value
+P-value = .001 (0.01%)
+
+Step 3: Conclusion
+The p-value for the slope coefficient of age-squared is 0.001 (0.01%) which is less than (5%=a), we reject the null hypothesis, Ho, there is a not a relationship between age-squared and wage. We have evidence to support the alternative hypothesis, Ha, that there is a relationship between age_sq and wage.
+
+Explain what the empirical form of the relationship between log wages and age is.
+The empirical form of the relationship between log wages and age is used to estimate what the relationship between wages and age would be based on the patterns or observations seen within the dataset. In the empirical form the relationship is shown as a regression equation below:
+Y = B + AX
+Sample regression equation: Y = B + AX = ln_rwage = constant (b) * slope of the age (a) *  age (x)
+Dependent variable = log wages (ln_rwage) 
+B= constant
+A = slope of the ln_rwages for a one unit increase in the “age” variable 
+X = age
+
+Does Model 2 fit the data better than Model 1? Explain.
+The model does fit the data better than Model 1 because we added another variable in this case age_sq which allows us to control this variable in the model to see a clearer relationship. Model 2 does indicate a better fit due to the increased R-Square value of 0.2754 as opposed to the R-Square in Model 1 of 0.2185, allowing Model 2’s variables to explain more of the variation in wage due to the variation in the age, education, and age_sq variables, while 72.46% remains unexplained. 
+
+
+e.	Estimate the same specification as in Model 2 but telling Stata to cluster the Sampling Errors (SEs) by hhid using the “cluster(hhid)” option in the regression command. Call this Model 3! Does the SE clustering make any difference to the coefficients? What about the Sampling Errors (SEs)? Explain why they changed (one or two sentences). Use the cluster (hhid) option for the remainder of the assignment!
+ 
+Does the SE clustering make any difference to the coefficients? The SE clustering does not make any significant differences in the coefficients, the model remains consistent without the clustering from the previous question. 
+
+What about the Sampling Errors (SEs)? The sampling errors increased for all the variables (the age-squared, education, age, and constant). The sampling errors increased because of the clustering method acknowledging that households within the dataset have twins and adjusts for their commonalities of the twins, as a result, producing a more accurate of the true standard error in the model. 
+
+
+f.	Model 4: Add to the regression from part “e” control variables for female, racial identification, marital status, and union status. Is the coefficient (slope) of education visually different from Model 3? Is it statistically significantly different from Model 3? 
+ 
+Is the coefficient (slope) of education visually different from Model 3? The slope coefficient of education in Model 4 is visually different than the slope coefficient of education in Model 3. In Model 4, the slope coefficient of education is .1180634, while the slope coefficient of education in Model 3 is .1174176. The treatment effect for the variable of education has not shifted much by the inclusion of additional controlling variables (female, racial identification, marital status, and union status) in Model 4.
+
+Is it statistically significantly different from Model 3? 
+Based on the 95% confidence interval in Model 4, the 95% confidence interval range is .0923078 and .143819, while the 95% confidence interval in Model 3 is .0911444 and .1436906, between both models their 95% confidence intervals overlap, indicating there is no statistically significant difference between either model. 
+
+g.	A researcher argues that Model 4 is still misspecified because he thinks that the “effect” of education on wages should differ between men and women. Run one more regression, Model 5, to test this hypothesis, using the appropriate interaction term. Is there evidence that the “effect” of education is different between men and women? Explain.   
+ 
+Is there evidence that the “effect” of education is different between men and women? Explain.   
+On average, each additional year of education is associated with a .83 cent increase in their hourly wage among women. 
+
+Step 1: Hypothesis Testing
+Ho: The relationship between education and wages does not differ between men and women, controlling for everything.
+Ha: The relationship between education and wages does differ between men and women, controlling for everything.
+
+Step 2: P-Value 
+P-Value: 0.001 (0.01%)
+
+Step 3: Conclusion
+Since the p-value is 0.001 (0.01%) which is less than 0.05 (5%=a), we reject the null hypothesis, Ho, that there are no difference by gender on the education wage relationship. There is strong evidence to support the alternative hypothesis, Ha, that the education wage relationship does differ by gender, controlling for the other X’s. 
+
+
+h.	Another researcher argues that all the estimates of the “effect” of education on wages in the models above are likely biased due to omitted variables! Specifically, she notes that these models fail to control for family background / socioeconomic status. Explain what she means in words and with reference to an appropriate path diagram (“logic model”) illustrating a plausible alternative theory (involving family background as on omitted variable) challenging the main theory that the relationship between education and wage observed in “f” (Model 4) is entirely causal. (Hint: remember that to challenge a causal explanation with an omitted variable alternative theory, you have to plausibly argue how exactly the omitted factor Z influences Y as well as X!)    
+Omitted variable bias is the concept any theoretically important influencer Z we cannot control for may bias the estimated coefficient (slope) of Xk, in the model. In this case, the researcher is trying to understand what the true effect of education on the wages is earned differing by gender. In some cases, the model cannot fully express the clear relationship to the researcher without wondering about the potential impact of other omitted variables, which are variables not observed in the multivariate regression analysis by not having data on them due to the fact of using observational data. There is no way of getting around the fact of the results being biased due to the lack of an exhaustive dataset with many independent factors that would give us a clearer picture of the background and socio-economic status of the households, but to attain that data would be impractical to measure and is rarely available. 
+
+In the logic model below, the family background is characterized as high net worth, which enhances the level of education someone could pursue given their family could pay off their tuition which allows their children to attain higher wages due to more years of education. The families high net worth could also lead their kids to have access to social capital or connections in their parent’s network that may provide their children access to jobs that pay a higher wage than normal bypassing the need for further degrees or additional years of education.
+
+
+
+
+
+
+ 
+Model 6: Investigate this further by running a “long regression” (Model 6) that adds the parental education control (as a proxy for family background / SES) to Model 4.  Comment on how the coefficient on education changed and whether that direction is consistent with the researcher’s theory in “h” (and your path diagram)! Is this change in the coefficient statistically significant? (Hint: As a rule of thumb, the coefficients differ statistically from each other if one coefficient is outside the 95% CI of the other. If it falls inside the CI then they are not statically significantly different at conventional significance levels!)  
+
+Comment on how the coefficient on education changed and whether that direction is consistent with the researcher’s theory in “h” (and your path diagram)!
+In the “long regression in Model 6, when we add a new variable called parental education level as a proxy for family background and social economic status, due to the confidence intervals between Model 4 and Model 6 do not overlap, indicating there is a statistically significant difference in the education coefficient. Additionally, the r-squared of Model 6 increased to .6111 from Model 4 where the R-squared was 0.3547 which explains more of the variation in the dependent variable of log wages due to all the other factors in the regression model. Due to the statistically significant difference in Model 6 due to the inclusion of parental education level, the direction is consistent with the researcher’s theory in “h” and the path diagram. This is likely since when we account for the omitted variable in the “long regression” we can clearly see whether there was a “biased” effect on the wages earned due to the amount of education one has. 
+ 
+
+
+i. A more sophisticated strategy to reduce (potential) bias from omitted family background/SES characteristics (given appropriate data) is to perform what is called “fixed effects” (FE) regressions (aka “within” models; as discussed in chapter 2 of A&P). In twin data the common (fixed) grouping element is the household/family of origin that the twins share. FE regression uses only the variation (differences) in the data that exists within groups, i.e. in twin data, it identifies “effects” (model coefficients) by only comparing the characteristics of twins to each other (the “between” variation – across individuals from different families of origin – is ignored). By comparing twins to each other only, the FE regression eliminates any Omitted Variable Bias (OVB) due to unobserved variables at the family-of-origin level!
+The Stata command to estimate this type of regression model is:  areg ln_rwage educ married, absorb(hhid). (You can include other controls but since they don’t vary much across siblings if at all, their contribution is not identified well. Try it for yourself and see!)
+Perform this family (household) FE regression and refer to it as Model 7. Is the coefficient on education in Model 7 visibly and statistically different from Model 4 (part “f”)? Is how the coefficient changed consistent with the researcher’s theory (and your path diagram) discussed in “h”? What do you conclude about potential omitted variable bias (OVB) affecting the estimated effects of education on wages in Models 1 through 4 (comment on if there is evidence of OVB and if so how much and in what direction!)? 
+
+
+Is the coefficient on education in Model 7 visibly and statistically different from Model 4 (part “f”)?
+The coefficient on education in Model 7 is not visibly and statistically different from Model 4 in part “f” due to fact one of the education’s 95% confidence internal in Model 4 is within the same of the the 95% confidence interval range in Model 7, in other words, both confidence intervals overlap. The 95% confidence interval for education in Model 4 is 0.0923078 - .143819, while the 95% confidence interval for education in Model 7 is 0.0244159 - .0985373. 
+
+Is how the coefficient changed consistent with the researcher’s theory (and your path diagram) discussed in “h”?
+This is consistent with the researcher’s theory and my path diagram discussed in “h” due to the fact we are only looking at the differences between the twins now and not the confounding variables found at the family of origin level. This is due to the fact we are accounting for the omitted variable bias seen within the household by minimizing the number of similarities seen within twins in the same household because it might get counted multiple times by Stata and in theory we want to count one person and not other people based on similar characteristics in the household, which allows us to see a clear difference.
+
+What do you conclude about potential omitted variable bias (OVB) affecting the estimated effects of education on wages in Models 1 through 4 (comment on if there is evidence of OVB and if so how much and in what direction!)?
+In Model 1, there is OVB founded because based on the question being asked – does education make the wages someone earns change in the direction we would want, theoretically – I would believe there is OVB because we are using the short model to only find the relationship between education, age, and wages earned. In this case, in the dataset we have there are other variables that are related to both X and Y that are not included, resulting in the Model 1 coefficients being skewed upward and we are not receiving the optimal results as we would like. The exact amount of change in Model 1 from Model 2 based on the slope coefficient is -.0001.
+In Model 2, there is OVB because the new variable age_sq does produce a different slope coefficient for the education variable because their might be other Z’s or variables in the dataset that might influence its outcome in the model. In this case, the slope changes in a positive direction since we added the age_sq variable into Model 2, shifting the slope education coefficient in a positive direction upwards by 0.0001. 
+In Model 3, there is evidence of OVB since we clustered by the household identifier. This does not produce a different slope from Model 2, but when compared to Model 4, the slope of the education coefficient is shifted downwards in a negative direction by -0.0006. 
+In Model 4, there is a evidence of OVB since we added the new variables of white, uncov, female, and white which gave us a higher slope coefficient for the education variable of .1180634. Compared to the slope coefficient for education in Model 3, the slope coefficient differs by 0.0006 and shifts the model in a positive upwards direction. 
+
+
+
+
+
+ 
+
+
