@@ -1,0 +1,53 @@
+PAF9272: Homework 3 
+Topics: Linear Correlation, Simple Regression, Hypothesis Testing
+Due date: 11:59PM Thursday, 11/9/2023 (email to frank.heiland@baruch.cuny.edu)
+Instructions: Submit your main file (the one with answers and graphs etc.) as PDF! Submit separate do and log files for each part! Provide answers in full sentences and include units/% when appropriate!  
+Part 1. (Penn World Table Data) In this problem you are working with macroeconomic data for a set of larger countries (population size > 1 million). 
+1. Read in the data set PWT_data.dta (in HW2 folder) and open a log (smcl) file.
+2. Use “describe” and the “Data Editor (Browse)” to familiarize yourself with the data structure and variables.
+3. What is the unit of observation in these data?
+4a. As in class, analyze the relationship between time and living standard in the US. Follow these steps:
+i)	Generate the scatterplot of living standard and year in the US. Also include the linear regression line (“best fit trendline”) in the plot. (Hint: use “twoway (scatter rgdp_pc year if countrycode=="USA") (lfit rgdp_pc year if countrycode=="USA")”). Include the plot in your answer.
+ii)	Carefully argue based on the scatterplot in i) whether or not the use of linear correlation analysis (which includes simple regression) is appropriate here. 
+iii)	Report the linear correlation coefficient (“r-hat”) of this relationship estimated using Stata (use command: pwcorr rgdp_pc year if countrycode=="USA", sig). 
+iv)	Conduct a hypothesis test of whether the true (linear) correlation (rxy) is equal to zero (H0) or different from zero (HA), i.e. whether or not the variables are (linearly) related. Start by stating in words the hypothesis structure of this test (H0: … vs. HA: …). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from iii). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+v)	Estimate the (simple) regression equation model of how time (X) and living standard (Y) are related. (Hint: use “reg rgdp_pc year if countrycode==“USA”.)  
+vi)	State the Regression Equation (“fitted model”) that you estimated in v) and the value for R-squared. As always, when stating the equation use easy-to-understand names/abbreviations of the variables and NOT just “X” and “Y”! 
+vii)	Provide interpretations of slope, constant term, and R-squared (“Coeff. of determination”).
+viii)	Conduct a hypothesis test of whether or not there is evidence that year (X) is truly related to living standard (Y). Start by stating in words the hypothesis structure of this test (in symbols it is: H0: bYear=0 vs. HA: bYear≠0). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from vi). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+ix)	Predict Living Standard in 2030.
+4b. Using one other country of your choosing in the PWT data, analyze the relationship between time and living standard in that country. Follow these steps:
+i)	Generate the scatterplot of living standard and year. Also include the linear regression line (“best fit trendline”) in the plot. (Hint: use “twoway (scatter rgdp_pc year if countrycode=="…") (lfit rgdp_pc year if countrycode=="…")”). Include the plot in your answer.
+ii)	Carefully argue based on the scatterplot in i) whether or not the use of linear correlation analysis (which includes simple regression) is appropriate here. 
+iii)	Report the linear correlation coefficient (“r-hat”) of this relationship estimated using Stata (use command: pwcorr rgdp_pc year if countrycode=="…", sig). 
+iv)	Conduct a hypothesis test of whether the true (linear) correlation (rxy) is equal to 0 (H0) or different from 0 (HA), i.e. whether or not the variables are (linearly) related.  Start by stating in words the hypothesis structure of this test (H0: … vs. HA: …). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from iii). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+v)	Estimate the (simple) regression equation model of how time (X) and living standard (Y) are related. (Hint: use “reg rgdp_pc year if countrycode==“…”.)  
+vi)	State the Regression Equation (“fitted model”) that you estimated in v) and the value for R-squared. As always, when stating the equation use easy-to-understand names/abbreviations of the variables and NOT just “X” and “Y”! 
+vii)	Provide interpretations of slope, constant term, and R-squared (“Coeff. of determination”).
+viii)	Conduct a hypothesis test of whether or not there is evidence that year (X) and living standard (Y) are related. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: bYear=0 vs. HA: bYear≠0). Find and report the corresponding p-value or an appropriate upper bound for it based on your Stata output from vi). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA?
+
+Part 2. (2019 Eurobarometer) Continue with the country assigned under HW1. 
+1. Read in the data and open a log (smcl) file.
+2. Use “describe” and “sum” to familiarize yourself with the data structure and variables.
+3a. What is the average age (X-bar) and its Sampling or Standard Error (SEX-bar)?
+3b. Conduct a hypothesis test of whether the true average age in this population () is equal to 50 years or not. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: 0=50 yrs vs. HA: 0≠50 yrs). Find and report the p-value or an appropriate upper bound for it based on your Stata output for this t-test (“one sample means-comparison test”). Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA? (Hint: steps and logic are identical to the test of whether or not average income in the US equals $37,000 done in class using ACS data.) 
+3c. Conduct a hypothesis test of whether or not the true average age is the same for women and men in your country. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: Women=Men vs. HA: Women≠Men). The command for this two-sample means comparison t-test is: “ttest age, by(gender)” or “ttest age, by(female)”. Find and report the p-value or an appropriate upper bound for it based on your Stata output for this test. Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA? 
+
+4. This part is related to HW#2 Part 2, Q4. 
+4a. (Identical to HW#2 Part 2, 4d). For males and females separately, report the estimated 95% CI of the proportion having difficulties paying their bills. Interpret the two CIs. Comment on whether or not the CIs overlap (if they do not overlap that presents strong evidence that men and women are statistically significantly different in terms of the likelihood of experiencing financial difficulties in your country).
+4b. Conduct a hypothesis test of whether or not the true proportion having difficulties paying their bills is the same for women and men in your country. Start by stating in words the hypothesis structure of this test (in symbols it is: H0: pWomen=pMen vs. HA: pWomen≠pMen). The Stata command for this two-sample means comparison t-test follows the same logic as in 3c above. Find and report the p-value or an appropriate upper bound for it based on your Stata output for this test. Using a conventional Significance Level (“”) of 5% (=.05), what conclusions can you draw about H0 and HA? Comment on  
+
+5. Analyze the relationship between having financial difficulties and “freq_internet_use” in your country. This latter categorical variable measures the frequency of a person’s internet use and is coded as follows: “0” – “Never/No access”; “1” – Less than 2-3 times a month“;  “2” – “2-3 times a month”; “3” – “About once a week”; “4” – “2-3 times a week”; and “5” – “Daily/almost daily”. Understanding these labels, use the command “tab freq_internet_use diffpaybills, col chi“ and answer the following: 
+5a. Report the marginal distribution of the frequency of internet use in %:
+5b. Report the conditional distribution of the frequency of internet use among those with difficulties paying bills in %:
+5c. Report the conditional distribution of the frequency of internet use among those without difficulties paying their bills in your country in %:
+5d. Hypothesize (H0) that having financial difficulties and internet use are completely unrelated in the population. What % values for the conditional distributions of internet use do you expect if this is true (include numbers)? 
+5e. With reference to the observed conditional distributions of internet use by financial difficulties in %, carefully discuss the evidence for or against the hypothesis in (d). (Support your analysis with #s). 
+5f. Now, conduct the statistical significance test of whether or not internet use differs between those who do and those who do not have financial difficulties. Answer by following these steps: 
+(i)	State the appropriate hypothesis structure in words (H0: … vs. HA: …). (Note that 5d describes H0)
+(ii)	Report the p-value (or an appropriate upper bound) obtained from Stata.  
+(iii)	Using a conventional statistical Significance Level (“”) of 5% (=.05), explain what conclusions you can draw about H0 and HA.  
+ 
+
+
+
