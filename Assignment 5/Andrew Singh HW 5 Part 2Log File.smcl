@@ -1,0 +1,565 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Log File.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 9 Dec 2023, 17:36:09
+{txt}
+{com}. use "/Users/andrew/Downloads/twins_data_2023(1).dta"
+{txt}
+{com}. 
+. * Summarize (describe) the data. What are the mean, SD, min and max values of the variables above?
+. describe
+
+{txt}Contains data from {res}/Users/andrew/Downloads/twins_data_2023(1).dta
+{txt} Observations:{res}           676                  
+{txt}    Variables:{res}            13                  28 Apr 2023 19:47
+{txt}{hline}
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+{hline}
+{p 0 48}{res}{bind:myed_bysib     }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Twin1 Report of Twin2 Educ{p_end}
+{p 0 48}{bind:age            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}(mean) age{p_end}
+{p 0 48}{bind:white          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}(mean) white{p_end}
+{p 0 48}{bind:female         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}(mean) female{p_end}
+{p 0 48}{bind:educ           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Twin2 Educ{p_end}
+{p 0 48}{bind:age_sq         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Age, squared{p_end}
+{p 0 48}{bind:hhid           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:ped            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:uncov          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:tenure         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:married        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:nwage_1992     }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:ln_rwage       }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. sum myed_bysib age white female educ age_sq hhid ped uncov tenure married nwage_1992 
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 2}myed_bysib {c |}{res}        676    13.96857    2.101246          8         18
+{txt}{space 9}age {c |}{res}        676    37.98964    11.51783         18   70.80048
+{txt}{space 7}white {c |}{res}        676    .9275148    .2580503          0          1
+{txt}{space 6}female {c |}{res}        676    .5956607    .4904563          0          1
+{txt}{space 8}educ {c |}{res}        676    14.04389    2.069225          8         18
+{txt}{hline 13}{c +}{hline 57}
+{space 6}age_sq {c |}{res}        676    1575.677    958.1071        324   5012.708
+{txt}{space 8}hhid {c |}{res}        676    340.1982     196.938          1        680
+{txt}{space 9}ped {c |}{res}        676    12.13042     2.45911        2.5         18
+{txt}{space 7}uncov {c |}{res}        676    .2246055    .4129242          0          1
+{txt}{space 6}tenure {c |}{res}        664    8.292515    8.696161       .007         55
+{txt}{hline 13}{c +}{hline 57}
+{space 5}married {c |}{res}        676    .6370809    .4793127          0          1
+{txt}{space 2}nwage_1992 {c |}{res}        676    14.31814    12.83227   2.059872   133.3333
+{txt}
+{com}. 
+. * c.    Estimate Model 1 by regressing ln_rwage on education and age. Interpret the results (one sentence for each slope coefficient; see comment above for an example of how to interpret the slope of education here). Be careful to use appropriate language (this is observational not experimental data)! Is the relationship between education and wage in the direction that you would expect theoretically (explain briefly)? State the value of R2 and interpret what it means. 
+. 
+. reg ln_rwage educ age
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       676
+{txt}{hline 13}{c +}{hline 34}   F(2, 673)       = {res}    94.06
+{txt}       Model {c |} {res} 57.0007056         2  28.5003528   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 203.928133       673   .30301357   {txt}R-squared       ={res}    0.2185
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2161
+{txt}       Total {c |} {res} 260.928839       675  .386561242   {txt}Root MSE        =   {res} .55047
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    ln_rwage{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}educ {c |}{col 14}{res}{space 2} .1175681{col 26}{space 2} .0103651{col 37}{space 1}   11.34{col 46}{space 3}0.000{col 54}{space 4} .0972164{col 67}{space 3} .1379199
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .0174643{col 26}{space 2} .0018621{col 37}{space 1}    9.38{col 46}{space 3}0.000{col 54}{space 4}  .013808{col 67}{space 3} .0211206
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .9000878{col 26}{space 2} .1727439{col 37}{space 1}    5.21{col 46}{space 3}0.000{col 54}{space 4}  .560906{col 67}{space 3}  1.23927
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * d.    Estimate Model 2 by adding age_sq to the set of independent variables in Model 1. Is the estimated coefficient on the quadratic age term statistically significantly different from 0? Explain what the empirical form of the relationship between log wages and age is. Does Model 2 fit the data better than Model 1? Explain. 
+. 
+. reg ln_rwage educ age age_sq 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       676
+{txt}{hline 13}{c +}{hline 34}   F(3, 672)       = {res}    85.12
+{txt}       Model {c |} {res}  71.851811         3  23.9506037   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 189.077027       672  .281364624   {txt}R-squared       ={res}    0.2754
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2721
+{txt}       Total {c |} {res} 260.928839       675  .386561242   {txt}Root MSE        =   {res} .53044
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    ln_rwage{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}educ {c |}{col 14}{res}{space 2} .1174176{col 26}{space 2}  .009988{col 37}{space 1}   11.76{col 46}{space 3}0.000{col 54}{space 4} .0978062{col 67}{space 3}  .137029
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .0964494{col 26}{space 2} .0110189{col 37}{space 1}    8.75{col 46}{space 3}0.000{col 54}{space 4} .0748139{col 67}{space 3} .1180849
+{txt}{space 6}age_sq {c |}{col 14}{res}{space 2}-.0009621{col 26}{space 2} .0001324{col 37}{space 1}   -7.27{col 46}{space 3}0.000{col 54}{space 4}-.0012221{col 67}{space 3}-.0007021
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.5824498{col 26}{space 2} .2633431{col 37}{space 1}   -2.21{col 46}{space 3}0.027{col 54}{space 4}-1.099524{col 67}{space 3}-.0653756
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * e. Estimate the same specification as in Model 2 but telling Stata to cluster the Sampling Errors (SEs) by hhid using the "cluster(hhid)" option in the regression command. Call this Model 3! Does the SE clustering make any difference to the coefficients? What about the Sampling Errors (SEs)? Explain why they changed (one or two sentences). Use the cluster (hhid) option for the remainder of the assignment!
+. 
+. reg ln_rwage educ age age_sq, cluster(hhid)
+
+{txt}Linear regression                               Number of obs     = {res}       676
+                                                {txt}F(3, 337)         =  {res}    47.44
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2754
+                                                {txt}Root MSE          =    {res} .53044
+
+{txt}{ralign 78:(Std. err. adjusted for {res:338} clusters in {res:hhid})}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}    ln_rwage{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}educ {c |}{col 14}{res}{space 2} .1174176{col 26}{space 2} .0133568{col 37}{space 1}    8.79{col 46}{space 3}0.000{col 54}{space 4} .0911444{col 67}{space 3} .1436908
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .0964494{col 26}{space 2} .0155088{col 37}{space 1}    6.22{col 46}{space 3}0.000{col 54}{space 4} .0659432{col 67}{space 3} .1269555
+{txt}{space 6}age_sq {c |}{col 14}{res}{space 2}-.0009621{col 26}{space 2} .0001909{col 37}{space 1}   -5.04{col 46}{space 3}0.000{col 54}{space 4}-.0013376{col 67}{space 3}-.0005866
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.5824498{col 26}{space 2} .3430942{col 37}{space 1}   -1.70{col 46}{space 3}0.090{col 54}{space 4}-1.257326{col 67}{space 3} .0924261
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * f. Model 4: Add to the regression from part "e" control variables for female, racial identification, marital status, and union status. Is the coefficient (slope) of education visually different from Model 3? Is it statistically significantly different from Model 3? 
+. 
+. reg ln_rwage educ age age_sq female white married uncov, cluster(hhid)
+
+{txt}Linear regression                               Number of obs     = {res}       676
+                                                {txt}F(7, 337)         =  {res}    35.38
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.3547
+                                                {txt}Root MSE          =    {res} .50205
+
+{txt}{ralign 78:(Std. err. adjusted for {res:338} clusters in {res:hhid})}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}    ln_rwage{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}educ {c |}{col 14}{res}{space 2} .1180634{col 26}{space 2} .0130937{col 37}{space 1}    9.02{col 46}{space 3}0.000{col 54}{space 4} .0923078{col 67}{space 3}  .143819
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .0878655{col 26}{space 2} .0160075{col 37}{space 1}    5.49{col 46}{space 3}0.000{col 54}{space 4} .0563784{col 67}{space 3} .1193527
+{txt}{space 6}age_sq {c |}{col 14}{res}{space 2}-.0009131{col 26}{space 2} .0001915{col 37}{space 1}   -4.77{col 46}{space 3}0.000{col 54}{space 4}-.0012897{col 67}{space 3}-.0005365
+{txt}{space 6}female {c |}{col 14}{res}{space 2}-.3115868{col 26}{space 2} .0497151{col 37}{space 1}   -6.27{col 46}{space 3}0.000{col 54}{space 4}-.4093778{col 67}{space 3}-.2137959
+{txt}{space 7}white {c |}{col 14}{res}{space 2}-.0802286{col 26}{space 2} .0706377{col 37}{space 1}   -1.14{col 46}{space 3}0.257{col 54}{space 4}-.2191751{col 67}{space 3} .0587178
+{txt}{space 5}married {c |}{col 14}{res}{space 2} .1303368{col 26}{space 2} .0587933{col 37}{space 1}    2.22{col 46}{space 3}0.027{col 54}{space 4} .0146886{col 67}{space 3}  .245985
+{txt}{space 7}uncov {c |}{col 14}{res}{space 2}  .155186{col 26}{space 2} .0475055{col 37}{space 1}    3.27{col 46}{space 3}0.001{col 54}{space 4} .0617414{col 67}{space 3} .2486307
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.2005299{col 26}{space 2} .3479675{col 37}{space 1}   -0.58{col 46}{space 3}0.565{col 54}{space 4}-.8849918{col 67}{space 3}  .483932
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * g.    A researcher argues that Model 4 is still misspecified because he thinks that the "effect" of education on wages should differ between men and women. Run one more regression, Model 5, to test this hypothesis, using the appropriate interaction term. Is there evidence that the "effect" of education is different between men and women? Explain.   
+. gen ln_rwage_female = ln_rwage * female
+{txt}
+{com}. tab ln_rwage_female
+
+{txt}ln_rwage_fe {c |}
+       male {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        272       40.24       40.24
+{txt}   1.148869 {c |}{res}          1        0.15       40.38
+{txt}   1.336024 {c |}{res}          1        0.15       40.53
+{txt}   1.495898 {c |}{res}          1        0.15       40.68
+{txt}   1.549438 {c |}{res}          1        0.15       40.83
+{txt}   1.558873 {c |}{res}          2        0.30       41.12
+{txt}   1.686824 {c |}{res}          1        0.15       41.27
+{txt}     1.7487 {c |}{res}          1        0.15       41.42
+{txt}   1.758262 {c |}{res}          1        0.15       41.57
+{txt}   2.075597 {c |}{res}          1        0.15       41.72
+{txt}   2.085172 {c |}{res}          1        0.15       41.86
+{txt}    2.17234 {c |}{res}          1        0.15       42.01
+{txt}   2.218703 {c |}{res}          1        0.15       42.16
+{txt}   2.229867 {c |}{res}          1        0.15       42.31
+{txt}   2.243396 {c |}{res}          1        0.15       42.46
+{txt}    2.24967 {c |}{res}          3        0.44       42.90
+{txt}   2.255574 {c |}{res}          1        0.15       43.05
+{txt}   2.261365 {c |}{res}          2        0.30       43.34
+{txt}   2.272926 {c |}{res}          2        0.30       43.64
+{txt}   2.279328 {c |}{res}          3        0.44       44.08
+{txt}   2.288381 {c |}{res}          1        0.15       44.23
+{txt}   2.294405 {c |}{res}          1        0.15       44.38
+{txt}    2.29931 {c |}{res}          1        0.15       44.53
+{txt}   2.306828 {c |}{res}          1        0.15       44.67
+{txt}   2.314346 {c |}{res}          1        0.15       44.82
+{txt}   2.320548 {c |}{res}          1        0.15       44.97
+{txt}   2.320817 {c |}{res}          1        0.15       45.12
+{txt}   2.331398 {c |}{res}          1        0.15       45.27
+{txt}   2.336487 {c |}{res}          1        0.15       45.41
+{txt}   2.351744 {c |}{res}          1        0.15       45.56
+{txt}   2.358788 {c |}{res}          1        0.15       45.71
+{txt}   2.371367 {c |}{res}          1        0.15       45.86
+{txt}   2.377309 {c |}{res}          1        0.15       46.01
+{txt}   2.382692 {c |}{res}          2        0.30       46.30
+{txt}   2.411387 {c |}{res}          1        0.15       46.45
+{txt}   2.412188 {c |}{res}          3        0.44       46.89
+{txt}   2.416516 {c |}{res}          1        0.15       47.04
+{txt}   2.435921 {c |}{res}          2        0.30       47.34
+{txt}   2.436665 {c |}{res}          1        0.15       47.49
+{txt}   2.441847 {c |}{res}          8        1.18       48.67
+{txt}   2.460979 {c |}{res}          1        0.15       48.82
+{txt}   2.503138 {c |}{res}          1        0.15       48.96
+{txt}   2.507499 {c |}{res}          1        0.15       49.11
+{txt}   2.510131 {c |}{res}          1        0.15       49.26
+{txt}   2.527735 {c |}{res}          1        0.15       49.41
+{txt}   2.528025 {c |}{res}          1        0.15       49.56
+{txt}   2.534406 {c |}{res}          1        0.15       49.70
+{txt}   2.537157 {c |}{res}          1        0.15       49.85
+{txt}   2.545265 {c |}{res}          1        0.15       50.00
+{txt}    2.55195 {c |}{res}          1        0.15       50.15
+{txt}   2.558627 {c |}{res}          1        0.15       50.30
+{txt}   2.564065 {c |}{res}          1        0.15       50.44
+{txt}   2.566679 {c |}{res}          1        0.15       50.59
+{txt}   2.578893 {c |}{res}          1        0.15       50.74
+{txt}   2.580506 {c |}{res}          1        0.15       50.89
+{txt}    2.59451 {c |}{res}          1        0.15       51.04
+{txt}   2.597803 {c |}{res}          1        0.15       51.18
+{txt}   2.605835 {c |}{res}          1        0.15       51.33
+{txt}   2.611039 {c |}{res}          1        0.15       51.48
+{txt}   2.613804 {c |}{res}          1        0.15       51.63
+{txt}   2.615814 {c |}{res}          1        0.15       51.78
+{txt}   2.619783 {c |}{res}          1        0.15       51.92
+{txt}     2.6273 {c |}{res}          1        0.15       52.07
+{txt}   2.632467 {c |}{res}          2        0.30       52.37
+{txt}   2.635332 {c |}{res}          2        0.30       52.66
+{txt}   2.640194 {c |}{res}          1        0.15       52.81
+{txt}   2.645056 {c |}{res}          2        0.30       53.11
+{txt}   2.645706 {c |}{res}          1        0.15       53.25
+{txt}   2.651205 {c |}{res}          1        0.15       53.40
+{txt}   2.652719 {c |}{res}          1        0.15       53.55
+{txt}   2.653727 {c |}{res}          1        0.15       53.70
+{txt}   2.664991 {c |}{res}          2        0.30       53.99
+{txt}   2.674469 {c |}{res}          1        0.15       54.14
+{txt}   2.674553 {c |}{res}          1        0.15       54.29
+{txt}   2.682796 {c |}{res}          1        0.15       54.44
+{txt}    2.68698 {c |}{res}          1        0.15       54.59
+{txt}   2.690177 {c |}{res}          1        0.15       54.73
+{txt}   2.701146 {c |}{res}          1        0.15       54.88
+{txt}   2.704211 {c |}{res}          1        0.15       55.03
+{txt}   2.718192 {c |}{res}          1        0.15       55.18
+{txt}   2.719164 {c |}{res}          6        0.89       56.07
+{txt}   2.729529 {c |}{res}          1        0.15       56.21
+{txt}   2.732821 {c |}{res}          1        0.15       56.36
+{txt}   2.738241 {c |}{res}          1        0.15       56.51
+{txt}   2.747335 {c |}{res}          1        0.15       56.66
+{txt}   2.748661 {c |}{res}          3        0.44       57.10
+{txt}   2.754859 {c |}{res}          1        0.15       57.25
+{txt}   2.757195 {c |}{res}          1        0.15       57.40
+{txt}   2.759758 {c |}{res}          1        0.15       57.54
+{txt}   2.760024 {c |}{res}          1        0.15       57.69
+{txt}   2.760301 {c |}{res}          1        0.15       57.84
+{txt}   2.766825 {c |}{res}          1        0.15       57.99
+{txt}   2.768863 {c |}{res}          1        0.15       58.14
+{txt}   2.773591 {c |}{res}          1        0.15       58.28
+{txt}   2.778319 {c |}{res}          5        0.74       59.02
+{txt}   2.783752 {c |}{res}          1        0.15       59.17
+{txt}    2.78513 {c |}{res}          1        0.15       59.32
+{txt}   2.788157 {c |}{res}          2        0.30       59.62
+{txt}   2.796089 {c |}{res}          1        0.15       59.76
+{txt}   2.799521 {c |}{res}          1        0.15       59.91
+{txt}   2.803731 {c |}{res}          1        0.15       60.06
+{txt}    2.80423 {c |}{res}          1        0.15       60.21
+{txt}     2.8051 {c |}{res}          1        0.15       60.36
+{txt}   2.809879 {c |}{res}          1        0.15       60.50
+{txt}   2.817653 {c |}{res}          2        0.30       60.80
+{txt}   2.820283 {c |}{res}          1        0.15       60.95
+{txt}   2.826095 {c |}{res}          1        0.15       61.09
+{txt}   2.829582 {c |}{res}          1        0.15       61.24
+{txt}   2.833527 {c |}{res}          1        0.15       61.39
+{txt}   2.847312 {c |}{res}          6        0.89       62.28
+{txt}   2.852695 {c |}{res}          5        0.74       63.02
+{txt}   2.856802 {c |}{res}          1        0.15       63.17
+{txt}   2.862646 {c |}{res}          1        0.15       63.31
+{txt}   2.864497 {c |}{res}          1        0.15       63.46
+{txt}   2.865487 {c |}{res}          1        0.15       63.61
+{txt}   2.877098 {c |}{res}          1        0.15       63.76
+{txt}   2.880102 {c |}{res}          1        0.15       63.91
+{txt}   2.882192 {c |}{res}          2        0.30       64.20
+{txt}   2.900768 {c |}{res}          1        0.15       64.35
+{txt}   2.902791 {c |}{res}          1        0.15       64.50
+{txt}    2.90742 {c |}{res}          1        0.15       64.64
+{txt}    2.91185 {c |}{res}          2        0.30       64.94
+{txt}   2.912964 {c |}{res}          1        0.15       65.09
+{txt}   2.930982 {c |}{res}          1        0.15       65.24
+{txt}   2.935254 {c |}{res}          1        0.15       65.38
+{txt}   2.942308 {c |}{res}          2        0.30       65.68
+{txt}   2.946746 {c |}{res}          1        0.15       65.83
+{txt}    2.95307 {c |}{res}          1        0.15       65.98
+{txt}   2.957056 {c |}{res}          1        0.15       66.12
+{txt}    2.96031 {c |}{res}          1        0.15       66.27
+{txt}   2.965479 {c |}{res}          1        0.15       66.42
+{txt}   2.970479 {c |}{res}          1        0.15       66.57
+{txt}   2.971804 {c |}{res}          1        0.15       66.72
+{txt}   2.972475 {c |}{res}          1        0.15       66.86
+{txt}   2.980429 {c |}{res}          1        0.15       67.01
+{txt}   2.980529 {c |}{res}          1        0.15       67.16
+{txt}   2.980844 {c |}{res}          1        0.15       67.31
+{txt}    2.98482 {c |}{res}          1        0.15       67.46
+{txt}   2.993431 {c |}{res}          1        0.15       67.60
+{txt}   2.998175 {c |}{res}          1        0.15       67.75
+{txt}   2.999975 {c |}{res}          5        0.74       68.49
+{txt}   3.001463 {c |}{res}          2        0.30       68.79
+{txt}   3.005744 {c |}{res}          1        0.15       68.93
+{txt}   3.006489 {c |}{res}          1        0.15       69.08
+{txt}   3.009878 {c |}{res}          1        0.15       69.23
+{txt}   3.010025 {c |}{res}          1        0.15       69.38
+{txt}    3.01229 {c |}{res}          1        0.15       69.53
+{txt}   3.018688 {c |}{res}          1        0.15       69.67
+{txt}   3.029534 {c |}{res}          1        0.15       69.82
+{txt}   3.029634 {c |}{res}          1        0.15       69.97
+{txt}   3.041056 {c |}{res}          1        0.15       70.12
+{txt}   3.054042 {c |}{res}          1        0.15       70.27
+{txt}    3.06494 {c |}{res}          1        0.15       70.41
+{txt}   3.069087 {c |}{res}          1        0.15       70.56
+{txt}   3.072812 {c |}{res}          1        0.15       70.71
+{txt}   3.075839 {c |}{res}          3        0.44       71.15
+{txt}   3.080018 {c |}{res}          1        0.15       71.30
+{txt}   3.085133 {c |}{res}          1        0.15       71.45
+{txt}   3.085418 {c |}{res}          1        0.15       71.60
+{txt}   3.087172 {c |}{res}          1        0.15       71.75
+{txt}   3.088076 {c |}{res}          1        0.15       71.89
+{txt}   3.095642 {c |}{res}          1        0.15       72.04
+{txt}   3.101437 {c |}{res}          1        0.15       72.19
+{txt}   3.105335 {c |}{res}          4        0.59       72.78
+{txt}   3.110702 {c |}{res}          1        0.15       72.93
+{txt}   3.117264 {c |}{res}          1        0.15       73.08
+{txt}   3.131935 {c |}{res}          1        0.15       73.22
+{txt}   3.133217 {c |}{res}          1        0.15       73.37
+{txt}   3.134994 {c |}{res}          4        0.59       73.96
+{txt}   3.135865 {c |}{res}          1        0.15       74.11
+{txt}   3.154126 {c |}{res}          1        0.15       74.26
+{txt}   3.155019 {c |}{res}          1        0.15       74.41
+{txt}   3.162494 {c |}{res}          1        0.15       74.56
+{txt}   3.167506 {c |}{res}          1        0.15       74.70
+{txt}   3.171149 {c |}{res}          1        0.15       74.85
+{txt}   3.174215 {c |}{res}          1        0.15       75.00
+{txt}   3.174438 {c |}{res}          1        0.15       75.15
+{txt}   3.179011 {c |}{res}          1        0.15       75.30
+{txt}   3.183784 {c |}{res}          1        0.15       75.44
+{txt}   3.188177 {c |}{res}          1        0.15       75.59
+{txt}   3.190046 {c |}{res}          1        0.15       75.74
+{txt}   3.191084 {c |}{res}          1        0.15       75.89
+{txt}   3.193622 {c |}{res}          1        0.15       76.04
+{txt}   3.207603 {c |}{res}          1        0.15       76.18
+{txt}   3.215601 {c |}{res}          1        0.15       76.33
+{txt}   3.216988 {c |}{res}          1        0.15       76.48
+{txt}   3.218943 {c |}{res}          1        0.15       76.63
+{txt}    3.22034 {c |}{res}          1        0.15       76.78
+{txt}   3.223119 {c |}{res}          2        0.30       77.07
+{txt}    3.22929 {c |}{res}          1        0.15       77.22
+{txt}   3.230304 {c |}{res}          2        0.30       77.51
+{txt}   3.232879 {c |}{res}          1        0.15       77.66
+{txt}   3.233163 {c |}{res}          1        0.15       77.81
+{txt}   3.237107 {c |}{res}          1        0.15       77.96
+{txt}   3.237394 {c |}{res}          1        0.15       78.11
+{txt}   3.240355 {c |}{res}          2        0.30       78.40
+{txt}   3.247689 {c |}{res}          1        0.15       78.55
+{txt}   3.248431 {c |}{res}          1        0.15       78.70
+{txt}   3.252777 {c |}{res}          2        0.30       78.99
+{txt}   3.253696 {c |}{res}          1        0.15       79.14
+{txt}   3.258161 {c |}{res}          1        0.15       79.29
+{txt}   3.259486 {c |}{res}          1        0.15       79.44
+{txt}   3.261627 {c |}{res}          1        0.15       79.59
+{txt}   3.267166 {c |}{res}          1        0.15       79.73
+{txt}   3.271524 {c |}{res}          1        0.15       79.88
+{txt}   3.275758 {c |}{res}          1        0.15       80.03
+{txt}    3.27809 {c |}{res}          2        0.30       80.33
+{txt}   3.279289 {c |}{res}          1        0.15       80.47
+{txt}   3.280176 {c |}{res}          1        0.15       80.62
+{txt}   3.287657 {c |}{res}          3        0.44       81.07
+{txt}    3.29196 {c |}{res}          1        0.15       81.21
+{txt}   3.315727 {c |}{res}          1        0.15       81.36
+{txt}   3.317316 {c |}{res}          5        0.74       82.10
+{txt}   3.324295 {c |}{res}          1        0.15       82.25
+{txt}   3.328479 {c |}{res}          2        0.30       82.54
+{txt}    3.32893 {c |}{res}          1        0.15       82.69
+{txt}   3.344352 {c |}{res}          1        0.15       82.84
+{txt}    3.34817 {c |}{res}          1        0.15       82.99
+{txt}   3.358138 {c |}{res}          2        0.30       83.28
+{txt}   3.363521 {c |}{res}          1        0.15       83.43
+{txt}    3.37307 {c |}{res}          1        0.15       83.58
+{txt}   3.377558 {c |}{res}          1        0.15       83.73
+{txt}   3.381789 {c |}{res}          1        0.15       83.88
+{txt}   3.383043 {c |}{res}          1        0.15       84.02
+{txt}   3.401264 {c |}{res}          1        0.15       84.17
+{txt}   3.404891 {c |}{res}          1        0.15       84.32
+{txt}   3.412311 {c |}{res}          2        0.30       84.62
+{txt}   3.422676 {c |}{res}          1        0.15       84.76
+{txt}    3.42706 {c |}{res}          1        0.15       84.91
+{txt}   3.432131 {c |}{res}          1        0.15       85.06
+{txt}   3.432243 {c |}{res}          1        0.15       85.21
+{txt}   3.437161 {c |}{res}          1        0.15       85.36
+{txt}   3.441808 {c |}{res}          2        0.30       85.65
+{txt}   3.445149 {c |}{res}          1        0.15       85.80
+{txt}   3.450081 {c |}{res}          1        0.15       85.95
+{txt}   3.453133 {c |}{res}          1        0.15       86.09
+{txt}   3.458691 {c |}{res}          1        0.15       86.24
+{txt}   3.481304 {c |}{res}          3        0.44       86.69
+{txt}   3.484812 {c |}{res}          1        0.15       86.83
+{txt}   3.496052 {c |}{res}          1        0.15       86.98
+{txt}   3.501233 {c |}{res}          1        0.15       87.13
+{txt}   3.510687 {c |}{res}          1        0.15       87.28
+{txt}   3.510801 {c |}{res}          5        0.74       88.02
+{txt}   3.512447 {c |}{res}          1        0.15       88.17
+{txt}   3.522126 {c |}{res}          1        0.15       88.31
+{txt}   3.530409 {c |}{res}          1        0.15       88.46
+{txt}   3.537401 {c |}{res}          1        0.15       88.61
+{txt}   3.540459 {c |}{res}          4        0.59       89.20
+{txt}   3.545843 {c |}{res}          1        0.15       89.35
+{txt}   3.552694 {c |}{res}          1        0.15       89.50
+{txt}   3.565769 {c |}{res}          1        0.15       89.64
+{txt}   3.567897 {c |}{res}          1        0.15       89.79
+{txt}   3.576827 {c |}{res}          1        0.15       89.94
+{txt}   3.581281 {c |}{res}          1        0.15       90.09
+{txt}   3.582309 {c |}{res}          1        0.15       90.24
+{txt}   3.586665 {c |}{res}          1        0.15       90.38
+{txt}   3.594632 {c |}{res}          1        0.15       90.53
+{txt}   3.596749 {c |}{res}          1        0.15       90.68
+{txt}    3.62969 {c |}{res}          1        0.15       90.83
+{txt}   3.640015 {c |}{res}          2        0.30       91.12
+{txt}    3.64582 {c |}{res}          1        0.15       91.27
+{txt}   3.664951 {c |}{res}          2        0.30       91.57
+{txt}   3.681975 {c |}{res}          1        0.15       91.72
+{txt}   3.685061 {c |}{res}          1        0.15       91.86
+{txt}   3.722781 {c |}{res}          1        0.15       92.01
+{txt}   3.727387 {c |}{res}          1        0.15       92.16
+{txt}    3.72949 {c |}{res}          1        0.15       92.31
+{txt}   3.729764 {c |}{res}          1        0.15       92.46
+{txt}   3.743989 {c |}{res}          1        0.15       92.60
+{txt}   3.748099 {c |}{res}          1        0.15       92.75
+{txt}   3.753311 {c |}{res}          1        0.15       92.90
+{txt}   3.766443 {c |}{res}          1        0.15       93.05
+{txt}   3.772495 {c |}{res}          1        0.15       93.20
+{txt}   3.796393 {c |}{res}          1        0.15       93.34
+{txt}   3.798483 {c |}{res}          5        0.74       94.08
+{txt}   3.802824 {c |}{res}          1        0.15       94.23
+{txt}   3.828141 {c |}{res}          2        0.30       94.53
+{txt}   3.829611 {c |}{res}          1        0.15       94.67
+{txt}   3.847273 {c |}{res}          1        0.15       94.82
+{txt}   3.858004 {c |}{res}          1        0.15       94.97
+{txt}   3.884228 {c |}{res}          1        0.15       95.12
+{txt}   3.892792 {c |}{res}          2        0.30       95.41
+{txt}   3.916266 {c |}{res}          1        0.15       95.56
+{txt}   3.924529 {c |}{res}          1        0.15       95.71
+{txt}    3.93802 {c |}{res}          1        0.15       95.86
+{txt}   3.952633 {c |}{res}          1        0.15       96.01
+{txt}   3.960879 {c |}{res}          1        0.15       96.15
+{txt}   3.961673 {c |}{res}          1        0.15       96.30
+{txt}   3.971245 {c |}{res}          1        0.15       96.45
+{txt}   3.989589 {c |}{res}          1        0.15       96.60
+{txt}    3.99213 {c |}{res}          2        0.30       96.89
+{txt}   3.996934 {c |}{res}          1        0.15       97.04
+{txt}   4.002601 {c |}{res}          1        0.15       97.19
+{txt}   4.016045 {c |}{res}          1        0.15       97.34
+{txt}   4.021626 {c |}{res}          1        0.15       97.49
+{txt}   4.051285 {c |}{res}          2        0.30       97.78
+{txt}   4.090506 {c |}{res}          1        0.15       97.93
+{txt}   4.134974 {c |}{res}          1        0.15       98.08
+{txt}   4.135091 {c |}{res}          1        0.15       98.22
+{txt}   4.164722 {c |}{res}          1        0.15       98.37
+{txt}   4.184816 {c |}{res}          1        0.15       98.52
+{txt}   4.279809 {c |}{res}          1        0.15       98.67
+{txt}   4.299159 {c |}{res}          1        0.15       98.82
+{txt}   4.338967 {c |}{res}          1        0.15       98.96
+{txt}   4.348804 {c |}{res}          1        0.15       99.11
+{txt}   4.387757 {c |}{res}          1        0.15       99.26
+{txt}    4.41084 {c |}{res}          1        0.15       99.41
+{txt}   4.452543 {c |}{res}          1        0.15       99.56
+{txt}    4.56211 {c |}{res}          1        0.15       99.70
+{txt}   4.665074 {c |}{res}          1        0.15       99.85
+{txt}   4.686775 {c |}{res}          1        0.15      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        676      100.00
+{txt}
+{com}. reg ln_rwage educ age age_sq female white married uncov ln_rwage_female, cluster(hhid) 
+
+{txt}Linear regression                               Number of obs     = {res}       676
+                                                {txt}F(8, 337)         =  {res}   331.85
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.6092
+                                                {txt}Root MSE          =    {res}   .391
+
+{txt}{ralign 81:(Std. err. adjusted for {res:338} clusters in {res:hhid})}
+{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 17}{c |}{col 29}    Robust
+{col 1}       ln_rwage{col 17}{c |} Coefficient{col 29}  std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0628656{col 29}{space 2} .0126904{col 40}{space 1}    4.95{col 49}{space 3}0.000{col 57}{space 4} .0379033{col 70}{space 3}  .087828
+{txt}{space 12}age {c |}{col 17}{res}{space 2} .0428297{col 29}{space 2}  .016928{col 40}{space 1}    2.53{col 49}{space 3}0.012{col 57}{space 4} .0095318{col 70}{space 3} .0761275
+{txt}{space 9}age_sq {c |}{col 17}{res}{space 2}-.0004149{col 29}{space 2}  .000205{col 40}{space 1}   -2.02{col 49}{space 3}0.044{col 57}{space 4} -.000818{col 70}{space 3}-.0000117
+{txt}{space 9}female {c |}{col 17}{res}{space 2}-2.892119{col 29}{space 2} .1171283{col 40}{space 1}  -24.69{col 49}{space 3}0.000{col 57}{space 4}-3.122514{col 70}{space 3}-2.661725
+{txt}{space 10}white {c |}{col 17}{res}{space 2} .0578083{col 29}{space 2}  .059261{col 40}{space 1}    0.98{col 49}{space 3}0.330{col 57}{space 4}-.0587598{col 70}{space 3} .1743764
+{txt}{space 8}married {c |}{col 17}{res}{space 2} .1027025{col 29}{space 2} .0503839{col 40}{space 1}    2.04{col 49}{space 3}0.042{col 57}{space 4} .0035959{col 70}{space 3} .2018091
+{txt}{space 10}uncov {c |}{col 17}{res}{space 2} .0263257{col 29}{space 2} .0400869{col 40}{space 1}    0.66{col 49}{space 3}0.512{col 57}{space 4}-.0525263{col 70}{space 3} .1051777
+{txt}ln_rwage_female {c |}{col 17}{res}{space 2} .8332949{col 29}{space 2} .0344922{col 40}{space 1}   24.16{col 49}{space 3}0.000{col 57}{space 4} .7654478{col 70}{space 3}  .901142
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} 1.428471{col 29}{space 2} .3825915{col 40}{space 1}    3.73{col 49}{space 3}0.000{col 57}{space 4} .6759028{col 70}{space 3} 2.181039
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * Model 6: Investigate this further by running a "long regression" (Model 6) that adds the parental education control (as a proxy for family background / SES) to Model 4.  Comment on how the coefficient on education changed and whether that direction is consistent with the researcher's theory in "h" (and your path diagram)! Is this change in the coefficient statistically significant? (Hint: As a rule of thumb, the coefficients differ statistically from each other if one coefficient is outside the 95% CI of the other. If it falls inside the CI then they are not statically significantly different at conventional significance levels!) 
+. 
+. reg ln_rwage educ age age_sq female white married uncov ln_rwage_female ped, cluster(hhid) 
+
+{txt}Linear regression                               Number of obs     = {res}       676
+                                                {txt}F(9, 337)         =  {res}   284.56
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.6111
+                                                {txt}Root MSE          =    {res} .39034
+
+{txt}{ralign 81:(Std. err. adjusted for {res:338} clusters in {res:hhid})}
+{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 17}{c |}{col 29}    Robust
+{col 1}       ln_rwage{col 17}{c |} Coefficient{col 29}  std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0584748{col 29}{space 2} .0121467{col 40}{space 1}    4.81{col 49}{space 3}0.000{col 57}{space 4}  .034582{col 70}{space 3} .0823676
+{txt}{space 12}age {c |}{col 17}{res}{space 2} .0425875{col 29}{space 2} .0169147{col 40}{space 1}    2.52{col 49}{space 3}0.012{col 57}{space 4} .0093159{col 70}{space 3} .0758592
+{txt}{space 9}age_sq {c |}{col 17}{res}{space 2}-.0004042{col 29}{space 2} .0002054{col 40}{space 1}   -1.97{col 49}{space 3}0.050{col 57}{space 4}-.0008084{col 70}{space 3}-1.03e-07
+{txt}{space 9}female {c |}{col 17}{res}{space 2}-2.885656{col 29}{space 2} .1188598{col 40}{space 1}  -24.28{col 49}{space 3}0.000{col 57}{space 4}-3.119456{col 70}{space 3}-2.651855
+{txt}{space 10}white {c |}{col 17}{res}{space 2} .0413341{col 29}{space 2} .0595689{col 40}{space 1}    0.69{col 49}{space 3}0.488{col 57}{space 4}-.0758396{col 70}{space 3} .1585077
+{txt}{space 8}married {c |}{col 17}{res}{space 2}  .105354{col 29}{space 2} .0494626{col 40}{space 1}    2.13{col 49}{space 3}0.034{col 57}{space 4} .0080597{col 70}{space 3} .2026484
+{txt}{space 10}uncov {c |}{col 17}{res}{space 2} .0325489{col 29}{space 2} .0394459{col 40}{space 1}    0.83{col 49}{space 3}0.410{col 57}{space 4}-.0450423{col 70}{space 3}   .11014
+{txt}ln_rwage_female {c |}{col 17}{res}{space 2} .8325616{col 29}{space 2} .0349554{col 40}{space 1}   23.82{col 49}{space 3}0.000{col 57}{space 4} .7638035{col 70}{space 3} .9013198
+{txt}{space 12}ped {c |}{col 17}{res}{space 2} .0125435{col 29}{space 2}  .009046{col 40}{space 1}    1.39{col 49}{space 3}0.166{col 57}{space 4}-.0052501{col 70}{space 3} .0303372
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} 1.340115{col 29}{space 2} .3959406{col 40}{space 1}    3.38{col 49}{space 3}0.001{col 57}{space 4} .5612886{col 70}{space 3} 2.118941
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+.  
+. 
+{txt}end of do-file
+
+{com}. do "/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Do File.do"
+{txt}
+{com}. log /Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Log File.smcl, replace
+{err}/ invalid
+{txt}{search r(198), local:r(198);}
+
+end of do-file
+
+{search r(198), local:r(198);}
+
+{com}. do "/var/folders/zg/30w61ls94n13f0w31g5dlrwh0000gn/T//SD16566.000000"
+{txt}
+{com}. log "/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Log File.smcl", replace
+{err}"/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Log File.smcl invalid
+{txt}{search r(198), local:r(198);}
+
+end of do-file
+
+{search r(198), local:r(198);}
+
+{com}. do "/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Do File.do"
+{txt}
+{com}. log "/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Log File.smcl", replace
+{err}"/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Log File.smcl invalid
+{txt}{search r(198), local:r(198);}
+
+end of do-file
+
+{search r(198), local:r(198);}
+
+{com}. do "/var/folders/zg/30w61ls94n13f0w31g5dlrwh0000gn/T//SD16566.000000"
+{txt}
+{com}. log using "/Users/andrew/Desktop/PAF 9272/HW 5/Andrew Singh HW 5 Part 1 Log File.smcl", replace
+{err}log file already open
+{txt}{search r(604), local:r(604);}
+
+end of do-file
+
+{search r(604), local:r(604);}
+
+{com}. 
