@@ -1,0 +1,147 @@
+PAF9272, Fall 2023: Homework 1 
+Topic: Descriptive Statistic Analysis using Stata
+Due date: 11PM Tuesday, 9/26/2023 (email to frank.heiland@baruch.cuny.edy)
+Instructions: Submit three files (“write-up”, “do file” and “log file”). Provide answers in full sentences!  
+
+Your Name: Andrew Singh
+Your Country (see above; find your .dta file in the “2019 Eurobarometer Data” folder on Blackboard):
+1. Read in the data, etc. (no output or interpretation here).
+2. Use the “describe” and “sum” commands and paste the output here. How many variables are there?
+By using the “describe” command, we found that there 10 variables in the dataset. 
+ 
+
+ 
+
+3a. What is the unit of observation in these data? What is the total sample size?
+The unit of observation in these data are the people within the country, each observation is an individual. The sample size is 1,047 people. 
+
+3b. What is the average age in the sample? (remember to always include the relevant units of measurement)
+The average age is 58 years old (rounded to the nearest year) or 58.29226 years old (to be exact). 
+
+3c. What proportion of the sample is female?
+The proportion of the sample that is female is 56.05% or 587 females in the sample. 
+ 
+3d. What proportion of the sample reports having taken steps to reduce their CO2 output (Air Emissions) in the 2 years prior to the survey (2019)?
+The proportion of the sample reports having taken steps to reduce their C02 output (air emissions) in the 2 year prior to the survey (2019) is 87.39% or 915 people. 
+
+ 
+3e. What proportion of the sample reports “having difficulties paying their bills in the past year”?
+
+The proportion of the sample reports “having difficulties paying their bills in the past year” is 9.46% or 99 people. 
+
+ 
+
+
+3f. What proportion of the sample reports being “very satisfied” on the Life Satisfaction scale? 
+
+The proportion of the sample reports being “very satisfied” on the Life Satisfaction scale is 51.58% or 540 people. 
+ 
+
+3g. What is the value for the minimum and the maximum value of the Life Satisfaction variable the way it is coded here? (To understand how the categories of this categorical variable are coded numerically in Stata compare what you get when asking Stata to tabulate the variable using two different ways: “tab life_satisfaction” vs. “tab life_satisfaction, nolabel”!).
+In the output the value for the minimum value for life satisfaction is 4 which stands for ‘Not at all satisfied’ and the maximum value for life satisfaction is 1 which stands for ‘Very satisfied”. 
+ 
+
+
+
+ 
+
+
+4. Describe in words (full sentences!) the key characteristics of the following distributions referencing appropriate graphs and numbers that you include:
+4a. Gender,
+For the gender field, I used a pie chart to represent the distribution. Based on the distribution of the gender variable for Netherlands, over half (56.07% or 587) of the distribution is represented by women.
+
+
+ 
+4b. Life Satisfaction,
+
+For the life satisfaction variable, I used a bar chart to represent the distribution. Based on the distribution of the life satisfaction variable for Netherlands, only 3 (0.29%) people are ‘Not at all satisfied’ with their life satisfaction.
+
+
+
+ 
+4c. Age (overall), and
+For the age (overall) variable, I used a histogram chart to represent the distribution. Based on the distribution of the age (overall) variable for Netherlands, most of the frequency of the ages (overall) seen in Netherlands is between 40 to 75 years old. The histogram’s shape is left-skewed. 
+
+ 
+4d. Age among women. (Hint: you need to condition your graph and descriptives appropriately, e.g., “sum … if female==1, detail”.)
+For a distribution of a quantitative variable remember to comment in detail on where the center is (mean & median), how dispersed the responses are (range & SD), the distribution’s overall shape, and where (potential) outliers/unusual observations are located!     
+
+For the age (female) variable, I used a histogram chart to represent the distribution. Based on the distribution of the age (female) variable for Netherlands, the center or mean age is 58 years old while the median age is 61 years old. The dispersion of the responses has a range of 66 years, while the standard deviation is 13.9 years. The overall shape of the distribution is left-skewed. The potential outliers are in the range of between 75 to 81 years old and between ages 15 to 32 years old.  
+
+
+ 
+
+5. Use the command “tab life_satisfaction gender, col“ 
+5a. Report the marginal distribution of life satisfaction in your country in %:
+ 
+The marginal distribution in the Neatherlands for each level of life satisfaction is: 
+Very satisfied – 51.58%
+Fairly satisfied – 43.56%
+Not very satisfied – 4.68%
+Not at all satisfied – 0.29%
+
+5b. Report the conditional distribution of life satisfaction among women in your country in %:
+The conditional distribution for women in the Neatherlands for each level of life satisfaction is: 
+Very satisfied – 50.09%
+Fairly satisfied – 45.32%
+Not very satisfied – 4.26%
+Not at all satisfied – 0.34%
+ 
+5c. Report the conditional distribution of life satisfaction among men in your country in %:
+The conditional distribution for men in the Netherlands for each level of life satisfaction is: 
+Very satisfied – 53.48%
+Fairly satisfied – 41.09%
+Not very satisfied – 5.22 %
+Not at all satisfied – 0.22%
+
+
+5d. Hypothesize that gender and Life Satisfaction are completely unrelated. What % values for the conditional distributions of Life Satisfaction do you expect if this is true (include numbers)? 
+If gender and life satisfaction are completely unrelated then the % values for the conditional distributions of life satisfaction would be the same as the marginal distribution in the total column for each level of life satisfaction for the following categories: 
+Very satisfied – 51.58%
+Fairly satisfied – 43.46%
+Not very satisfied – 4.68%
+Not at all satisfied – 0.29%
+
+
+
+5e. With reference to the observed conditional distributions of Life Satisfaction for women and men in %, carefully discuss the evidence for or against the hypothesis in (d). (Support your analysis with specific #s). 
+Based on the conditional distributions of life satisfaction for women and men in percentages, I would argue there is a not a relationship between the two variables based on the correlation of 0.02 which indicates there is a weak relationship between the variables of life satisfaction and gender. Based on the conditional distributions of life satisfaction if it were the same, the marginal and conditional distribution for each category within life satisfaction would be equal to each other for example, “Very satisfied” for men and women would be equal to 51.58. 
+
+ 
+
+
+
+
+5f. How does the fact that the information comes from a survey affect your ability to draw conclusions in (e)?
+I would argue that the survey may have had a good sample that was reliable to draw conclusions from. I would investigate their survey methods – whether they incorporated a good sample that was randomly selected and represented the population well. Furthermore, the survey may have had a good survey design that incorporated the creation of good questions that may not have had skewed the results. 
+
+6. Use life_satisfaction and the “gen” command (short for “generate”) and the “replace” command with “if” conditioning to create a new dummy variable that is equal to 1 for those who report being “Not very satisfied” or “Not at all satisfied,” 0 for those “Very satisfied” or “Fairly satisfied,” and “.” (meaning missing) for cases reporting “Don’t Know/Refuse” (if any). Name it something informative but not too long, a compromise could be “dissatisfied”. (To understand how the categories are coded look at both “tab life_satisfaction” and “tab life_satisfaction, nolabel”!). 
+Using the “dissatisfied” variable created answer the following:
+
+6a. Are those who had difficulties paying their bills in the past year more likely to report that they are dissatisfied with life compared to those who had no such financial difficulties? (Include your evidence.)  
+
+It is not true that those who had difficulties paying their bills in the past year are more likely to report they are dissatisfied with life compared to those who had no such financial difficulties as shown by the cross-tab output below. The reasoning is because there are a total of 14 people who were facing difficulties with paying their bills in the past year that were dissatisfied compared to 38 people who did not face any difficulties in paying their bills in the past year that were satisfied with their life. 
+
+ 
+
+6b. Are those who report being dissatisfied with life older than those who are satisfied? (Include your evidence.)  
+Based on the output of the data, those who report being dissatisfied with life are not older than those who are satisfied. The average age for those who report being dissatisfied with life is 57.48 years old versus the average age of whose who are satisfied with is 58.33 years old. 
+. sum age if happy1==0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+         age |        995    58.33467    13.85588         15         84
+
+. sum age if happy1==1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+         age |         52    57.48077    14.40519         15         81
+7. As practiced in class prepare and submit one “.do” and one “log” file that includes everything you did in Stata above. 
+For Part 7, open a “.do” file within Stata (it opens a do file Editor window) and copy and paste all the (successfully) executed commands from above into this file - one command per line (!) and save it as yourcountryname_do.do in the same folder as the data file. As a first line of this .do file you should have a call to open the original data file (.dta), something akin to this: 
+use "C:\Users\fheiland\OneDrive - CUNY\Teaching\Methods\PAF9272\Week1\West_Germany.dta"
+As a second line, add a command to open a “log file” (.smcl file) in the same folder; in my case it looks like this (with … being the same path details as for the .do and .dta files):
+log using "C:\Users\fheiland\...\West_Germany_log.smcl", replace
+If you have all that then save your do file (same folder) and execute the commands “clear” and “log close” via the Stata command line window (which closes the data set and log file in use). Now, return to the do file editor and execute your do file (top right button). All commands in the do file will be executed in sequence (if they are correctly typed) and the log file will keep track of all the analysis output that you generated (notice that graphs will be created on the fly as usual but would have to be saved individually if you wanted to store them!). 
+Submit your do file and log file (in their original file format) alongside your write-up. Make sure your do file runs smoothly: errors in command syntax can happen easily; they appear in red and – if they happen in the do file – they stop the rest of the commands from being executed!
+
